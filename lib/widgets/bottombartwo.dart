@@ -162,7 +162,7 @@ class _bottom2barState extends State<bottom2bar> {
                                             decoration: BoxDecoration(
 
                                               borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(22),
+                                                topLeft: Radius.circular(12),
                                                 bottomLeft: Radius.circular(22),
                                                 topRight: Radius.circular(0),
                                                 bottomRight: Radius.circular(0),

@@ -6,6 +6,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 String _url = 'https://pub.dev/packages/url_launcher';
 
+final List<String> entries = <String>[
+  'https://www.youtube.com/',
+  'https://www.google.com',
+];
 
 class quick extends StatefulWidget {
   @override
@@ -13,10 +17,7 @@ class quick extends StatefulWidget {
 }
 
 class _quickState extends State<quick> {
-  final List<String> entries = <String>[
-    'https://www.youtube.com/',
-    'https://www.google.com',
-  ];
+
 
   void add(fix) {
     setState(() {

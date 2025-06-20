@@ -15,9 +15,9 @@ class _LastState extends State<Last> {
   String g = 'Retrieving Music';
   String image = 'https://hbflow.github.io/hbflowimages/wfm1.png';
   String user = 'foxxx000';
-  String Audio;
-  String Artist;
-  String Song ;
+  late String Audio;
+  late String Artist;
+  late String Song ;
   bool verf = false;
 
 
@@ -86,6 +86,8 @@ class _LastState extends State<Last> {
     repeat();
   }
 
+  final ScrollController _firstController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -95,210 +97,272 @@ class _LastState extends State<Last> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(30.0),
+      child: RawScrollbar(
+        thumbColor: Colors.black38,
+        radius: Radius.circular(16),
+        thickness: 7,
+        controller: _firstController,
+        thumbVisibility: true,
 
-      children: [
-        Center(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              child: Stack(
 
-          child: Visibility(
-            visible: verf == true ? true : false ,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                FittedBox(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Text(
+                children: [
+                  Center(
 
-                          '${Artist}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                              color: Color(0xffc7c7c7),
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(0.0, 3.0),
-                                  blurRadius: 3.0,
-                                  color: Colors.black54,
+                    child: Visibility(
+                      visible: verf == true ? true : false ,
+                      child: Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+
+                            SizedBox(height: 30,),
+
+
+                            Container(
+                                width: 340,
+                                height: 340,
+                                decoration: BoxDecoration(
+                                    color: Color(0x82A2A2A),
+                                    borderRadius: BorderRadius.circular(7),
+                                    border: Border.all(color: Colors.white)),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(7),
+                                  child: OverflowBox(
+                                    child: FittedBox(
+                                      fit: BoxFit.cover,
+                                      alignment: Alignment.center,
+                                      child: Image.network(image),
+                                    ),
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 30,
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child:Container(
+
+                                margin: const EdgeInsets.all(6.0),
+                                padding: const EdgeInsets.all(6.0),
+                                decoration: BoxDecoration(
+
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all(
+                                    color: Color(0xffc7c7c7),
+                                    width: 2,
+                                  ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: <Color>[ Color(0xffa8a1a9),Color(0xffd8d6d8),],
+                                  ),
                                 ),
-                              ],
-                              fontSize: 40,
-                              fontFamily: 'Uberlin'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                    width: 300,
-                    height: 300,
-                    decoration: BoxDecoration(
-                        color: Color(0x82A2A2A),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.white)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: OverflowBox(
-                        child: FittedBox(
-                          fit: BoxFit.cover,
-                          alignment: Alignment.center,
-                          child: Image.network(image),
-                        ),
-                      ),
-                    )),
-                SizedBox(
-                  height: 30,
-                ),
-                FittedBox(
-                  child: Text(
-                    '${Song}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xffc7c7c7),
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(0.0, 3.0),
-                            blurRadius: 3.0,
-                            color: Colors.black54,
-                          ),
-                        ],
-                        fontSize: 40,
-                        fontFamily: 'Uberlin'),
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Visibility(
-                  visible: isplaying == true ? true : false,
-                  child: FittedBox(
-                    child: Text(
-                      'by',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xffc59f9f),
-                          shadows: <Shadow>[
-                            Shadow(
-                              offset: Offset(0.0, 3.0),
-                              blurRadius: 3.0,
-                              color: Colors.black54,
+                                child: Column(
+                                  children: [
+                                    Text(""),
+                                  Text('Music Info Will Appear Here'),
+                                Text(''),
+                                  ],
+                                )
+                              ),
+                            ),
+                            FittedBox(
+                              child: Text(
+                                '${Song}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xffb4bde3),
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(0.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Colors.black54,
+                                      ),
+                                    ],
+                                    fontSize: 40,
+                                    fontFamily: 'Schyler'),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Visibility(
+                              visible: isplaying == true ? true : false,
+                              child: FittedBox(
+                                child: Text(
+                                  'by',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(0.0, 1.0),
+                                          blurRadius: 3.0,
+                                          color: Colors.black54,
+                                        ),
+                                      ],
+                                      fontSize: 20,
+                                      fontFamily: 'Schyler'),
+                                ),
+                              ),
+                            ),
+                            FittedBox(
+                              child: Text(
+                                '${Audio}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xffedf6e4),
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(0.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Colors.black54,
+                                      ),
+                                    ],
+                                    fontSize: 40,
+                                    fontFamily: 'Schyler'),
+                              ),
+                            ),
+                            Visibility(
+                              visible: isplaying == true ? true : false,
+                              child: FittedBox(
+                                child: Text(
+                                  'on',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.white,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(0.0, 1.0),
+                                          blurRadius: 3.0,
+                                          color: Colors.black54,
+                                        ),
+                                      ],
+                                      fontSize: 20,
+                                      fontFamily: 'Schyler'),
+                                ),
+                              ),
+
+                            ),
+                            FittedBox(
+                              child: Text(
+                                '${Artist}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xffecdadd),
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(0.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Colors.black54,
+                                      ),
+                                    ],
+                                    fontSize: 40,
+                                    fontFamily: 'Schyler'),
+                              ),
                             ),
                           ],
-                          fontSize: 20,
-                          fontFamily: 'Uberlin'),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                FittedBox(
-                  child: Text(
-                    '${Audio}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xffc7c7c7),
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(0.0, 3.0),
-                            blurRadius: 3.0,
-                            color: Colors.black54,
+                  Visibility(
+                    visible: verf == false ? true : false ,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+
+                        children: [
+                          Center(
+                            child: Text(
+                              'Enter Last.FM Username',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(0.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Colors.black54,
+                                    ),
+                                  ],
+                                  fontSize: 30,
+                                  fontFamily: 'Schyler'),
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          Container(
+
+                            margin: const EdgeInsets.all(6.0),
+                            padding: const EdgeInsets.all(6.0),
+                            decoration: BoxDecoration(
+
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: Color(0xffc7c7c7),
+                                width: 2,
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: <Color>[ Color(0xffa8a1a9),Color(0xffd8d6d8),],
+                              ),
+                            ),
+                            child: TextFormField(
+                              textAlign: TextAlign.center,
+                              maxLength: 60,
+                              onFieldSubmitted: (text) {
+                                setState(() {
+                                  user = text;
+                                  verf = true;
+
+                                });
+                              },
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 10,
+                                fontFamily: 'Schyler',
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.0, 1.0),
+                                    blurRadius: 3.0,
+                                    color: Colors.black54,
+                                  ),
+                                ],
+                              ),
+                              scrollPhysics: NeverScrollableScrollPhysics(),
+                              cursorColor: Colors.black,
+
+                              decoration: InputDecoration(
+                                hintText: "Enter Last.Fm Username",
+                                fillColor: Colors.black,
+
+
+                                focusColor: Colors.black,
+                                hoverColor: Colors.black,
+                                border: InputBorder.none,
+                              ),
+                            ),
                           ),
                         ],
-                        fontSize: 40,
-                        fontFamily: 'Uberlin'),
-                  ),
-                ),
-              ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
-        Visibility(
-          visible: verf == false ? true : false ,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-
-              children: [
-                Center(
-                  child: Text(
-                    'Enter Last.FM Username',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xffc7c7c7),
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(0.0, 3.0),
-                            blurRadius: 3.0,
-                            color: Colors.black54,
-                          ),
-                        ],
-                        fontSize: 30,
-                        fontFamily: 'Schyler'),
-                  ),
-                ),
-                SizedBox(height: 20,),
-                Container(
-
-                  margin: const EdgeInsets.all(6.0),
-                  padding: const EdgeInsets.all(6.0),
-                  decoration: BoxDecoration(
-
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      color: Color(0xffc7c7c7),
-                      width: 2,
-                    ),
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: <Color>[ Color(0xffa8a1a9),Color(0xffd8d6d8),],
-                    ),
-                  ),
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    maxLength: 60,
-                    onFieldSubmitted: (text) {
-                      setState(() {
-                        user = text;
-                        verf = true;
-
-                      });
-                    },
-                    style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 10,
-                      fontFamily: 'Uberlin',
-                      shadows: <Shadow>[
-                        Shadow(
-                          offset: Offset(0.0, 3.0),
-                          blurRadius: 3.0,
-                          color: Colors.black54,
-                        ),
-                      ],
-                    ),
-                    scrollPhysics: NeverScrollableScrollPhysics(),
-                    cursorColor: Colors.black,
-
-                    decoration: InputDecoration(
-                      hintText: "Enter Last.Fm Username",
-                      fillColor: Colors.black,
-
-
-                      focusColor: Colors.black,
-                      hoverColor: Colors.black,
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        )
-      ],
+      ),
     );
   }
 }

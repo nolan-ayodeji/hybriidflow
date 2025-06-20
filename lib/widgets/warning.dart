@@ -11,7 +11,7 @@ class warning1 extends StatefulWidget {
   final visible2;
 
 
-  const warning1({Key key, this.visible1, this.visible2}) : super(key: key);@override
+  const warning1({Key? key, this.visible1, this.visible2}) : super(key: key);@override
   _warning1State createState() => _warning1State();
 }
 

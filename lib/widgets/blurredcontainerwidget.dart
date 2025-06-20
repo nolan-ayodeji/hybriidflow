@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 class BContainer extends StatelessWidget {
   final Widget child;
 
-  const BContainer({Key key, this.child}) : super(key: key);
+  const BContainer({Key? key, required this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
 

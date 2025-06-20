@@ -107,8 +107,8 @@ class _bottombarState extends State<bottombar> {
                                 : cc2 == true
                                     ? 49
                                     : 70,
-                            curve: Curves.easeInOutCirc,
-                            duration: Duration(milliseconds: issolid == true ? 0 : 400),
+                            curve: Curves.easeInOutBack,
+                            duration: Duration(milliseconds: issolid == true ? 0 : 500),
                             child: Icon( on == true ? Icons.highlight_remove_rounded : Icons.add, color: Colors.black),
                             decoration: BoxDecoration(
                               color: Color(0x7CD0D0D0),
@@ -141,8 +141,8 @@ class _bottombarState extends State<bottombar> {
                               : cc2 == true
                                   ? 49
                                   : 70,
-                          duration: Duration(milliseconds: issolid == true ? 0 : 300),
-                          curve: Curves.easeInOutCirc,
+                          duration: Duration(milliseconds: issolid == true ? 0 : 500),
+                          curve: Curves.easeInOutBack,
                           child: Center(
                               child: Text(
                                 widget.ftext,
@@ -201,8 +201,8 @@ class _bottombarState extends State<bottombar> {
                                 : cc2 == true
                                     ? 49
                                     : 70,
-                            duration: Duration(milliseconds: issolid == true ? 0 : 400),
-                            curve: Curves.easeInOutCirc,
+                            duration: Duration(milliseconds: issolid == true ? 0 : 700),
+                            curve: Curves.easeInOutBack,
                             child: Icon( settingson == true ? Icons.highlight_remove_rounded : Icons.settings, color: Colors.black),
                             decoration: BoxDecoration(
                               color: Color(0x7CD0D0D0),

@@ -8,13 +8,13 @@ class fimageviewer extends StatefulWidget {
 }
 
 class _fimageviewerState extends State<fimageviewer> {
-  PlatformFile objFile = null;
+  Null objFile = null;
   var sd;
   var sdf;
 
   Future<void> pickimage() async {
     var sd = await FilePicker.platform.pickFiles();
-    PlatformFile sdf = sd.files.single;
+    PlatformFile sdf = sd!.files.single;
     print('WDW ${sdf}');
 
   }
@@ -59,7 +59,7 @@ class _fimageviewerState extends State<fimageviewer> {
                 end: Alignment.bottomRight,
                 colors: <Color>[Colors.white60, Colors.white],
               ),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(50),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.5),

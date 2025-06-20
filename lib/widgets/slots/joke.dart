@@ -68,7 +68,7 @@ class _jokeapiState extends State<jokeapi> {
               fontSize: 30,
               shadows: <Shadow>[
                 Shadow(
-                  offset: Offset(0.0, 3.0),
+                  offset: Offset(0.0, 1.0),
                   blurRadius: 3.0,
                   color: Colors.black54,
                 ),
@@ -88,7 +88,7 @@ class _jokeapiState extends State<jokeapi> {
                 fontSize: 30,
                 shadows: <Shadow>[
                   Shadow(
-                    offset: Offset(0.0, 3.0),
+                    offset: Offset(0.0, 1.0),
                     blurRadius: 3.0,
                     color: Colors.black54,
                   ),
@@ -107,7 +107,7 @@ class _jokeapiState extends State<jokeapi> {
               onExit: white,
               child: AnimatedContainer(
                 curve: Curves.easeInOutBack,
-                duration: Duration(milliseconds: issolid == true ? 0 : 350),
+                duration: Duration(milliseconds: issolid == true ? 0 : 250),
                 width: 300,
                 height: cc == true ? 50 : 60,
 

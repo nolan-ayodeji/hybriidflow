@@ -1,10 +1,12 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hybriidflow/global/globvabs.dart';
+import 'package:hybriidflow/providers/widgetprovider.dart';
 import 'package:hybriidflow/widgets/bottombar.dart';
 import 'package:hybriidflow/widgets/bottombartwo.dart';
 import 'package:hybriidflow/widgets/exitbutton.dart';
@@ -16,6 +18,7 @@ import 'package:hybriidflow/widgets/slots/api.dart';
 import 'package:hybriidflow/widgets/slots/battery.dart';
 import 'package:hybriidflow/widgets/slots/calc.dart';
 import 'package:hybriidflow/widgets/slots/cameraview.dart';
+import 'package:hybriidflow/widgets/slots/chatgptt.dart';
 import 'package:hybriidflow/widgets/slots/counter.dart';
 import 'package:hybriidflow/widgets/slots/def.dart';
 import 'package:hybriidflow/widgets/slots/draw.dart';
@@ -30,12 +33,14 @@ import 'package:hybriidflow/widgets/slots/qrcodecreator.dart';
 import 'package:hybriidflow/widgets/slots/quicklinks.dart';
 import 'package:hybriidflow/widgets/slots/randomnumber.dart';
 import 'package:hybriidflow/widgets/slots/timeanddate.dart';
+import 'package:hybriidflow/widgets/slots/worldclock.dart';
 import 'package:hybriidflow/widgets/startupanimation.dart';
 import 'package:hybriidflow/widgets/topbar.dart';
 import 'package:hybriidflow/widgets/wallpaper.dart';
 import 'package:hybriidflow/widgets/warning.dart';
 import 'package:intl/intl.dart';
 import 'package:battery_plus/battery_plus.dart';
+import 'package:provider/provider.dart';
 import 'package:universal_io/io.dart';
 
 import 'dart:html' show IFrameElement;
@@ -45,6 +50,8 @@ import 'package:battery_plus/battery_plus.dart';
 import 'dart:math' as math;
 
 import 'dart:ui' as ui;
+
+import '../widgets/bottombarthree.dart';
 
 bool gradientan = false;
 int widgetsort = 1;
@@ -60,14 +67,15 @@ bool showwall = false;
 String wp = 'assets/hbflowof-min.png';
 
 class WidgetSlotContainer {
-  const WidgetSlotContainer(
-      this.name, this.widget, this.isgrey, this.categories, this.color);
+   WidgetSlotContainer(this.name, this.widget, this.isgrey,
+      this.categories, this.color, this.key);
 
   final String name;
   final Widget widget;
   final bool isgrey;
   final String categories;
   final Color color;
+  final Key? key;
 }
 
 class mainpage extends StatefulWidget {
@@ -77,38 +85,6 @@ class mainpage extends StatefulWidget {
 }
 
 class _mainpageState extends State<mainpage> {
-  final List<String> slotsnames = <String>[
-    'Dictionary',
-    'Image Viewer',
-    'Platform Widget',
-    'Time Widget',
-    'Date Widget',
-    'Time And Date',
-    'QuickLinks',
-    'Counter',
-    'Google Translate (BETA)',
-    'Random Number',
-    'QR Code Creator',
-    'Mirror (Beta)',
-    'Random Joke (BETA)',
-  ];
-
-  final List<Widget> slots = <Widget>[
-    dict(),
-    imageviewer(),
-    plat(),
-    time(),
-    date(),
-    timeanddate(),
-    quick(),
-    counter(),
-    ggt(),
-    randomnum(),
-    qr(),
-    camera(),
-    jokeapi(),
-  ];
-
   List<Color> colorList = [
     Color(0xff242424),
     Color(0xff1f2021),
@@ -124,7 +100,6 @@ class _mainpageState extends State<mainpage> {
   String dynamic_s = 's';
   String graphictf = 'Low';
   String anim = 'Off';
-
 
   bool _visible = false;
   bool startupvis = true;
@@ -151,7 +126,7 @@ class _mainpageState extends State<mainpage> {
   int randomNumber = 0;
   bool smoothergraphics = false;
 
-  void switchsort(){
+  void switchsort() {
     print('starting');
     if (widgetsort == 1)
       setState(() {
@@ -162,8 +137,8 @@ class _mainpageState extends State<mainpage> {
       setState(() {
         widgetsort = 1;
       });
-
   }
+
   void dyn() {
     if (entries.length == 1)
       setState(() {
@@ -175,14 +150,6 @@ class _mainpageState extends State<mainpage> {
         dynamic_s = '${entries.length} widgets';
         checkifwidgetsexist();
       });
-  }
-
-  addwidgetfromrandom(what) {
-    entries.add(slots[what]);
-    dyn();
-    print('chile');
-    on = false;
-    isanythingopen = false;
   }
 
   void white3(PointerEvent details) {
@@ -204,19 +171,6 @@ class _mainpageState extends State<mainpage> {
       print('CHILE');
       entries.removeLast();
     }
-  }
-
-  void pickrandomwidget() {
-    setState(() {
-      Random random = new Random();
-      randomNumber = random.nextInt(slots.length);
-      print(randomNumber);
-    });
-    if (randomNumber == 11)
-      pickrandomwidget(); //Used to Avoid Camera Widget
-
-    else
-      addwidgetfromrandom(randomNumber);
   }
 
   bool wann = true;
@@ -242,8 +196,6 @@ class _mainpageState extends State<mainpage> {
     );
   }
 
-
-
   void checkifwidgetsexist() {
     if (entries.length == 0)
       setState(() {
@@ -253,6 +205,16 @@ class _mainpageState extends State<mainpage> {
       setState(() {
         anywidgets = false;
       });
+  }
+
+  void _onReorder(int oldindex, int newindex) {
+    setState(() {
+      if (oldindex < newindex) {
+        newindex -= 1;
+      }
+      final Widget item = entries.removeAt(oldindex);
+      entries.insert(newindex, item);
+    });
   }
 
   Future<void> ofenonight() async {
@@ -328,7 +290,6 @@ class _mainpageState extends State<mainpage> {
       });
   }
 
-
   void dockshow() {
     if (dockl == true)
       setState(() {
@@ -378,7 +339,7 @@ class _mainpageState extends State<mainpage> {
   }
 
   String isborder = 'On';
-  String isbattery = 'On';
+  String isbattery = 'Off';
   void bordershow() {
     if (border == true)
       setState(() {
@@ -401,12 +362,14 @@ class _mainpageState extends State<mainpage> {
     if (battery0 == true)
       setState(() {
         battery0 = false;
+        isbattery = 'Off';
 
         print('battery');
       });
     else
       setState(() {
         battery0 = true;
+        isbattery = 'On';
 
         print('battery');
       });
@@ -451,7 +414,6 @@ class _mainpageState extends State<mainpage> {
   }
 
   void addmenu() {
-
     if (on == true)
       setState(() {
         on = false;
@@ -569,7 +531,6 @@ class _mainpageState extends State<mainpage> {
     gettime();
     dyn();
     startup();
-    Paint.enableDithering = true;
     wanim();
     getBatteryPerentage();
     // ignore: undefined_prefixed_name
@@ -582,144 +543,148 @@ class _mainpageState extends State<mainpage> {
         backgroundColor: Colors.black,
         body: Stack(
           children: [
+
             Stack(
               children: [
                 hilly(),
+                //Backdrop
                 Container(
                   width: double.infinity,
                   height: double.infinity,
                   color: smoothergraphics == false
                       ? Color(0x434B4B4B)
                       : Color(0x9A9A9A),
-                ),
+                ), //Backdrop brightness
                 Center(
                   child: Column(
                     children: [
-                      topbar(),
+                      topbar(), //The Top Bar
                       Expanded(
-                        child: ScrollConfiguration(
-                          behavior: ScrollConfiguration.of(context).copyWith(
-                            dragDevices: {
-                              PointerDeviceKind.touch,
-                              PointerDeviceKind.mouse,
-                            },
-                          ),
-                          child: ListView.builder(
-                              controller: _controller,
-                              itemCount: entries.length,
-                              addAutomaticKeepAlives: true,
-                              scrollDirection:
-                                  MediaQuery.of(context).size.width < 600
-                                      ? Axis.vertical
-                                      : Axis.horizontal,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Transform.scale(
-                                  scale: 0.97,
-                                  child: Stack(
-                                    children: [
-                                      Flex(
-                                        direction:
-                                            MediaQuery.of(context).size.width <
-                                                    600
-                                                ? Axis.vertical
-                                                : Axis.horizontal,
-                                        children: [
-                                          InkWell(
-                                            child: SizedBox(
-                                              width: MediaQuery.of(context)
-                                                          .size
-                                                          .width <
-                                                      600
-                                                  ? 0
-                                                  : 30,
-                                              height: MediaQuery.of(context)
-                                                          .size
-                                                          .width <
-                                                      600
-                                                  ? 30
-                                                  : 0,
-                                            ),
-                                            onTap: delete,
-                                          ),
-                                          if (shouldscroll == false) ...[
-                                            infowidget(
-                                              slot: entries[index],
-                                              what: () {
-                                                remove(index);
+                        child: Stack(
+                          children: [
 
-                                                dyn();
-                                              },
-                                              dupl: () {
-                                                entries.add(entries[index]);
-                                                dyn();
-                                              },
-                                              sshow: tempsetting,
-                                              key: ValueKey(1),
-                                            ),
-                                          ] else ...[
-                                            SingleChildScrollView(
-                                              child: GestureDetector(
-                                                child: infowidget(
-                                                  slot: entries[index],
-                                                  what: () {
-                                                    remove(index);
 
-                                                    dyn();
-                                                  },
-                                                  dupl: () {
-                                                    entries.add(entries[index]);
-                                                    dyn();
-                                                  },
-                                                ),
-                                                onTap: () {},
-                                              ),
-                                              clipBehavior: Clip.none,
+                            ScrollConfiguration(
+                              behavior: ScrollConfiguration.of(context).copyWith(
+                                dragDevices: {
+                                  PointerDeviceKind.touch,
+                                  PointerDeviceKind.mouse,
+                                },
+                              ),
+                              child: ListView.builder(
+                                itemCount: entries.length,
+                                scrollDirection:
+                                    MediaQuery.of(context).size.width < 600
+                                        ? Axis.vertical
+                                        : Axis.horizontal,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Transform.scale(
+                                    scale: MediaQuery.of(context).size.height > 1290
+                                        ? 1.36
+                                        : 0.97,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 30,),
+                                        Stack(
+                                          children: [
+                                            Flex(
+                                              direction: Axis.horizontal,
+                                              children: [
+                                                if (shouldscroll == false) ...[
+                                                  infowidget(
+                                                    slot: entries[index],
+
+                                                    what: () {
+                                                      remove(index);
+
+                                                      dyn();
+                                                    },
+                                                    dupl: () {
+                                                      entries.add(entries[index]);
+                                                      dyn();
+                                                    },
+                                                    sshow: tempsetting,
+                                                  ),
+                                                ] else ...[
+                                                  SingleChildScrollView(
+                                                    child: GestureDetector(
+                                                      child: infowidget(
+                                                        slot: entries[index],
+                                                        what: () {
+                                                          remove(index);
+
+                                                          dyn();
+                                                        },
+                                                        dupl: () {
+                                                          entries.add(
+                                                              entries[index]);
+                                                          dyn();
+                                                        },
+                                                      ),
+                                                      onTap: () {},
+                                                    ),
+                                                    clipBehavior: Clip.none,
+                                                  ),
+                                                ],
+                                              ],
                                             ),
                                           ],
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }),
+                                        ),
+                                        SizedBox(
+                                          width:
+                                              MediaQuery.of(context).size.height >
+                                                      1290
+                                                  ? 100
+                                                  : 0,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Center(
-                        child: warning1(
-                          visible1: showwarning,
-                          visible2: anywidgets,
-                        ),
-                      ),
+                      ), //The main part of this whole webapp: The widgets
+
                       SizedBox(
                         height: 5,
                       ),
+                      warning1(visible1: opened == true ? false : entries.isEmpty ? true : false, visible2: true,),
+                      SizedBox(
+                        height: 5,
+                      ), //adds space from the text to distance it from bottom bar
                       GestureDetector(
-                        child: bool_bar == true ? bottombar(ftext: dockl == false
-                            ? '${DateFormat('h:mm').format(now)} • ${Platform.operatingSystem} ${battery0 == true ? "• ${percentage}%" : ""} '
-                            : '${DateFormat('h:mm').format(now)} • ${Platform.operatingSystem} • ${entries.length} ${battery0 == true ? "• ${percentage}%" : ""}',
-                          action: () {
-                            addmenu();
-                          },
-                          saction: () {
-                            settingmenu();
-                            colorchange();
-                          },) : bottom2bar(
-                          ftext: dockl == false
-                              ? '${DateFormat('h:mm').format(now)} • ${Platform.operatingSystem} ${battery0 == true ? "• ${percentage}%" : ""} '
-                              : '${DateFormat('h:mm').format(now)} • ${Platform.operatingSystem} • ${entries.length} ${battery0 == true ? "• ${percentage}%" : ""}',
-                          action: () {
-                            addmenu();
-                          },
-                          saction: () {
-                            settingmenu();
-                            colorchange();
-                          },
-                        ),
+                        child: bool_bar == true
+                            ? bottombar(
+                                ftext: dockl == false
+                                    ? '${DateFormat('h:mm').format(now)} • ${Platform.operatingSystem} ${battery0 == true ? "• ${percentage}%" : ""} '
+                                    : '${DateFormat('h:mm').format(now)} • ${Platform.operatingSystem} • ${entries.length} ${battery0 == true ? "• ${percentage}%" : ""}',
+                                action: () {
+                                  addmenu();
+                                },
+                                saction: () {
+                                  settingmenu();
+                                  colorchange();
+                                },
+                              )
+                            : bottom3bar(
+                                ftext: dockl == false
+                                    ? '${DateFormat('h:mm').format(now)} • ${Platform.operatingSystem} ${battery0 == true ? "• ${percentage}%" : ""}'
+                                    : '${DateFormat('h:mm').format(now)} • ${Platform.operatingSystem} • ${entries.length} ${battery0 == true ? "• ${percentage}%" : ""}',
+                                action: () {
+                                  addmenu();
+                                },
+                                saction: () {
+                                  settingmenu();
+                                  colorchange();
+                                },
+                              ),
                         //onTap: entries.length < 1 ? add : delete,
-                      )
+                      ) //The Bottom bar
                     ],
                   ),
-                ),
+                ), //Main Components of Screen: Top Bar, Widgets, and Bottom Bar
               ],
             ),
             Visibility(
@@ -746,104 +711,103 @@ class _mainpageState extends State<mainpage> {
                 Visibility(
                   //widgetadd
                   visible: on,
-                  child: Listener(
-                      onPointerSignal: (ps) {
-                        if (ps is PointerScrollEvent) {
-                          final newOffset = _cr.offset + ps.scrollDelta.dy;
-                          if (ps.scrollDelta.dy.isNegative) {
-                            _cr.jumpTo(math.max(0, newOffset));
-                          } else {
-                            _cr.jumpTo(math.min(
-                                _cr.position.maxScrollExtent, newOffset));
-                          }
-                        }
-                      },
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Widgets",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(0.0, 3.0),
-                                      blurRadius: 3.0,
-                                      color: Colors.black54,
-                                    ),
-                                  ],
-                                  fontFamily: 'Schyler'),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Widgets",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                              fontSize: 25,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(0.0, 1.0),
+                                  blurRadius: 3.0,
+                                  color: Colors.black54,
+                                ),
+                              ],
+                              fontFamily: 'Schyler'),
+                        ),
+                        Text(
+                          "Scroll down or press the expand button for more",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                              fontSize: 10,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(0.0, 1.0),
+                                  blurRadius: 3.0,
+                                  color: Colors.black54,
+                                ),
+                              ],
+                              fontFamily: 'Schyler'),
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(30.0),
+                          child: BackdropFilter(
+                            filter: ui.ImageFilter.blur(
+                              sigmaX: 7.0,
+                              sigmaY: 7.0,
                             ),
-                            Text(
-                              "Scroll down or press the expand button for more",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(0.0, 3.0),
-                                      blurRadius: 3.0,
-                                      color: Colors.black54,
-                                    ),
-                                  ],
-                                  fontFamily: 'Schyler'),
-                            ),
-                            SizedBox(
-                              height: 2,
-                            ),
-                            AnimatedContainer(
-                              width: MediaQuery.of(context).size.width / 1.1,
-                              height: bigsettings == false ? 320 : 600,
+                            child: AnimatedContainer(
+                              width:
+                                  MediaQuery.of(context).size.width / 1.1, //ice
+                              height: MediaQuery.of(context).size.height > 490
+                                  ? bigsettings == false
+                                      ? 320
+                                      : MediaQuery.of(context).size.height / 1.3
+                                  : bigsettings == false
+                                      ? MediaQuery.of(context).size.height / 2
+                                      : MediaQuery.of(context).size.height /
+                                          1.4,
                               curve: Curves.easeInOutCirc,
                               duration: Duration(
                                   milliseconds: issolid == true ? 0 : 300),
                               decoration: BoxDecoration(
-                                color: Color(0xb4878787),
+                                color: Color(0x89817979),
                                 borderRadius: BorderRadius.circular(30),
                                 border: Border.all(
-                                  color: Colors.black,
+                                  color: Color(0xD7000000),
                                   width: 1,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Color(0xa3181818),
+                                    color: Color(0x51000000),
                                     spreadRadius: 1,
-                                    blurRadius: 9,
-                                    offset: Offset(0,
-                                        1), // changes position of shadow
-                                  ),
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.5),
-                                    spreadRadius: -12.0,
-                                    blurRadius: 12.0,
+                                    blurRadius: 6,
+                                    offset: Offset(
+                                        0, 2), // changes position of shadow
                                   ),
                                 ],
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(30.0),
-                                child: Stack(
-                                  children: [
-                                    Visibility(
-                                        visible: true,
-                                        child: Center(
+                                child: Center(
+                                  child: Stack(
+                                    children: [
+                                      Visibility(
+                                          visible: true,
                                           child: AddWidget(
                                             controller: _cr,
                                             visible: random,
-                                            ontap: pickrandomwidget,
                                             ontap2: bigsetting,
                                             setting2: switchsort,
-                                          ),
-                                        )),
-                                  ],
+                                          )),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      )),
+                      ],
+                    ),
+                  ),
                 ),
 
                 Container(
@@ -889,7 +853,7 @@ class _mainpageState extends State<mainpage> {
                                           fontSize: 25,
                                           shadows: <Shadow>[
                                             Shadow(
-                                              offset: Offset(0.0, 3.0),
+                                              offset: Offset(0.0, 1.0),
                                               blurRadius: 3.0,
                                               color: Colors.black54,
                                             ),
@@ -904,7 +868,7 @@ class _mainpageState extends State<mainpage> {
                                           fontSize: 10,
                                           shadows: <Shadow>[
                                             Shadow(
-                                              offset: Offset(0.0, 3.0),
+                                              offset: Offset(0.0, 1.0),
                                               blurRadius: 3.0,
                                               color: Colors.black54,
                                             ),
@@ -918,170 +882,187 @@ class _mainpageState extends State<mainpage> {
                                       child: Stack(
                                         children: [
                                           Center(
-                                            child: AnimatedContainer(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  1.1,
-                                              height: bigsettings == false
-                                                  ? 320
-                                                  : 600,
-                                              curve: Curves.easeInOutCirc,
-                                              duration: Duration(
-                                                  milliseconds: issolid == true
-                                                      ? 0
-                                                      : 300),
-                                              decoration: BoxDecoration(
-                                                color: Color(0xb4878787),
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                border: Border.all(
-                                                  color: Colors.black,
-                                                  width: 1,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                              child: BackdropFilter(
+                                                filter: ui.ImageFilter.blur(
+                                                  sigmaX: 7.0,
+                                                  sigmaY: 7.0,
                                                 ),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Color(0xa3181818),
-                                                    spreadRadius: 1,
-                                                    blurRadius: 9,
-                                                    offset: Offset(0,
-                                                        1), // changes position of shadow
-                                                  ),
-                                                  BoxShadow(
-                                                    color: Colors.black
-                                                        .withOpacity(0.5),
-                                                    spreadRadius: -12.0,
-                                                    blurRadius: 12.0,
-                                                  ),
-                                                ],
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                                child: Stack(
-                                                  children: [
-                                                    SettingOptions(
-                                                      option1: () {
-                                                        changegraphics();
-                                                      },
-                                                      option2: () {
-                                                        changeganim();
-                                                        changeanimtoonoff();
-                                                      },
-                                                      option3: () {
-                                                        changesolid();
-                                                      },
-                                                      option4: () {
-                                                        changescroll();
-                                                      },
-                                                      option5: () {
-                                                        dockstyle();
-                                                      },
-                                                      option6: () {
-                                                        warningshow();
-                                                      },
-                                                      option7: () {
-                                                        randomshow();
-                                                      },
-                                                      option8: () {
-                                                        bordershow();
-                                                      },
-                                                      option50: () {
-                                                        dockstyle();
-                                                      },
-                                                      option0: () {
-                                                        battery_();
-                                                      },
-                                                      o1text: graphictf,
-                                                      o2text: gradtotext,
-                                                      o3text: solid,
-                                                      o4text: scrollable,
-                                                      o5text: solid2,
-                                                      o6text: warning,
-                                                      o7text: israndom,
-                                                      o8text: isborder,
-                                                      o0text: isbattery,
-                                                      o50text: dstyle,
+                                                child: AnimatedContainer(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.1,
+                                                  height: MediaQuery.of(context)
+                                                              .size
+                                                              .height >
+                                                          490
+                                                      ? bigsettings == false
+                                                          ? 320
+                                                          : MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height /
+                                                              1.3
+                                                      : bigsettings == false
+                                                          ? MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height /
+                                                              2
+                                                          : MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height /
+                                                              1.4,
+                                                  curve: Curves.easeInOutCirc,
+                                                  duration: Duration(
+                                                      milliseconds:
+                                                          issolid == true
+                                                              ? 0
+                                                              : 300),
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0x89817979),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    border: Border.all(
+                                                      color: Color(0xD7000000),
+                                                      width: 1,
                                                     ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x51000000),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 6,
+                                                        offset: Offset(0,
+                                                            2), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30.0),
+                                                    child: Stack(
                                                       children: [
-                                                        Column(
+                                                        SettingOptions(
+                                                          option1: () {
+                                                            changegraphics();
+                                                          },
+                                                          option2: () {
+                                                            changeganim();
+                                                            changeanimtoonoff();
+                                                          },
+                                                          option3: () {
+                                                            changesolid();
+                                                          },
+                                                          option4: () {
+                                                            changescroll();
+                                                          },
+                                                          option5: () {
+                                                            dockshow();
+                                                          },
+                                                          option6: () {
+                                                            warningshow();
+                                                          },
+                                                          option7: () {
+                                                            randomshow();
+                                                          },
+                                                          option8: () {
+                                                            bordershow();
+                                                          },
+                                                          option50: () {
+                                                            dockstyle();
+                                                          },
+                                                          option0: () {
+                                                            battery_();
+                                                          },
+                                                          o1text: graphictf,
+                                                          o2text: gradtotext,
+                                                          o3text: solid,
+                                                          o4text: scrollable,
+                                                          o5text: solid2,
+                                                          o6text: warning,
+                                                          o7text: israndom,
+                                                          o8text: isborder,
+                                                          o0text: isbattery,
+                                                          o50text: dstyle,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
                                                           children: [
-                                                            SizedBox(
-                                                              height: 6,
-                                                            ),
-                                                            Row(
+                                                            Column(
                                                               children: [
                                                                 SizedBox(
-                                                                  width: 7,
+                                                                  height: 6,
                                                                 ),
-                                                                MouseRegion(
-                                                                  onHover:
-                                                                      anim3,
-                                                                  onExit:
-                                                                      white3,
-                                                                  child:
-                                                                      InkWell(
-                                                                    onTap:
-                                                                        bigsetting,
-                                                                    child:
-                                                                        MouseRegion(
+                                                                Row(
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      width: 7,
+                                                                    ),
+                                                                    MouseRegion(
                                                                       onHover:
                                                                           anim3,
                                                                       onExit:
                                                                           white3,
                                                                       child:
-                                                                          AnimatedContainer(
-                                                                        width: cc3 ==
-                                                                                true
-                                                                            ? 35
-                                                                            : 60,
-                                                                        curve: Curves
-                                                                            .easeInOutBack,
-                                                                        duration: Duration(
-                                                                            milliseconds: issolid == true
-                                                                                ? 0
-                                                                                : 300),
-                                                                        height:
-                                                                            35,
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            bigsetting,
                                                                         child:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .fullscreen,
-                                                                          color:
-                                                                              Color(0xff033808),
+                                                                            MouseRegion(
+                                                                          onHover:
+                                                                              anim3,
+                                                                          onExit:
+                                                                              white3,
+                                                                          child:
+                                                                              AnimatedContainer(
+                                                                            width: cc3 == true
+                                                                                ? 35
+                                                                                : 60,
+                                                                            curve:
+                                                                                Curves.easeInOutBack,
+                                                                            duration:
+                                                                                Duration(milliseconds: issolid == true ? 0 : 300),
+                                                                            height:
+                                                                                35,
+                                                                            child:
+                                                                                Icon(
+                                                                              Icons.fullscreen,
+                                                                              color: Color(0xff033808),
+                                                                            ),
+                                                                            decoration: BoxDecoration(
+                                                                                color: cc3 == true ? Color(0xda06a316) : Color(0xff06a316),
+                                                                                boxShadow: [
+                                                                                  BoxShadow(
+                                                                                    color: Colors.black.withOpacity(0.5),
+                                                                                    spreadRadius: 1,
+                                                                                    blurRadius: 7,
+                                                                                    offset: Offset(0, 1), // changes position of shadow
+                                                                                  ),
+                                                                                ],
+                                                                                borderRadius: BorderRadius.circular(30)),
+                                                                          ),
                                                                         ),
-                                                                        decoration: BoxDecoration(
-                                                                            color: cc3 == true ? Color(0xda06a316) : Color(0xff06a316),
-                                                                            boxShadow: [
-                                                                              BoxShadow(
-                                                                                color: Colors.black.withOpacity(0.5),
-                                                                                spreadRadius: 2,
-                                                                                blurRadius: 7,
-                                                                                offset: Offset(0, 3), // changes position of shadow
-                                                                              ),
-                                                                              BoxShadow(
-                                                                                color: Colors.black.withOpacity(0.5),
-                                                                                spreadRadius: -12.0,
-                                                                                blurRadius: 12.0,
-                                                                              ),
-                                                                            ],
-                                                                            borderRadius: BorderRadius.circular(30)),
                                                                       ),
                                                                     ),
-                                                                  ),
+                                                                  ],
                                                                 ),
                                                               ],
                                                             ),
+                                                            SizedBox(),
                                                           ],
-                                                        ),
-                                                        SizedBox(),
+                                                        )
                                                       ],
-                                                    )
-                                                  ],
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -1090,18 +1071,6 @@ class _mainpageState extends State<mainpage> {
                                       ),
                                     ),
                                   ],
-                                ),
-                                Center(
-                                  child: IgnorePointer(
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          1.2,
-                                      height: 290,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                    ),
-                                  ),
                                 ),
                               ],
                             ));
@@ -1145,7 +1114,8 @@ class option extends StatefulWidget {
   final add;
   final color;
 
-  const option({Key key, this.text, this.add, this.color, this.category}) : super(key: key);
+  const option({Key? key, this.text, this.add, this.color, this.category})
+      : super(key: key);
   @override
   _optionState createState() => _optionState();
 }
@@ -1171,8 +1141,9 @@ class _optionState extends State<option> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(width: 10,),
-
+          SizedBox(
+            width: 10,
+          ),
           SizedBox(
             child: MouseRegion(
               onHover: anim,
@@ -1199,12 +1170,12 @@ class _optionState extends State<option> {
                             ? 175
                             : 175,
                     curve: Curves.easeInOutCirc,
-                    duration: Duration(milliseconds: issolid == true ? 0 : 350),
+                    duration: Duration(milliseconds: issolid == true ? 0 : 250),
                     child: Center(
                       child: AnimatedContainer(
                         curve: Curves.easeInOutBack,
                         duration:
-                            Duration(milliseconds: issolid == true ? 0 : 350),
+                            Duration(milliseconds: issolid == true ? 0 : 250),
                         child: Center(
                             child: Center(
                           child: FittedBox(
@@ -1227,7 +1198,7 @@ class _optionState extends State<option> {
                                                 fontSize: 26,
                                                 shadows: <Shadow>[
                                                   Shadow(
-                                                    offset: Offset(0.0, 3.0),
+                                                    offset: Offset(0.0, 1.0),
                                                     blurRadius: 3.0,
                                                     color: Colors.black54,
                                                   ),
@@ -1242,7 +1213,7 @@ class _optionState extends State<option> {
                                                 fontSize: 18,
                                                 shadows: <Shadow>[
                                                   Shadow(
-                                                    offset: Offset(0.0, 3.0),
+                                                    offset: Offset(0.0, 1.0),
                                                     blurRadius: 3.0,
                                                     color: Colors.black54,
                                                   ),
@@ -1264,7 +1235,7 @@ class _optionState extends State<option> {
                         decoration: BoxDecoration(
                           //colors
                           color: Color(0xda191919),
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(38),
                           border: Border.all(
                             color: Colors.white,
                             width: 2,
@@ -1273,8 +1244,12 @@ class _optionState extends State<option> {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: <Color>[
-                              cc == false ? widget.color : Color(0xFF3A393A),
-                              cc == true ? widget.color : Color(0xFF3A393A),
+                              cc == false
+                                  ? Color(0x991E1E1E)
+                                  : Color(0xBE626162),
+                              cc == true
+                                  ? Color(0x991E1E1E)
+                                  : Color(0xBE626162),
                             ],
                           ),
                         ),
@@ -1285,7 +1260,9 @@ class _optionState extends State<option> {
               ),
             ),
           ),
-          SizedBox(width: 5,),
+          SizedBox(
+            width: 5,
+          ),
         ],
       ),
     );
@@ -1295,7 +1272,7 @@ class _optionState extends State<option> {
 class blurwidget extends StatefulWidget {
   final what;
 
-  const blurwidget({Key key, this.what}) : super(key: key);
+  const blurwidget({Key? key, this.what}) : super(key: key);
   @override
   _blurwidgetState createState() => _blurwidgetState();
 }
@@ -1325,7 +1302,7 @@ class _blurwidgetState extends State<blurwidget> {
 class blackedoutwidget extends StatefulWidget {
   final what;
 
-  const blackedoutwidget({Key key, this.what}) : super(key: key);
+  const blackedoutwidget({Key? key, this.what}) : super(key: key);
   @override
   _blackedoutwidgetState createState() => _blackedoutwidgetState();
 }
@@ -1365,11 +1342,7 @@ class _hillyState extends State<hilly> {
       width: double.infinity,
       height: double.infinity,
       child: OverflowBox(
-        child: FittedBox(
-          child: Image(image: AssetImage(wp)),
-          fit: BoxFit.cover,
-          alignment: Alignment.center,
-        ),
+        child: Image(image: AssetImage(wp)),
         maxWidth: double.infinity,
         maxHeight: double.infinity,
       ),
@@ -1377,7 +1350,12 @@ class _hillyState extends State<hilly> {
   }
 }
 
-final List<Widget> entries = <Widget>[];
+final List<Key> keys = [
+  UniqueKey(), // key for Calculator widget
+  UniqueKey(), // key for Dict widget
+];
+
+final List<Widget> entries = [];
 
 class AddWidget extends StatefulWidget {
   final controller;
@@ -1389,12 +1367,13 @@ class AddWidget extends StatefulWidget {
   final ontap2;
 
   const AddWidget(
-      {Key key,
+      {Key? key,
       this.controller,
       this.o_list,
       this.visible,
       this.ontap,
-      this.ontap2, this.setting2})
+      this.ontap2,
+      this.setting2})
       : super(key: key);
   @override
   _AddWidgetState createState() => _AddWidgetState();
@@ -1421,62 +1400,154 @@ class _AddWidgetState extends State<AddWidget> {
   }
 
   List<WidgetSlotContainer> widgetstoadd = [
+    // WidgetSlotContainer(
+    //   'ChatGPT',
+    //   gptbot(),
+    //   false,
+    //   widgetsort == 1 ? 'AI' : '',
+    //   widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
+    //   ValueKey('dic_1'),
+    // ),
     WidgetSlotContainer(
-        'Dictionary', dict(), false, widgetsort == 1 ? 'Tool' : '',   widgetsort == 2 ?  Color(0xFF496543) : Color(
-        0x697E7E7E)),
-    WidgetSlotContainer('Counter', counter(key: ValueKey(1)), false, widgetsort == 1 ? 'Tool' : '',
-        widgetsort == 2 ?  Color(0xFF496543) : Color(
-            0x697E7E7E)),
+      'Dictionary',
+      dict(),
+      false,
+      widgetsort == 1 ? 'Tool' : '',
+      widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
     WidgetSlotContainer(
-        'QuickLinks', quick(), false, widgetsort == 1 ? 'Tool' : '',  widgetsort == 2 ?  Color(0xFF496543) : Color(
-        0x697E7E7E)),
+      'Counter',
+      counter(
+        key: ValueKey('counter_1'),
+        widprovide: CounterProvider(),
+      ),
+      false,
+      widgetsort == 1 ? 'Tool' : '',
+      widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
+      ValueKey('counter_1'),
+    ),
     WidgetSlotContainer(
-        'Random Number', randomnum(), false, widgetsort == 1 ? 'Tool' : '',   widgetsort == 2 ?  Color(0xFF496543) : Color(
-        0x697E7E7E)),
+      'QuickLinks',
+      quick(),
+      false,
+      widgetsort == 1 ? 'Tool' : '',
+      widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
+      ValueKey('quick_!'),
+    ),
     WidgetSlotContainer(
-        'Image Viewer', imageviewer(), true, widgetsort == 1 ? 'Tool' : '',   widgetsort == 2 ?  Color(0xFF496543) : Color(
-        0x697E7E7E)),
+      'Random Number',
+      randomnum(
+        widprovide: CounterProvider2(),
+      ),
+      false,
+      widgetsort == 1 ? 'Tool' : '',
+      widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
     WidgetSlotContainer(
-        'QR Code Creator', qr(), false,  widgetsort == 1 ? 'Tool' : '',  widgetsort == 2 ?  Color(0xFF496543) : Color(
-  0x697E7E7E)),
+      'Image Viewer',
+      imageviewer(),
+      true,
+      widgetsort == 1 ? 'Tool' : '',
+      widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
+    WidgetSlotContainer(
+      'QR Code Creator',
+      qr(),
+      false,
+      widgetsort == 1 ? 'Tool' : '',
+      widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
+    WidgetSlotContainer(
+      'LastFM Scrobbler',
+      Last(),
+      false,
+      widgetsort == 1 ? 'Tool' : '',
+      widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
 
     // WidgetSlotContainer('FImage Viewer', fimageviewer(), true),
 
+    WidgetSlotContainer(
+      'Time and Date',
+      timeanddate(),
+      false,
+      widgetsort == 1 ? 'Info' : '',
+      widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
+    WidgetSlotContainer(
+      'Time Widget',
+      time(),
+      false,
+      widgetsort == 1 ? 'Info' : '',
+      widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
+    WidgetSlotContainer(
+      'World Clock',
+      worldtime(),
+      false,
+      widgetsort == 1 ? 'Info' : '',
+      widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
 
     WidgetSlotContainer(
-        'Time and Date', timeanddate(), false,  widgetsort == 1 ? 'Info' : '',widgetsort == 2 ?  Color(0xFF436465) : Color(
-        0x697E7E7E)),
+      'Date Widget',
+      date(),
+      false,
+      widgetsort == 1 ? 'Info' : '',
+      widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
     WidgetSlotContainer(
-        'Time Widget', time(), false,  widgetsort == 1 ? 'Info' : '', widgetsort == 2 ?  Color(0xFF436465) : Color(
-        0x697E7E7E)),
+      'Platform Widget',
+      plat(),
+      false,
+      widgetsort == 1 ? 'Info' : '',
+      widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
 
     WidgetSlotContainer(
-        'Date Widget', date(), false,  widgetsort == 1 ? 'Info' : '', widgetsort == 2 ?  Color(0xFF436465) : Color(
-        0x697E7E7E)),
-    WidgetSlotContainer(
-        'Platform Widget', plat(), false,  widgetsort == 1 ? 'Info' : '', widgetsort == 2 ?  Color(0xFF436465) : Color(
-        0x697E7E7E)),
+      'Random Joke',
+      jokeapi(),
+      false,
+      widgetsort == 1 ? 'Fun' : '',
+      widgetsort == 2 ? Color(0xFF654362) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+    ),
 
     WidgetSlotContainer(
-        'Analog Clock', Analog(), false, widgetsort == 1 ? 'Info' : '',widgetsort == 2 ?  Color(0xFF436465) : Color(
-        0x697E7E7E)),
-
-
-
-    WidgetSlotContainer(
-        'Random Joke', jokeapi(), false, widgetsort == 1 ? 'Fun' : '', widgetsort == 2 ?  Color(
-        0xFF654362) : Color(
-        0x697E7E7E) ),
+      'Mirror (Beta)',
+      camera(),
+      false,
+      widgetsort == 1 ? 'Tool' : '',
+      Color(0xFF9C6D6D),
+      ValueKey('dic_1'),
+    ),
 
     WidgetSlotContainer(
-        'Mirror (Beta)', camera(), false, widgetsort == 1 ? 'Tool' : '', Color(0xFF9C6D6D)),
-
+      'Google Translate (BETA)',
+      ggt(),
+      false,
+      widgetsort == 1 ? 'Tool' : '',
+      Color(0xFF9C6D6D),
+      ValueKey('dic_1'),
+    ),
     WidgetSlotContainer(
-        'Google Translate (BETA)', ggt(), false, widgetsort == 1 ? 'Tool' : '', Color(0xFF9C6D6D)),
-    WidgetSlotContainer(
-        'Battery (BETA)', bat(), false, widgetsort == 1 ? 'Info' : '', Color(0xFF9C6D6D)),
-    WidgetSlotContainer(
-        'LastFM Scrobbler (BETA)', Last(), false, widgetsort == 1 ? 'Tool' : '', Color(0xFF9C6D6D)),
+      'Battery (BETA)',
+      bat(),
+      false,
+      widgetsort == 1 ? 'Info' : '',
+      Color(0xFF9C6D6D),
+      ValueKey('dic_1'),
+    ),
   ];
 
   final List<String> categories = <String>[
@@ -1525,112 +1596,29 @@ class _AddWidgetState extends State<AddWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Scrollbar(
-          thumbVisibility: true,
-          controller: _firstController,
-          child: RawKeyboardListener(
-            focusNode: _focusNode,
-            autofocus: true,
-            onKey: _handleKeyEvent,
-            child: SingleChildScrollView(
-              controller: _firstController,
-              child: Column(
-                children: [
-                  SizedBox(height: 10,),
-
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Wrap(
-                    runSpacing: 15.0,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      for (int i = 0; i < widgetstoadd.length; i++)
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Container(
-                                child: option(
-                              text: widgetstoadd[i].name,
-                              category: widgetstoadd[i].categories,
-                              color: widgetstoadd[i].color,
-
-                              add: () {
-                                entries.add(widgetstoadd[i].widget);
-
-                                print('PRINT ${entries}');
-                                setState(() {
-                                  on = false;
-                                  isanythingopen = false;
-                                  print('${isanythingopen} IS W');
-                                });
-                              },
-                            )),
-                          ],
-                        ),
-
-                    ],
-                  ),
-                  SizedBox(height: 25,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Visibility(
-                        visible: widget.visible,
-                        child: InkWell(
-                          onTap: widget.ontap,
-                          child: Container(
-                            width: 200,
-                            height: 49,
-                            child: Center(
-                              child: Text(
-                                'Random Widget',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.white,
-                                    shadows: <Shadow>[
-                                      Shadow(
-                                        offset: Offset(0.0, 3.0),
-                                        blurRadius: 3.0,
-                                        color: Colors.black54,
-                                      ),
-                                    ],
-                                    fontFamily: 'Schyler'),
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color(0xda191919),
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 2,
-                              ),
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: <Color>[
-                                  Color(0xFFBA751D),
-                                  Color(0xFFE3BF17),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Visibility(
-                    visible: false,
-                    child: Wrap(
-                      runSpacing: 50.0,
+        Center(
+          child: Scrollbar(
+            thumbVisibility: true,
+            controller: _firstController,
+            child: RawKeyboardListener(
+              focusNode: _focusNode,
+              autofocus: true,
+              onKey: _handleKeyEvent,
+              child: SingleChildScrollView(
+                controller: _firstController,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Wrap(
+                      runSpacing: 15.0,
+                      alignment: WrapAlignment.center,
                       children: [
-                        for (int i = 0; i < categories.length; i++)
+                        for (int i = 0; i < widgetstoadd.length; i++)
                           Column(
                             children: [
                               SizedBox(
@@ -1638,9 +1626,12 @@ class _AddWidgetState extends State<AddWidget> {
                               ),
                               Container(
                                   child: option(
-                                text: categories[i],
+                                text: widgetstoadd[i].name,
+                                category: widgetstoadd[i].categories,
+                                color: widgetstoadd[i].color,
                                 add: () {
-                                  entries.add(widgetstoadd[i].widget);
+                                  entries.add(widgetstoadd[i]
+                                      .widget); //add a new widget;
 
                                   print('PRINT ${entries}');
                                   setState(() {
@@ -1652,71 +1643,104 @@ class _AddWidgetState extends State<AddWidget> {
                               )),
                             ],
                           ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Visibility(
-                              visible: widget.visible,
-                              child: InkWell(
-                                onTap: widget.ontap,
-                                child: Container(
-                                  width: 200,
-                                  height: 50,
-                                  child: Center(
-                                    child: Text(
-                                      'Back',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.white,
-                                          shadows: <Shadow>[
-                                            Shadow(
-                                              offset: Offset(0.0, 3.0),
-                                              blurRadius: 3.0,
-                                              color: Colors.black54,
-                                            ),
-                                          ],
-                                          fontFamily: 'Schyler'),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Visibility(
+                      visible: false,
+                      child: Wrap(
+                        runSpacing: 50.0,
+                        children: [
+                          for (int i = 0; i < categories.length; i++)
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Container(
+                                    child: option(
+                                  text: "yayo",
+                                  add: () {
+                                    entries.add(widgetstoadd[i].widget);
+
+                                    print('PRINT ${entries}');
+                                    setState(() {
+                                      on = false;
+                                      isanythingopen = false;
+                                      print('${isanythingopen} IS W');
+                                    });
+                                  },
+                                )),
+                              ],
+                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Visibility(
+                                visible: widget.visible,
+                                child: InkWell(
+                                  onTap: widget.ontap,
+                                  child: Container(
+                                    width: 200,
+                                    height: 50,
+                                    child: Center(
+                                      child: Text(
+                                        'Back',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            color: Colors.white,
+                                            shadows: <Shadow>[
+                                              Shadow(
+                                                offset: Offset(0.0, 1.0),
+                                                blurRadius: 3.0,
+                                                color: Colors.black54,
+                                              ),
+                                            ],
+                                            fontFamily: 'Schyler'),
+                                      ),
                                     ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xff658e5c),
-                                    borderRadius: BorderRadius.circular(30),
-                                    border: Border.all(
-                                      color: Color(0xffcb9509),
-                                      width: 3,
-                                    ),
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: <Color>[
-                                        Color(0xffffe25c),
-                                        Color(0xDCBD892D)
+                                    decoration: BoxDecoration(
+                                      color: Color(0xff658e5c),
+                                      borderRadius: BorderRadius.circular(30),
+                                      border: Border.all(
+                                        color: Color(0xffcb9509),
+                                        width: 3,
+                                      ),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: <Color>[
+                                          Color(0xffffe25c),
+                                          Color(0xDCBD892D)
+                                        ],
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.5),
+                                          spreadRadius: 5,
+                                          blurRadius: 7,
+                                          offset: Offset(0,
+                                              3), // changes position of shadow
+                                        ),
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.5),
+                                          spreadRadius: -12.0,
+                                          blurRadius: 12.0,
+                                        ),
                                       ],
                                     ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.5),
-                                        spreadRadius: 5,
-                                        blurRadius: 7,
-                                        offset: Offset(
-                                            0, 3), // changes position of shadow
-                                      ),
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.5),
-                                        spreadRadius: -12.0,
-                                        blurRadius: 12.0,
-                                      ),
-                                    ],
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -1733,14 +1757,12 @@ class _AddWidgetState extends State<AddWidget> {
                 bottomRight: const Radius.circular(30.0),
               ),
               child: Visibility(
-                visible:
-                    MediaQuery.of(context).size.width < 1952 ? true : false,
+                visible: false,
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: issolid == true ? 0 : 300),
                   width: MediaQuery.of(context).size.width / 1.1,
                   height: 40,
                   curve: Curves.easeInOutCirc,
-
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,

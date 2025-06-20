@@ -9,14 +9,14 @@ import 'package:hybriidflow/widgets/slots/imageview.dart';
 class camera extends StatefulWidget {
   final wtd;
 
-  const camera({Key key, this.wtd}) : super(key: key);
+  const camera({Key? key, this.wtd}) : super(key: key);
   @override
   _cameraState createState() => _cameraState();
 }
 
 class _cameraState extends State<camera> {
   int _counter = 0;
-  CameraController controller;
+  late CameraController controller;
 
   void _incrementCounter() {
     setState(() {

@@ -22,8 +22,7 @@ class infowidget extends StatefulWidget {
   final dupl;
   final sshow;
 
-  const infowidget({Key key, this.slot, this.what, this.dupl, this.sshow})
-      : super(key: key);
+  const infowidget({super.key, this.slot, this.what, this.dupl, this.sshow});
 
   @override
   _infowidgetState createState() => _infowidgetState();
@@ -33,22 +32,11 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
   int test = 3;
   int milseconds = 100;
   String ss = src;
-  bool showsetting;
+  late bool showsetting;
   bool get wantKeepAlive => true;
 
 
-  void redo() {
-    //Note: IMPLEMENT WEB IN ITS ON FILE NOW!
 
-    // ignore: undefined_prefixed_name
-    ui.platformViewRegistry.registerViewFactory(
-        'hello-world-html',
-        (int viewId) => IFrameElement()
-          ..width = '200'
-          ..height = '260'
-          ..src = src
-          ..style.border = 'none');
-  }
 
   Color top = Color(0xffff5952);
   Color top2 = Color(0xb9e7c029);
@@ -127,10 +115,9 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
 
   void initState() {
     super.initState();
-    print('STOP INIT STATING ME');
+
     wanim();
 
-    redo();
     checkifsettings();
     detectsettings();
   }
@@ -164,22 +151,18 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
                       ],
                     ),
                   ),
-                  SizedBox(
-                    child: Center(
-                      child: Container(
-                        child: widget.slot,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(),
+                  Container(
+                    child: widget.slot,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(),
 
-                      ),
-                    ),
                   ),
 
                 ],
               ),
               decoration: BoxDecoration(
                 color: widgetcolor,
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(35),
                 border: Border.all(
                   color: border == true ? Colors.black : Colors.black12,
                   width: border == true ? 1.35 : 0.00000001
@@ -187,7 +170,7 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 5,
+                    spreadRadius: 3,
                     blurRadius: 7,
                     offset: Offset(0, 3), // changes position of shadow
                   ),
@@ -200,77 +183,95 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
               ),
             ),
           ),
-          Row(
-            children: [
+          Positioned(
+            left: 10,
+            top: 10,
+            child: Row(
+              children: [
 
-              MouseRegion(
-                onHover: anim,
-                onExit: falseanim,
-                child: InkWell(
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: issolid == true ? 0 : 300),
-                    width: cc == true ? 35 : 48,
-                    height: 35,
-                    curve: Curves.easeInOutBack,
-                    child:
-                        Icon(Icons.highlight_remove, color: Color(0xffa30608)),
-                    decoration: BoxDecoration(
-                        color:
-                            cc == true ? Color(0xd3ff5952) : Color(0xffff5952),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
-                            spreadRadius: -12.0,
-                            blurRadius: 12.0,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(30)),
-                  ),
-                  onTap: widget.what,
-                ),
-              ),
-              MouseRegion(
-                onHover: anim2,
-                onExit: falseanim2,
-                child: Visibility(
-                  visible: false,
-                  child: InkWell(
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: issolid == true ? 0 : 300),
-                      width: cc2 == true ? 30 : 48,
-                      curve: Curves.easeInOutBack,
-                      height: 30,
-                      child: Icon(Icons.control_point_duplicate,
-                          color: Color(0xff815a00)),
-                      decoration: BoxDecoration(
-                          color:
-                              cc2 == true ? Color(0xb9e7c029) : Color(0xffe7c029),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 3), // changes position of shadow
+                MouseRegion(
+                  onHover: anim,
+                  onExit: falseanim,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(38),
+
+                    child: BackdropFilter(
+                      filter: ui.ImageFilter.blur(
+                        sigmaX: 2.0,
+                        sigmaY: 2.0,
+                      ),
+                      child: InkWell(
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: issolid == true ? 0 : 300),
+                          width: cc == true ? 35 : 48,
+                          height: 35,
+                          curve: Curves.easeInOutBack,
+                          child:
+                              Icon(Icons.highlight_remove, color: Color(0xffa30608)),
+                          decoration: BoxDecoration(
+                            //colors
+                            color: Color(0xdaff0000),
+                            borderRadius: BorderRadius.circular(38),
+                            border: Border.all(
+                              color: Colors.black,
+                              width: cc == true ? 0 : 2,
                             ),
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.5),
-                              spreadRadius: -12.0,
-                              blurRadius: 12.0,
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: <Color>[
+                                cc == true ?  Color(0x89ef6d67)
+                                    : Color(0xffff5952)
+                                ,
+                                cc == true ? Color(0x64ef6d67)
+                                    : Color(0xffff5952)
+                              ],
                             ),
-                          ],
-                          borderRadius: BorderRadius.circular(30)),
+                          ),
+
+                        ),
+                        onTap: widget.what,
+                      ),
                     ),
-                    onTap: widget.dupl,
                   ),
                 ),
-              ),
-            ],
+                MouseRegion(
+                  onHover: anim2,
+                  onExit: falseanim2,
+                  child: Visibility(
+                    visible: false,
+                    child: InkWell(
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: issolid == true ? 0 : 300),
+                        width: cc2 == true ? 30 : 48,
+                        curve: Curves.easeInOutBack,
+                        height: 30,
+                        child: Icon(Icons.control_point_duplicate,
+                            color: Color(0xff815a00)),
+                        decoration: BoxDecoration(
+                            color:
+                                cc2 == true ? Color(0xb9e7c029) : Color(0xffe7c029),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: Offset(0, 3), // changes position of shadow
+                              ),
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.5),
+                                spreadRadius: -12.0,
+                                blurRadius: 12.0,
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(30)),
+                      ),
+                      onTap: widget.dupl,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -309,7 +310,7 @@ class seconds extends StatelessWidget {
 class error extends StatefulWidget {
   final wtd;
 
-  const error({Key key, this.wtd}) : super(key: key);
+  const error({Key? key, this.wtd}) : super(key: key);
   @override
   _errorState createState() => _errorState();
 }
@@ -354,14 +355,7 @@ class _errorState extends State<error> {
                 setState(() {
                   src = text;
                 });
-                // ignore: undefined_prefixed_name
-                ui.platformViewRegistry.registerViewFactory(
-                    'hello-world-html',
-                    (int viewId) => IFrameElement()
-                      ..width = '200'
-                      ..height = '260'
-                      ..src = 'https://notes.io/'
-                      ..style.border = 'none');
+
               },
               textAlign: TextAlign.center,
               cursorColor: Colors.black,

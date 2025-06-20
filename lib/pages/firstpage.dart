@@ -1,4 +1,4 @@
-// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:hybriidflow/widgets/bottombar.dart';
 import 'package:hybriidflow/widgets/fullscreencentertext.dart';
@@ -72,6 +72,7 @@ class _firstpageState extends State<firstpage> {
             fstext(
               text: ('Welcome to HybriidFlow'),
               text2: (hybriidtext),
+
               color: Colors.white,
               color2: Color(0xff144790),
             ),

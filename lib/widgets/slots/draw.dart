@@ -14,13 +14,13 @@ class _dwidgetState extends State<dwidget> {
   "name": "John Smith",
   "email": "john@example.com"
   };
-   String yocrunch;
+   late String yocrunch;
 
   void getdata() async {
 
 
     print(fs);
-    String datetime = fs['name'];
+    String datetime = fs['name']!;
     setState(() {
       yocrunch = datetime;
     });

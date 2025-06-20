@@ -10,7 +10,17 @@ class fstext extends StatefulWidget {
   final color2;
   final textsize;
   final textsize2;
-  const fstext({key, this.text, this.text2, this.color = Colors.black, this.color2 = Colors.black, this.textsize = 70, this.textsize2 = 23}) : super(key: key);
+  final selectable;
+  const fstext(
+      {key,
+      this.text,
+      this.text2,
+      this.color = Colors.black,
+      this.color2 = Colors.black,
+      this.textsize = 70,
+      this.textsize2 = 23,
+      this.selectable})
+      : super(key: key);
 
   @override
   _fstextState createState() => _fstextState();
@@ -19,11 +29,10 @@ class fstext extends StatefulWidget {
 class _fstextState extends State<fstext> {
   double opacityLevel = 0;
 
-
   Future<void> playy() async {
     print('c');
 
-    Future.delayed(const Duration(milliseconds: 1200), () {
+    Future.delayed(const Duration(milliseconds: 1300), () {
       setState(() => opacityLevel = opacityLevel == 0 ? 1.0 : 0.0);
     });
 
@@ -34,7 +43,6 @@ class _fstextState extends State<fstext> {
     super.initState();
     playy();
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +50,6 @@ class _fstextState extends State<fstext> {
     return DelayedWidget(
       delayDuration: Duration(milliseconds: 200),
       animationDuration: Duration(seconds: 1),
-
       animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
       child: Center(
         child: Container(
@@ -53,26 +60,37 @@ class _fstextState extends State<fstext> {
               InkWell(
                 child: Center(
                   child: SingleChildScrollView(
-                    child: SelectableText(
-
-
-                      '${widget.text}',
-
-                      style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          color: widget.color,
-                          shadows: <Shadow>[
-
-                            Shadow(
-                              offset: Offset(0.0, 3.0),
-                              blurRadius: 3.0,
-                              color: Colors.black54,
-                            ),
-
-                          ],
-                          fontSize: widget.textsize,
-                          fontFamily: 'Schyler'),
-                    ),
+                    child: widget.selectable == true
+                        ? SelectableText(
+                            '${widget.text}',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: widget.color,
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.0, 1.0),
+                                    blurRadius: 6.0,
+                                    color: Colors.black54,
+                                  ),
+                                ],
+                                fontSize: widget.textsize,
+                                fontFamily: 'Schyler'),
+                          )
+                        : Text(
+                            '${widget.text}',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: widget.color,
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.0, 1.0),
+                                    blurRadius: 6.0,
+                                    color: Colors.black54,
+                                  ),
+                                ],
+                                fontSize: widget.textsize,
+                                fontFamily: 'Schyler'),
+                          ),
                   ),
                 ),
               ),
@@ -84,20 +102,18 @@ class _fstextState extends State<fstext> {
                     child: Text(
                       '${widget.text2}',
                       style: TextStyle(
-
-                          fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w900,
                         color: widget.color2,
-
-                          fontSize: widget.textsize2,
-                          fontFamily: 'Schyler',
+                        fontSize: widget.textsize2,
+                        fontFamily: 'Schyler',
                         shadows: <Shadow>[
                           Shadow(
-                            offset: Offset(0.0, 3.0),
-                            blurRadius: 3.0,
+                            offset: Offset(0.0, 1.0),
+                            blurRadius: 6.0,
                             color: Colors.black26,
                           ),
-
-                        ],),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -1,4 +1,4 @@
-// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:hybriidflow/widgets/bottombar.dart';
 import 'package:hybriidflow/widgets/fullscreencentertext.dart';
@@ -21,24 +21,45 @@ class _unknownpageState extends State<unknownpage> {
 
     await Future.delayed(const Duration(seconds: 5), () {
       setState(() {
-        hybriidtext = "Where Are You?";
+        hybriidtext = "Where Are You.....";
       });
     });
     await Future.delayed(const Duration(seconds: 5), () {
       setState(() {
-        hybriidtext = "Tap Anywhere to go to the main page";
+        hybriidtext = "Tap anywhere to enter HybriidFlow";
       });
     });
     await Future.delayed(const Duration(seconds: 5), () {
       setState(() {
-        hybriidtext = "Or Just.. Stay Here :)";
+        hybriidtext = "Or stay here.";
       });
     });
     await Future.delayed(const Duration(seconds: 5), () {
       setState(() {
-        hybriidtext = "You're still here.....";
+        hybriidtext = "You can just tap anywhere by the way....";
       });
     });
+    await Future.delayed(const Duration(seconds: 5), () {
+      setState(() {
+        hybriidtext = "Anywhere.";
+      });
+    });
+    await Future.delayed(const Duration(seconds: 5), () {
+      setState(() {
+        hybriidtext = "Literally anywhere.";
+      });
+    });
+    await Future.delayed(const Duration(seconds: 5), () {
+      setState(() {
+        hybriidtext = "This page did take a while to code so if you want to stay we appreciate it..";
+      });
+    });
+    await Future.delayed(const Duration(seconds: 5), () {
+      setState(() {
+        hybriidtext = "We didn't think you would be here for THIS long";
+      });
+    });
+
     await Future.delayed(const Duration(seconds: 5), () {
       playy();
     });

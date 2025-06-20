@@ -1,4 +1,4 @@
-// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:hybriidflow/widgets/bottombar.dart';
 import 'package:hybriidflow/widgets/fullscreencentertext.dart';
@@ -61,8 +61,8 @@ class _timepageState extends State<timepage> {
 
               textsize: 130,
               textsize2: 40,
-              color: Color(0xffc7c7c7),
-              color2: Color(0xffc7c7c7),
+              color: Colors.white,
+              color2: Colors.white,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,

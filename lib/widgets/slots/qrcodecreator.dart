@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class qr extends StatefulWidget {
   @override
@@ -8,6 +9,7 @@ class qr extends StatefulWidget {
 
 class _qrState extends State<qr> {
   String data = 'hybrid';
+
   String quality = '230x230';
   String qrcolor ='B9B9B9';
   Color backcolor = Color(0xFFB9B9B9);
@@ -75,7 +77,7 @@ class _qrState extends State<qr> {
       child: Column(
         children: [
           SizedBox(
-            height: 20,
+            height: 15,
           ),
           InkWell(
             onTap: () async {
@@ -105,7 +107,7 @@ class _qrState extends State<qr> {
             ),
           ),
           SizedBox(
-            height: 50,
+            height: 25,
           ),
           Container(
 
@@ -186,14 +188,14 @@ class _qrState extends State<qr> {
                             contentPadding:
                             EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                             hintText:
-                            'Tap here to search up definition, Max Letters = 60',
+                            'example: hybriidflow or https://www.youtube.com/',
                             hintStyle: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 10,
                               fontFamily: 'Schyler',
                               shadows: <Shadow>[
                                 Shadow(
-                                  offset: Offset(0.0, 3.0),
+                                  offset: Offset(0.0, 1.0),
                                   blurRadius: 3.0,
                                   color: Colors.black54,
                                 ),

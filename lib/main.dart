@@ -1,7 +1,10 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hybriidflow/global/globvabs.dart';
+import 'package:hybriidflow/pages/average.dart';
 import 'package:hybriidflow/pages/main.dart';
 import 'package:hybriidflow/pages/time.dart';
 import 'package:hybriidflow/pages/unknown.dart';
@@ -15,7 +18,6 @@ import 'pages/mainsimple.dart';
 // ignore: avoid_web_libraries_in_flutter
 
 void main() {
-  Paint.enableDithering = true;
 
   runApp(MyApp());
 }
@@ -33,6 +35,8 @@ class _MyAppState extends State<MyApp> {
       });
 
     });
+
+    
 
     void open () { Navigator.push(
         context,
@@ -83,6 +87,7 @@ class _MyAppState extends State<MyApp> {
           mainpage.route: (context) => mainpage(),
           timepage.route: (context) => timepage(),
           simplepage.route: (context) => simplepage(),
+          MyHomePage.route: (context) => MyHomePage(),
         },
         onUnknownRoute: (settings) =>
             MaterialPageRoute(builder: (context) => unknownpage()),

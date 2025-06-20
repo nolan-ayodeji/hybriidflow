@@ -4,7 +4,7 @@ class StartAnim extends StatefulWidget {
   final vis1;
   final vis2;
 
-  const StartAnim({Key key, this.vis1, this.vis2}) : super(key: key);
+  const StartAnim({Key? key, this.vis1, this.vis2}) : super(key: key);
   @override
   _StartAnimState createState() => _StartAnimState();
 }

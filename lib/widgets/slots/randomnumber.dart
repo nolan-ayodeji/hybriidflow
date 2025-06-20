@@ -6,13 +6,42 @@ import 'dart:math';
 import '../fullscreencentertext.dart';
 import 'package:delayed_widget/delayed_widget.dart';
 
+
+class CounterProvider2 extends ChangeNotifier {
+
+
+  int _counterValue = 60;
+  int _random = 60;
+
+
+
+  int get value => _counterValue;
+  int get ran => _random;
+
+  void increment() {
+    _counterValue--;
+    notifyListeners();
+    print(_counterValue);
+  }
+
+  void decrement() {
+    _counterValue--;
+    notifyListeners();
+  }
+
+}
 class randomnum extends StatefulWidget {
-  const randomnum({Key key}) : super(key: key);
+
+  final CounterProvider2 widprovide;
+
+  const randomnum({Key? key, required this.widprovide}) : super(key: key);
   @override
   _randomnumState createState() => _randomnumState();
 }
 
-class _randomnumState extends State<randomnum> {
+
+class _randomnumState extends State<randomnum>  {
+
 
 
 
@@ -45,7 +74,8 @@ class _randomnumState extends State<randomnum> {
   makerandom(){
     setState(() {
       Random random = new Random();
-      randomNumber = random.nextInt(maximum) + minimum;
+      widget.widprovide._random = random.nextInt(maximum) + minimum;
+      print(widget.widprovide._random);
     });
   }
 
@@ -114,6 +144,7 @@ class _randomnumState extends State<randomnum> {
   @override
   void initState() {
     super.initState();
+    widget.widprovide._random = 0;
 
   }
 
@@ -140,7 +171,7 @@ class _randomnumState extends State<randomnum> {
 
                   child: Text(
 
-                    '${randomNumber}',
+                    '${widget.widprovide._random}',
                     style: TextStyle(
 
                       fontWeight: FontWeight.w900,
@@ -355,4 +386,6 @@ class _randomnumState extends State<randomnum> {
       ],
     );
   }
+
+
 }

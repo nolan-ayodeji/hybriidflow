@@ -33,7 +33,7 @@ class SettingOptions extends StatefulWidget {
   final o50text;
 
   const SettingOptions({
-    Key key,
+    Key? key,
     this.option1,
     this.o1text,
     this.o2text,
@@ -88,7 +88,7 @@ class _SettingOptionsState extends State<SettingOptions> {
                 Column(
                   children: [
                     SizedBox(
-                      height: 30,
+                      height: 10,
                     ),
                     SizedBox(
                       width: sizeforsized,
@@ -275,7 +275,7 @@ class _SettingOptionsState extends State<SettingOptions> {
                               )),
                         ),
                         option(
-                          ogtextl: 'Show No Widget Warning',
+                          ogtextl: 'Show "No Widgets" Text',
                           s: widget.option6,
                           stext: widget.o6text,
                           textsize: 15,
@@ -324,34 +324,7 @@ class _SettingOptionsState extends State<SettingOptions> {
             ),
           ),
         ),
-        ClipRRect(
-          borderRadius: new BorderRadius.only(
-            topLeft: const Radius.circular(30.0),
-            topRight: const Radius.circular(30.0),
-          ),
-          child: Visibility(
-            visible: MediaQuery.of(context).size.width < 1952 ? true : false,
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: issolid == true ? 0 : 300),
-              width: MediaQuery.of(context).size.width / 1.1,
-              height: 40,
-              curve: Curves.easeInOutCirc,
 
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment
-                      .bottomCenter, // 10% of the width, so there are ten blinds.
-                  colors: [
-                    Color(0x70000000),
-                    Colors.transparent,
-                  ], // red to yellow
-                  // repeats the gradient over the canvas
-                ),
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }

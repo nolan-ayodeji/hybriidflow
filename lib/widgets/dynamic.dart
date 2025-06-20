@@ -18,7 +18,7 @@ class DynamicContainer extends StatefulWidget {
       this.milliseconds,
       this.onHover,
       this.onExit,
-      this.child,
+      required this.child,
       this.cc,
       this.normwidth,
       this.bigwidth,

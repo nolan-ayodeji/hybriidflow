@@ -1,4 +1,4 @@
-// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:hybriidflow/widgets/bottombar.dart';
 import 'package:hybriidflow/widgets/fullscreencentertext.dart';

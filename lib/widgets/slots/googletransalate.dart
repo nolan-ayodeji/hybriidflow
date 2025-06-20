@@ -57,7 +57,7 @@ class _ggtState extends State<ggt> {
                 fontFamily: 'Schyler',
                 shadows: <Shadow>[
                   Shadow(
-                    offset: Offset(0.0, 3.0),
+                    offset: Offset(0.0, 1.0),
                     blurRadius: 3.0,
                     color: Colors.black26,
                   ),
@@ -79,7 +79,7 @@ class _ggtState extends State<ggt> {
                   fontFamily: 'Schyler',
                   shadows: <Shadow>[
                     Shadow(
-                      offset: Offset(0.0, 3.0),
+                      offset: Offset(0.0, 1.0),
                       blurRadius: 3.0,
                       color: Colors.black26,
                     ),
@@ -133,7 +133,7 @@ class _ggtState extends State<ggt> {
                             fontFamily: 'Schyler',
                             shadows: <Shadow>[
                               Shadow(
-                                offset: Offset(0.0, 3.0),
+                                offset: Offset(0.0, 1.0),
                                 blurRadius: 3.0,
                                 color: Colors.black26,
                               ),
@@ -158,7 +158,7 @@ class _ggtState extends State<ggt> {
                           fontFamily: 'Schyler',
                           shadows: <Shadow>[
                             Shadow(
-                              offset: Offset(0.0, 3.0),
+                              offset: Offset(0.0, 1.0),
                               blurRadius: 3.0,
                               color: Colors.black54,
                             ),
@@ -224,7 +224,7 @@ class _ggtState extends State<ggt> {
                             fontFamily: 'Schyler',
                             shadows: <Shadow>[
                               Shadow(
-                                offset: Offset(0.0, 3.0),
+                                offset: Offset(0.0, 1.0),
                                 blurRadius: 3.0,
                                 color: Colors.black26,
                               ),
@@ -249,7 +249,7 @@ class _ggtState extends State<ggt> {
                           fontFamily: 'Schyler',
                           shadows: <Shadow>[
                             Shadow(
-                              offset: Offset(0.0, 3.0),
+                              offset: Offset(0.0, 1.0),
                               blurRadius: 3.0,
                               color: Colors.black54,
                             ),
@@ -315,7 +315,7 @@ class _ggtState extends State<ggt> {
                             fontFamily: 'Schyler',
                             shadows: <Shadow>[
                               Shadow(
-                                offset: Offset(0.0, 3.0),
+                                offset: Offset(0.0, 1.0),
                                 blurRadius: 3.0,
                                 color: Colors.black26,
                               ),
@@ -340,7 +340,7 @@ class _ggtState extends State<ggt> {
                           fontFamily: 'Schyler',
                           shadows: <Shadow>[
                             Shadow(
-                              offset: Offset(0.0, 3.0),
+                              offset: Offset(0.0, 1.0),
                               blurRadius: 3.0,
                               color: Colors.black54,
                             ),
@@ -406,7 +406,7 @@ class _ggtState extends State<ggt> {
                               fontWeight: FontWeight.w900,
                               shadows: <Shadow>[
                                 Shadow(
-                                  offset: Offset(0.0, 3.0),
+                                  offset: Offset(0.0, 1.0),
                                   blurRadius: 3.0,
                                   color: Colors.black26,
                                 ),
@@ -425,7 +425,7 @@ class _ggtState extends State<ggt> {
                               fontFamily: 'Schyler',
                               shadows: <Shadow>[
                                 Shadow(
-                                  offset: Offset(0.0, 3.0),
+                                  offset: Offset(0.0, 1.0),
                                   blurRadius: 3.0,
                                   color: Colors.black26,
                                 ),

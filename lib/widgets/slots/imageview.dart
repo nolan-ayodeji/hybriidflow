@@ -56,51 +56,54 @@ class _imageviewerState extends State<imageviewer> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-              decoration: BoxDecoration(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
 
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                  color: Colors.white,
-                  width: 2,
+                  borderRadius: BorderRadius.circular(40),
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2,
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: <Color>[ Color(0xffa8a1a9),Color(0xffd8d6d8),],
+                  ),
                 ),
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: <Color>[ Color(0xffa8a1a9),Color(0xffd8d6d8),],
-                ),
-              ),
 
-              child: TextFormField(
-                onFieldSubmitted: (text) {
-                  setState(() {
-                    image = text;
+                child: TextFormField(
+                  onFieldSubmitted: (text) {
+                    setState(() {
+                      image = text;
 
-                  });
-                },
-                textAlign: TextAlign.center,
-                cursorColor: Colors.black,
+                    });
+                  },
+                  textAlign: TextAlign.center,
+                  cursorColor: Colors.black,
 
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 10,
-                  fontFamily: 'Schyler',
-                  shadows: <Shadow>[
-                    Shadow(
-                      offset: Offset(0.0, 3.0),
-                      blurRadius: 3.0,
-                      color: Colors.black54,
-                    ),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 10,
+                    fontFamily: 'Schyler',
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(0.0, 1.0),
+                        blurRadius: 3.0,
+                        color: Colors.black54,
+                      ),
 
-                  ],),
-                decoration: InputDecoration(
-                  hintText: "Enter Image Link",
-                  fillColor: Colors.black,
+                    ],),
+                  decoration: InputDecoration(
+                    hintText: "Enter Image Link",
+                    fillColor: Colors.black,
 
 
-                  focusColor: Colors.black,
-                  hoverColor: Colors.black,
-                  border: InputBorder.none,
+                    focusColor: Colors.black,
+                    hoverColor: Colors.black,
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
             )

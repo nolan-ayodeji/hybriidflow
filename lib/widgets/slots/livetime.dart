@@ -14,7 +14,7 @@ class time extends StatefulWidget {
 }
 
 class _timeState extends State<time> {
-  DateTime now = DateTime.now();
+
 
   bool cc = true;
   bool visibilesetting = false;
@@ -57,7 +57,7 @@ class _timeState extends State<time> {
   }
 
 
-
+  DateTime now = DateTime.now();
   void gettime() {
     setState(() {
       now = DateTime.now();

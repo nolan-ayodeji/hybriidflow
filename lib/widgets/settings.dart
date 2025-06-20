@@ -16,7 +16,7 @@ class option extends StatefulWidget {
   final textsize;
 
   const option(
-      {Key key,
+      {Key? key,
       this.s,
       this.stext,
       this.ogtextl = 'Error Retrieving the Setting',
@@ -49,16 +49,25 @@ class _optionState extends State<option> {
       child: InkWell(
         onTap: widget.s,
         child: AnimatedContainer(
-          width: cc == true ? 200 : 210,
+          width: cc == true ? 240 : 250,
           curve: Curves.easeInOutCirc,
-          height: cc == true ? 120 : 130,
+          height: cc == true ? 94 : 104,
           duration: Duration(milliseconds: issolid == true ? 0 : 300),
           decoration: BoxDecoration(
+            //colors
             color: Color(0xda191919),
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(38),
             border: Border.all(
               color: Colors.white,
-              width: 1.3,
+              width: 2,
+            ),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[
+                cc == false ?  Color(0x991E1E1E) : Color(0xBE626162),
+                cc == true ? Color(0x991E1E1E) : Color(0xBE626162),
+              ],
             ),
           ),
           child: Center(
@@ -94,9 +103,11 @@ class _optionState extends State<option> {
                   child: FittedBox(
                     child: Text(
                       widget.stext,
+
                       style: TextStyle(
                           fontWeight: FontWeight.w900,
                           color: Color(0xff7BF4C5),
+
                           shadows: <Shadow>[
                             Shadow(
                               offset: Offset(0.0, 1.0),
@@ -124,7 +135,7 @@ class multi extends StatefulWidget {
   final textsize;
 
   const multi(
-      {Key key,
+      {Key? key,
       this.s,
       this.stext,
       this.ogtextl = 'Error Retrieving Setting',
@@ -154,6 +165,10 @@ class _multiState extends State<multi> {
     });
   }
 
+  bool blackyes = false;
+
+
+
   void large() {
     setState(() {
       settingsize = 800;
@@ -168,31 +183,39 @@ class _multiState extends State<multi> {
     return AnimatedContainer(
       width: 400,
       curve: Curves.easeInOutCirc,
-      height: 120,
+      height: 94,
       duration: Duration(milliseconds: 300),
       decoration: BoxDecoration(
+        //colors
         color: Color(0xda191919),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(38),
         border: Border.all(
           color: Colors.white,
-          width: 1.3,
+          width: 2,
+        ),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: <Color>[
+            Color(0xBE626162),
+            Color(0x991E1E1E),
+
+          ],
         ),
       ),
       child: Center(
         child: Column(
           children: [
-            SizedBox(
-              height: 5,
-            ),
+
             Container(
               width: 150,
-              height: 50,
+              height: 45,
               child: Center(
                 child: Text(
                   widget.ogtextl,
                   style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: widget.textsize,
+                      fontSize: 17,
                       color: Color(0xffe5e5e5),
                       shadows: <Shadow>[
                         Shadow(
@@ -205,9 +228,7 @@ class _multiState extends State<multi> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 4,
-            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -217,13 +238,13 @@ class _multiState extends State<multi> {
                     duration: Duration(milliseconds: 300),
                     curve: Curves.easeInOutCirc,
                     width: 90,
-                    height: 50,
+                    height: 33,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color:  Color(0x32FFFFFF),
                       borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
+                      border:Border.all(
                         color: first == true ? Color(0xe249a054) : Colors.grey,
-                        width: first == true ? 5 : 2,
+                        width: first == true ? 3 : 2,
                       ),
                     ),
                     child: Center(
@@ -232,7 +253,7 @@ class _multiState extends State<multi> {
                         style: TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: widget.textsize,
-                            color: Color(0xff101010),
+                            color: Colors.white,
                             shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(0.0, 1.0),
@@ -251,14 +272,14 @@ class _multiState extends State<multi> {
                     duration: Duration(milliseconds: 300),
                     curve: Curves.easeInOutCirc,
                     width: 90,
-                    height: 50,
+                    height: 33,
                     child: Center(
                       child: Text(
                         'Medium',
                         style: TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: widget.textsize,
-                            color: Color(0xff101010),
+                            color: Colors.white,
                             shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(0.0, 1.0),
@@ -269,14 +290,15 @@ class _multiState extends State<multi> {
                             fontFamily: 'Schyler'),
                       ),
                     ),
+
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
-                        color: second == true ? Color(0xe249a054) : Colors.grey,
-                        width: second == true ? 4 : 2,
-                      ),
-                    ),
+                                               color:  Color(0x32FFFFFF),
+                                               borderRadius: BorderRadius.circular(30),
+                                               border:Border.all(
+                                               color: second == true ? Color(0xe249a054) : Colors.grey,
+                                               width: second == true ? 3 : 2,
+                                             ),
+                                             ),
                   ),
                 ),
                 InkWell(
@@ -285,14 +307,14 @@ class _multiState extends State<multi> {
                     duration: Duration(milliseconds: 300),
                     curve: Curves.easeInOutCirc,
                     width: 90,
-                    height: 50,
+                    height: 33,
                     child: Center(
                       child: Text(
                         'Large',
                         style: TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: widget.textsize,
-                            color: Color(0xff101010),
+                            color: Colors.white,
                             shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(0.0, 1.0),
@@ -304,11 +326,11 @@ class _multiState extends State<multi> {
                       ),
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color:  Color(0x32FFFFFF),
                       borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
+                      border:Border.all(
                         color: third == true ? Color(0xe249a054) : Colors.grey,
-                        width: third == true ? 5 : 2,
+                        width: third == true ? 3 : 2,
                       ),
                     ),
                   ),
@@ -329,7 +351,7 @@ class multi2 extends StatefulWidget {
   final textsize;
 
   const multi2(
-      {Key key,
+      {Key? key,
       this.s,
       this.stext,
       this.ogtextl = 'Error Retrieving Setting',
@@ -404,37 +426,59 @@ class _multi2State extends State<multi2> {
   bool choosecolor = false;
   bool choosecolordelayed = false;
 
+  bool blackyes = false;
+  Color thecolor = Color(0x32FFFFFF);
+
+  void blk(PointerEvent details){
+    setState(() {
+      thecolor = Color(0xC2424242);
+    });
+  }
+  void noblk(PointerEvent details){
+    setState(() {
+      thecolor = Color(0x32FFFFFF);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       width: 400,
-      curve: Curves.easeInOutBack,
-      height: choosecolor == true ? 390 : 120,
+      curve: Curves.easeInOutCirc,
+      height: choosecolor == true ? 380 : 94,
       duration: Duration(milliseconds: 300),
       decoration: BoxDecoration(
+        //colors
         color: Color(0xda191919),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(38),
         border: Border.all(
           color: Colors.white,
-          width: 1.3,
+          width: 2,
+        ),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: <Color>[
+            Color(0xBE626162),
+             Color(0x991E1E1E),
+
+          ],
         ),
       ),
       child: Center(
         child: Column(
           children: [
-            SizedBox(
-              height: 5,
-            ),
+
             Container(
-              width: 150,
-              height: 50,
+              width: 120,
+              height: 44,
               child: Center(
                 child: Text(
                   widget.ogtextl,
                   style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: widget.textsize,
-                      color: Color(0xffe5e5e5),
+                      fontSize: 13,
+                      color:Colors.white,
                       shadows: <Shadow>[
                         Shadow(
                           offset: Offset(0.0, 1.0),
@@ -447,7 +491,7 @@ class _multi2State extends State<multi2> {
               ),
             ),
             SizedBox(
-              height: 2,
+              height: 1,
             ),
             if (choosecolordelayed == true) ...[
               Column(
@@ -461,10 +505,10 @@ class _multi2State extends State<multi2> {
                           width: 90,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color:  Color(0x32FFFFFF),
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(
-                              color: Colors.grey,
+                              color: Colors.white,
                               width: 2,
                             ),
                           ),
@@ -476,7 +520,7 @@ class _multi2State extends State<multi2> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w900,
                                     fontSize: 15,
-                                    color: Color(0xff101010),
+                                    color:Colors.white,
                                     shadows: <Shadow>[
                                       Shadow(
                                         offset: Offset(0.0, 1.0),
@@ -501,7 +545,7 @@ class _multi2State extends State<multi2> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontSize: 15,
-                                  color: Color(0xff101010),
+                                  color:Colors.white,
                                   shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(0.0, 1.0),
@@ -513,10 +557,10 @@ class _multi2State extends State<multi2> {
                             ),
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color:  Color(0x32FFFFFF),
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(
-                              color: Colors.grey,
+                              color: Colors.white,
                               width: 2,
                             ),
                           ),
@@ -533,7 +577,7 @@ class _multi2State extends State<multi2> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontSize: widget.textsize,
-                                  color: Color(0xff101010),
+                                  color:Colors.white,
                                   shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(0.0, 1.0),
@@ -545,10 +589,10 @@ class _multi2State extends State<multi2> {
                             ),
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color:  Color(0x32FFFFFF),
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(
-                              color: Colors.grey,
+                              color: Colors.white,
                               width: 2,
                             ),
                           ),
@@ -568,10 +612,10 @@ class _multi2State extends State<multi2> {
                           width: 90,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color:Colors.white,
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(
-                              color: Colors.grey,
+                              color: Colors.white,
                               width: 2,
                             ),
                           ),
@@ -820,32 +864,36 @@ class _multi2State extends State<multi2> {
                       });
                     });
                   },
-                  child: Container(
-                    width: 230,
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Tap to open Color Chooser',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 15,
-                            color: Color(0xff101010),
-                            shadows: <Shadow>[
-                              Shadow(
-                                offset: Offset(0.0, 1.0),
-                                blurRadius: 3.0,
-                                color: Colors.black26,
-                              ),
-                            ],
-                            fontFamily: 'Schyler'),
+                  child: MouseRegion(
+                    onHover: blk,
+                    onExit: noblk,
+                    child: Container(
+                      width: 300,
+                      height: 30,
+                      child: Center(
+                        child: Text(
+                          'Tap to open Color Picker',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 15,
+                              color: Colors.white,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(0.0, 1.0),
+                                  blurRadius: 3.0,
+                                  color: Colors.black26,
+                                ),
+                              ],
+                              fontFamily: 'Schyler'),
+                        ),
                       ),
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 2,
+                      decoration: BoxDecoration(
+                        color:  thecolor,
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2,
+                        ),
                       ),
                     ),
                   ),
@@ -877,7 +925,7 @@ class sendfeedback extends StatelessWidget {
     return InkWell(
       onTap: launchMailto,
       child: Container(
-        width: 230,
+        width: 320,
         height: 50,
         child: Center(
           child: Text(
@@ -885,7 +933,7 @@ class sendfeedback extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 15,
-                color: Color(0xff101010),
+                color: Colors.white,
                 shadows: <Shadow>[
                   Shadow(
                     offset: Offset(0.0, 1.0),
@@ -897,11 +945,20 @@ class sendfeedback extends StatelessWidget {
           ),
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
+          //colors
+          color: Color(0xda191919),
+          borderRadius: BorderRadius.circular(38),
           border: Border.all(
-            color: Colors.grey,
+            color: Colors.white,
             width: 2,
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              Color(0x991E1E1E),
+              Color(0xBE626162),
+            ],
           ),
         ),
       ),
@@ -942,7 +999,7 @@ class _changewallState extends State<changewall> {
   }
 
   Future<void> anim(PointerEvent details) async {
-    await setState(() {
+     setState(() {
       cc = false;
     });
 
@@ -968,11 +1025,11 @@ class _changewallState extends State<changewall> {
 
                 width: cc == true ? 230 : 240,
                 curve: Curves.easeInOutCirc,
-                height: cc == true ? 120 : 130,
+                height: cc == true ? 94 : 104,
                 duration: Duration(milliseconds: issolid == true ? 0 : 300),
                 child: Center(
                   child: Text(
-                    'Change Wallpaper',
+                   "Change Wallpaper",
                     style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 15,
@@ -988,11 +1045,21 @@ class _changewallState extends State<changewall> {
                   ),
                 ),
                 decoration: BoxDecoration(
+                  //colors
                   color: Color(0xda191919),
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(38),
                   border: Border.all(
                     color: Colors.white,
-                    width: 1.3,
+                    width: 2,
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[
+                      Color(0xBE626162),
+                      Color(0x991E1E1E),
+
+                    ],
                   ),
                 ),
               ),

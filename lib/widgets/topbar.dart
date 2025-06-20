@@ -6,9 +6,12 @@ import 'package:hybriidflow/pages/main.dart';
 import 'package:hybriidflow/pages/time.dart';
 import 'package:hybriidflow/pages/unknown.dart';
 import 'package:hybriidflow/widgets/warning.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:mailto/mailto.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 String currenterror = "";
 
@@ -35,24 +38,27 @@ class _topbarState extends State<topbar> {
   bool ver2 = false;
   bool rounded = true;
 
-  void changever(PointerEvent details){
+  void changever(PointerEvent details) {
     setState(() {
       ver1 = true;
       rounded = false;
     });
   }
-  void unver(PointerEvent details){
+
+  void unver(PointerEvent details) {
     setState(() {
       ver1 = false;
       rounded = true;
     });
   }
-  void changever2(PointerEvent details){
+
+  void changever2(PointerEvent details) {
     setState(() {
       ver2 = true;
     });
   }
-  void unver2(PointerEvent details){
+
+  void unver2(PointerEvent details) {
     setState(() {
       ver2 = false;
     });
@@ -94,6 +100,17 @@ class _topbarState extends State<topbar> {
     });
   }
 
+  DateTime now = DateTime.now();
+  void gettime() {
+    setState(() {
+      now = DateTime.now();
+    });
+
+    Future.delayed(Duration(seconds: 1), () {
+      gettime();
+    });
+  }
+
   launchMailto() async {
     final mailtoLink = Mailto(
       to: ['hybriidbox@gmail.com'],
@@ -108,157 +125,250 @@ class _topbarState extends State<topbar> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onHover: anim,
-      onExit: white,
-      child: AnimatedContainer(
-        width: double.infinity,
-        height: cc == true ? 32 : 39,
-        duration: Duration(milliseconds: issolid == true ? 0 : 250),
-        curve: Curves.easeInOutCirc,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
+    return Column(
+      children: [
+        SizedBox(
+          height: 4,
+        ),
+        MouseRegion(
+          onHover: anim,
+          onExit: white,
+          child: ClipRRect(
+            borderRadius:  BorderRadius.circular(30.0),
 
-
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade, child: timepage()));
-                  },
-                  child: Tooltip(
-                    message: 'Start Screen Saver',
-                    height: 2.5,
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white,
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(0.0, 3.0),
-                            blurRadius: 3.0,
-                            color: Colors.black54,
-                          ),
-                        ],
-                        fontFamily: 'Schyler'),
-                    child: MouseRegion(
-                      onEnter: changever,
-                      onExit: unver,
-                      child: AnimatedContainer(
-                          width: 35,
-                          height: cc == true ? 39 : 44,
-
-                          duration:
-                              Duration(milliseconds: issolid == true ? 0 : 100),
-                          decoration: BoxDecoration(
-                              color: ver1 == true ? Color(0x3C505050) : Color(
-                                  0x0),
-
-
-                          ),
-                          child: Icon(
-                            Icons.power_settings_new,
-                            color: Colors.black38,
-                            size: 20,
-                          )),
-                    ),
-                  ),
-                ),
-
-                InkWell(
-                  onTap: () {
-                    opened = false;
-                  },
-                  child: Tooltip(
-                    message: 'Remove All Widgets',
-                    height: 2.5,
-
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white,
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(0.0, 3.0),
-                            blurRadius: 3.0,
-                            color: Colors.black54,
-                          ),
-                        ],
-                        fontFamily: 'Schyler'),
-                    child:
-                      MouseRegion(
-                        onEnter: changever2,
-                        onExit: unver2,
-                      child: AnimatedContainer(
-                          width: 35,
-                          height: cc == true ? 39 : 44,
-
-                          duration:
-                              Duration(milliseconds: issolid == true ? 0 : 100),
-                          decoration: BoxDecoration(
-                              color: ver2 == true ? Color(0x3C505050) : Color(
-                                  0x0),
+            child: AnimatedContainer(
+              width: MediaQuery.of(context).size.width / 1.009,
+              height: cc == true ? 32 : 39,
+              duration: Duration(milliseconds: issolid == true ? 0 : 250),
+              curve: Curves.easeInOutCirc,
+              child: Stack(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {Navigator.of(context).pushNamed(timepage.route);},
+                            child: Tooltip(
+                              message: 'Start Screen Saver',
+                              height: 2.5,
+                              decoration: BoxDecoration(
+                                //colors
+                                color: Color(0xff7a7a7a),
+                                borderRadius: BorderRadius.circular(38),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1,
+                                ),
 
                               ),
-                          child: Icon(
-                            Icons.highlight_remove_rounded,
-                            color: Colors.black38,
-                            size: 20,
-                          )),
-                    ),
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.white,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(0.0, 3.0),
+                                      blurRadius: 3.0,
+                                      color: Colors.black54,
+                                    ),
+                                  ],
+                                  fontFamily: 'Schyler'),
+                              child: MouseRegion(
+                                onEnter: changever,
+                                onExit: unver,
+                                child: AnimatedContainer(
+                                    width: 35,
+                                    height: cc == true ? 39 : 44,
+                                    duration: Duration(
+                                        milliseconds: issolid == true ? 0 : 100),
+                                    decoration: BoxDecoration(
+                                      color: ver1 == true
+                                          ? Color(0x3C505050)
+                                          : Color(0x0),
+                                    ),
+                                    child: Icon(
+                                      Icons.power_settings_new,
+                                      color: Colors.black38,
+                                      size: 20,
+                                    )),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              opened = false;
+                            },
+                            child: Tooltip(
+                              message: 'Remove All Widgets',
+                              height: 2.5,
+                              decoration: BoxDecoration(
+                                //colors
+                                color: Color(0xff7a7a7a),
+                                borderRadius: BorderRadius.circular(38),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1,
+                                ),
+
+                              ),
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.white,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(0.0, 3.0),
+                                      blurRadius: 3.0,
+                                      color: Colors.black54,
+                                    ),
+                                  ],
+                                  fontFamily: 'Schyler'),
+                              child: MouseRegion(
+                                onEnter: changever2,
+                                onExit: unver2,
+                                child: AnimatedContainer(
+                                    width: 35,
+                                    height: cc == true ? 39 : 44,
+                                    duration: Duration(
+                                        milliseconds: issolid == true ? 0 : 100),
+                                    decoration: BoxDecoration(
+                                      color: ver2 == true
+                                          ? Color(0x3C505050)
+                                          : Color(0x0),
+                                    ),
+                                    child: Icon(
+                                      Icons.highlight_remove_rounded,
+                                      color: Colors.black38,
+                                      size: 20,
+                                    )),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '${DateFormat('yMMMMd').format(now)}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: Colors.black45,
+                            fontSize: 13,
+                            shadows: <Shadow>[
+                              Shadow(
+                                offset: Offset(0.0, 3.0),
+                                blurRadius: 3.0,
+                                color: Colors.black12,
+                              ),
+                            ],
+                            fontFamily: 'Schyler'),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 20,
+                            child: FittedBox(
+                              child: Image(image: AssetImage('assets/minum10.png')),
+                              fit: BoxFit.cover,
+                              alignment: Alignment.center,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 35,
+                          )
+                        ],
+                      ),
+                    ],
                   ),
+                  Visibility(
+                    visible: false,
+                    child: Center(
+                      child: Container(
+                        width: 270,
+                        height: 25,
+                        child: Stack(
+                          children: [
+                            Text(
+                              '${currenterror}',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(0.0, 3.0),
+                                      blurRadius: 3.0,
+                                      color: Colors.black54,
+                                    ),
+                                  ],
+                                  fontFamily: 'Schyler'),
+                            ),
+                            Row(
+                              children: [
+                                MouseRegion(
+                                  child: AnimatedContainer(
+                                      width: 30,
+                                      height: 25,
+                                      duration: Duration(
+                                          milliseconds: issolid == true ? 0 : 200),
+                                      curve: Curves.easeInOutCirc,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(22),
+                                            bottomLeft: Radius.circular(22),
+                                            topRight: Radius.circular(0),
+                                            bottomRight: Radius.circular(0),
+                                          ),
+                                          color: Color(0xFF595757)),
+                                      child: Center(
+                                          child: Icon(Icons.highlight_remove,
+                                              size: 19))),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF757474),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Color(0xBE505050),
+                            width: 1,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x51000000),
+                              spreadRadius: 0.2,
+                              blurRadius: 6,
+                              offset: Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              decoration: BoxDecoration(
+                color: Color(0x6FADADAD),
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(
+                  color: Color(0xBE505050),
+                  width: 1,
                 ),
-              ],
-            ),
-            Text('${currenterror}', style: TextStyle(
-                fontWeight: FontWeight.w900,
-
-                color: Colors.redAccent,
-                fontSize: 14,
-
-
-                shadows: <Shadow>[
-                  Shadow(
-                    offset: Offset(0.0, 3.0),
-                    blurRadius: 3.0,
-                    color: Colors.black54,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x51000000),
+                    spreadRadius: 1,
+                    blurRadius: 6,
+                    offset:
+                    Offset(0, 2), // changes position of shadow
                   ),
                 ],
-                fontFamily: 'Schyler'),),
-            Row(
-              children: [
-                Container(
-                  width: 120,
-                  height: 7,
-                  child: FittedBox(
-                    child: Image(image: AssetImage('assets/minum.png')),
-                    fit: BoxFit.cover,
-                    alignment: Alignment.center,
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                )
-              ],
+              ),
             ),
-          ],
+          ),
         ),
-        decoration: BoxDecoration(
-          color: Color(0x6FADADAD),
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(rounded == true ? 12 : 0), bottomRight: Radius.circular(12)),
-
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x51000000),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 1), // changes position of shadow
-            ),
-          ],
-        ),
-      ),
+      ],
     );
   }
 }

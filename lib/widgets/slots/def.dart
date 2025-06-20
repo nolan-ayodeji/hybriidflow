@@ -7,14 +7,15 @@ import 'package:http/http.dart' as http;
 import 'package:hybriidflow/pages/main.dart';
 
 class dict extends StatefulWidget {
+  const dict({key}) : super(key: key);
   @override
   _dictState createState() => _dictState();
 }
 
 class _dictState extends State<dict> {
   String g = '';
-  List c;
-  List m;
+  late List c;
+  late List m;
   String definiton = 'lllllll';
 
   void getdata() async {
@@ -37,7 +38,7 @@ class _dictState extends State<dict> {
       g = definitions;
     });
   }
-  List data;
+  late List data;
 
   Future<String> getData() async {
     var response = await http.get(
@@ -76,7 +77,7 @@ class _dictState extends State<dict> {
             child: Container(
               decoration: BoxDecoration(
                 color: Color(0xda191919),
-                borderRadius: BorderRadius.circular(9),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: Colors.white,
                   width: 2,
@@ -89,25 +90,36 @@ class _dictState extends State<dict> {
               ),
               height: 300,
               child: SingleChildScrollView(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(9),
-                  child: Center(
-                    child: Text(
-                      g,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black,
-                          fontSize: 15,
-                          shadows: <Shadow>[
-                            Shadow(
-                              offset: Offset(0.0, 3.0),
-                              blurRadius: 3.0,
-                              color: Colors.black54,
-                            ),
-                          ],
-                          fontFamily: 'Schyler'),
+
+                child: Column(
+                  children: [
+                    SizedBox(height: 10,),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(13),
+
+                      child: Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: Center(
+                          child: Text(
+                            g,
+
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Colors.black,
+                                fontSize: 15,
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.0, 1.0),
+                                    blurRadius: 3.0,
+                                    color: Colors.black54,
+                                  ),
+                                ],
+                                fontFamily: 'Schyler'),
+                          ),
+                        ),
+                      )
                     ),
-                  )
+                  ],
                 ),
               ),
 
@@ -132,14 +144,14 @@ class _dictState extends State<dict> {
             ),
             child: TextFormField(
               textAlign: TextAlign.center,
-              maxLength: 60,
+              maxLength: 45,
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 10,
                 fontFamily: 'Schyler',
                 shadows: <Shadow>[
                   Shadow(
-                    offset: Offset(0.0, 3.0),
+                    offset: Offset(0.0, 1.0),
                     blurRadius: 3.0,
                     color: Colors.black54,
                   ),
@@ -162,18 +174,12 @@ class _dictState extends State<dict> {
                   contentPadding:
                       EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
                   hintText:
-                      'Tap here to search up definition, Max Letters = 60',
+                      'Type word here + press enter to search up definition',
                   hintStyle: TextStyle(
                     fontWeight: FontWeight.w900,
                     fontSize: 10,
                     fontFamily: 'Schyler',
-                    shadows: <Shadow>[
-                      Shadow(
-                        offset: Offset(0.0, 3.0),
-                        blurRadius: 3.0,
-                        color: Colors.black54,
-                      ),
-                    ],
+
                   )),
             ),
           ),
