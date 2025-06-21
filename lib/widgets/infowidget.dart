@@ -135,7 +135,7 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
               duration: Duration(milliseconds: issolid == true ? 70 : 496),
               curve: Curves.easeInOutExpo,
               width: wann == true ? 50 : MediaQuery.of(context).size.width < 600 ? 400 : settingsize,
-              height: 800,
+              height: 700,
               child: Stack(
                 children: [
                   Container(
@@ -171,8 +171,8 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
                   BoxShadow(
                     color: Colors.black.withOpacity(0.3),
                     spreadRadius: 3,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
+                    blurRadius: 5,
+                    offset: Offset(0, 0), // changes position of shadow
                   ),
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),

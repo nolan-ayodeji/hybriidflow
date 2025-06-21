@@ -37,9 +37,12 @@ class CounterProvider extends ChangeNotifier {
 class counter extends StatefulWidget {
 
   final CounterProvider widprovide;
+  final num;
+  final tapuno;
+  final tapdos;
 
 
-  const counter({Key? key, required this.widprovide, }) : super(key: key);
+  const counter({Key? key, required this.widprovide, this.num, this.tapuno, this.tapdos, }) : super(key: key);
 
   @override
   _counterState createState() => _counterState();
@@ -160,9 +163,7 @@ class _counterState extends State<counter> with AutomaticKeepAliveClientMixin  {
                   height: 20,
                 ),
                 InkWell(
-                  onTap: () {
-                    add();
-                  },
+                  onTap: widget.tapuno,
                   child: MouseRegion(
                     onHover: anim,
                     onExit: white,
@@ -199,7 +200,7 @@ class _counterState extends State<counter> with AutomaticKeepAliveClientMixin  {
                     height: 300,
                     child: Consumer<CounterProvider>(
                       builder: (context, counter, child) { return fstext(
-                        text: widget.widprovide.value,
+                        text: widget.num.toString(),
                         text2: "Counter",
                         selectable: true,
                       ); },
@@ -227,7 +228,7 @@ class _counterState extends State<counter> with AutomaticKeepAliveClientMixin  {
                   height: 20,
                 ),
                 InkWell(
-                    onTap: subtract,
+                    onTap: widget.tapdos,
                     child: MouseRegion(
                       onHover: anim3,
                       onExit: white3,

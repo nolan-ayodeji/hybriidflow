@@ -110,7 +110,8 @@ class _bottom3barState extends State<bottom3bar> {
                               ? 45
                               : 54,
                           duration:
-                          Duration(milliseconds: issolid == true ? 0 : 300),
+                          Duration(milliseconds: issolid == true ? 0 : 250
+                          ),
                           curve: Curves.easeInOutCirc,
                           child: Stack(
                             children: [
@@ -156,7 +157,7 @@ class _bottom3barState extends State<bottom3bar> {
                                                 : 54,
 
                                             duration:
-                                            Duration(milliseconds: issolid == true ? 0 : 300),
+                                            Duration(milliseconds: issolid == true ? 0 : 250),
                                             curve: Curves.easeInOutCirc,
 
                                             decoration: BoxDecoration(
@@ -204,7 +205,7 @@ class _bottom3barState extends State<bottom3bar> {
                                                   : 54,
 
                                               duration:
-                                              Duration(milliseconds: issolid == true ? 0 : 300),
+                                              Duration(milliseconds: issolid == true ? 0 : 250),
                                               curve: Curves.easeInOutCirc,
 
                                               decoration: BoxDecoration(
@@ -212,8 +213,8 @@ class _bottom3barState extends State<bottom3bar> {
                                                 borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(0),
                                                   bottomLeft: Radius.circular(0),
-                                                  topRight: cc2 == true ? Radius.circular(22) : Radius.circular(30),
-                                                  bottomRight:cc2 == true ? Radius.circular(22) : Radius.circular(30),
+                                                  topRight: Radius.circular(20),
+                                                  bottomRight:Radius.circular(20),
 
                                                 ),
                                                 color: cc3 == true ? Color(
@@ -235,7 +236,7 @@ class _bottom3barState extends State<bottom3bar> {
                           ),
                           decoration: BoxDecoration(
                             color: Color(0x6FADADAD),
-                            borderRadius: cc2 == true ? BorderRadius.circular(22) : BorderRadius.circular(30),
+                            borderRadius:  BorderRadius.circular(30),
                             border: Border.all(
                               color: Color(0xBE505050),
                               width: 1,

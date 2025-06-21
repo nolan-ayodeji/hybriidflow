@@ -11,13 +11,16 @@ import 'package:hybriidflow/pages/unknown.dart';
 import 'package:hybriidflow/widgets/slots/livetime.dart';
 import 'package:page_transition/page_transition.dart';
 import 'pages/firstpage.dart';
-import 'dart:html';
+import 'dart:ui_web';
 import 'dart:ui' as ui;
 
 import 'pages/mainsimple.dart';
 // ignore: avoid_web_libraries_in_flutter
 
 void main() {
+
+ 
+
 
   runApp(MyApp());
 }

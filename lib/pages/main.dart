@@ -42,6 +42,7 @@ import 'package:intl/intl.dart';
 import 'package:battery_plus/battery_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:universal_io/io.dart';
+import 'package:hybriidflow/widgets/wsstate.dart';
 
 import 'dart:html' show IFrameElement;
 // Import package
@@ -67,11 +68,12 @@ bool showwall = false;
 String wp = 'assets/hbflowof-min.png';
 
 class WidgetSlotContainer {
-   WidgetSlotContainer(this.name, this.widget, this.isgrey,
-      this.categories, this.color, this.key);
+  WidgetSlotContainer(this.name, this.widget, this.isgrey, this.categories,
+      this.color, this.key, this.widget2);
 
   final String name;
   final Widget widget;
+  final WidgetEntry widget2;
   final bool isgrey;
   final String categories;
   final Color color;
@@ -91,6 +93,8 @@ class _mainpageState extends State<mainpage> {
     Color(0xff404040),
     Colors.grey,
   ];
+
+
 
   final _controller = ScrollController();
   final _cr = ScrollController();
@@ -543,7 +547,6 @@ class _mainpageState extends State<mainpage> {
         backgroundColor: Colors.black,
         body: Stack(
           children: [
-
             Stack(
               children: [
                 hilly(),
@@ -562,82 +565,60 @@ class _mainpageState extends State<mainpage> {
                       Expanded(
                         child: Stack(
                           children: [
-
-
                             ScrollConfiguration(
-                              behavior: ScrollConfiguration.of(context).copyWith(
+                              behavior:
+                                  ScrollConfiguration.of(context).copyWith(
                                 dragDevices: {
                                   PointerDeviceKind.touch,
                                   PointerDeviceKind.mouse,
                                 },
                               ),
                               child: ListView.builder(
-                                itemCount: entries.length,
-                                scrollDirection:
-                                    MediaQuery.of(context).size.width < 600
-                                        ? Axis.vertical
-                                        : Axis.horizontal,
+                                itemCount: entries2.length,
+                                scrollDirection: Axis.horizontal,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Transform.scale(
-                                    scale: MediaQuery.of(context).size.height > 1290
-                                        ? 1.36
-                                        : 0.97,
-                                    child: Row(
-                                      children: [
-                                        SizedBox(width: 30,),
-                                        Stack(
-                                          children: [
-                                            Flex(
-                                              direction: Axis.horizontal,
-                                              children: [
-                                                if (shouldscroll == false) ...[
-                                                  infowidget(
-                                                    slot: entries[index],
+                                  String widget = entries2[index].type;
+                                  Map<String, dynamic> content =
+                                      entries2[index].content;
 
-                                                    what: () {
-                                                      remove(index);
+                                  return FittedBox(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: infowidget(
+                                       what: (){
+                                         setState(() {
+                                           entries2.removeAt(index);
+                                         });
+                                       },
+                                        slot: switch (widget) {
+                                          "counter" => counter(
+                                              widprovide: CounterProvider(),
+                                              num: content["number"].toString(),
+                                              tapuno: () {
+                                                setState(() {
+                                                  content["number"]++;
 
-                                                      dyn();
-                                                    },
-                                                    dupl: () {
-                                                      entries.add(entries[index]);
-                                                      dyn();
-                                                    },
-                                                    sshow: tempsetting,
-                                                  ),
-                                                ] else ...[
-                                                  SingleChildScrollView(
-                                                    child: GestureDetector(
-                                                      child: infowidget(
-                                                        slot: entries[index],
-                                                        what: () {
-                                                          remove(index);
 
-                                                          dyn();
-                                                        },
-                                                        dupl: () {
-                                                          entries.add(
-                                                              entries[index]);
-                                                          dyn();
-                                                        },
-                                                      ),
-                                                      onTap: () {},
-                                                    ),
-                                                    clipBehavior: Clip.none,
-                                                  ),
-                                                ],
-                                              ],
+                                                });
+                                              },
+                                              tapdos: () {
+                                                setState(() {
+
+                                                  content["number"]--;
+
+
+                                                });
+                                              },
+
+
                                             ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          width:
-                                              MediaQuery.of(context).size.height >
-                                                      1290
-                                                  ? 100
-                                                  : 0,
-                                        ),
-                                      ],
+                                          "two" => counter(
+                                              widprovide: CounterProvider(),
+                                            ),
+                                          _ => SizedBox(),
+                                        },
+                                        sshow: tempsetting,
+                                      ),
                                     ),
                                   );
                                 },
@@ -650,7 +631,14 @@ class _mainpageState extends State<mainpage> {
                       SizedBox(
                         height: 5,
                       ),
-                      warning1(visible1: opened == true ? false : entries.isEmpty ? true : false, visible2: true,),
+                      warning1(
+                        visible1: opened == false
+                            ? false
+                            : entries.isEmpty
+                                ? true
+                                : false,
+                        visible2: true,
+                      ),
                       SizedBox(
                         height: 5,
                       ), //adds space from the text to distance it from bottom bar
@@ -1356,6 +1344,28 @@ final List<Key> keys = [
 ];
 
 final List<Widget> entries = [];
+List<WidgetEntry> entries2 = [
+  WidgetEntry("counter", {
+    "number": 1,
+    "size": 90,
+  }),
+  WidgetEntry("counter", {
+    "number": 2,
+    "size": 90,
+  }),
+  WidgetEntry("counter", {
+    "number": 3,
+    "size": 90,
+  }),
+  WidgetEntry("counter", {
+    "number": 3,
+    "size": 90,
+  }),
+  WidgetEntry("counter", {
+    "number": 3,
+    "size": 90,
+  }),
+];
 
 class AddWidget extends StatefulWidget {
   final controller;
@@ -1411,10 +1421,16 @@ class _AddWidgetState extends State<AddWidget> {
     WidgetSlotContainer(
       'Dictionary',
       dict(),
+
       false,
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("dict", {
+        "def": "",
+
+      }),
+
     ),
     WidgetSlotContainer(
       'Counter',
@@ -1426,6 +1442,10 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('counter_1'),
+      WidgetEntry("counter", {
+        "number": 0,
+        "size": 90,
+      }),
     ),
     WidgetSlotContainer(
       'QuickLinks',
@@ -1434,6 +1454,9 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('quick_!'),
+      WidgetEntry("qls", {
+        "links": ["https://www.youtube.com/"]
+      }),
     ),
     WidgetSlotContainer(
       'Random Number',
@@ -1444,6 +1467,10 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("ran", {
+        "number": 0,
+
+      }),
     ),
     WidgetSlotContainer(
       'Image Viewer',
@@ -1452,6 +1479,9 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("img", {
+        "url": 0,
+      }),
     ),
     WidgetSlotContainer(
       'QR Code Creator',
@@ -1460,6 +1490,9 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("qr", {
+        "url": 0,
+      }),
     ),
     WidgetSlotContainer(
       'LastFM Scrobbler',
@@ -1468,6 +1501,9 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("last", {
+        "username": "",
+      }),
     ),
 
     // WidgetSlotContainer('FImage Viewer', fimageviewer(), true),
@@ -1479,6 +1515,10 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Info' : '',
       widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("td", {
+        "username": "",
+      }),
+
     ),
     WidgetSlotContainer(
       'Time Widget',
@@ -1487,6 +1527,9 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Info' : '',
       widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("t", {
+        "username": "",
+      }),
     ),
     WidgetSlotContainer(
       'World Clock',
@@ -1495,6 +1538,9 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Info' : '',
       widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("world", {
+        "username": "",
+      }),
     ),
 
     WidgetSlotContainer(
@@ -1504,6 +1550,9 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Info' : '',
       widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("date", {
+        "username": "",
+      }),
     ),
     WidgetSlotContainer(
       'Platform Widget',
@@ -1512,6 +1561,9 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Info' : '',
       widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("plat", {
+        "username": "",
+      }),
     ),
 
     WidgetSlotContainer(
@@ -1521,6 +1573,11 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Fun' : '',
       widgetsort == 2 ? Color(0xFF654362) : Color(0x697E7E7E),
       ValueKey('dic_1'),
+      WidgetEntry("joke", {
+        "topjoke": "",
+        "bottomjoke": "",
+
+      }),
     ),
 
     WidgetSlotContainer(
@@ -1530,6 +1587,10 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Tool' : '',
       Color(0xFF9C6D6D),
       ValueKey('dic_1'),
+      WidgetEntry("mirror", {
+        "username": "",
+      }),
+
     ),
 
     WidgetSlotContainer(
@@ -1539,6 +1600,9 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Tool' : '',
       Color(0xFF9C6D6D),
       ValueKey('dic_1'),
+      WidgetEntry("translate", {
+        "username": "",
+      }),
     ),
     WidgetSlotContainer(
       'Battery (BETA)',
@@ -1547,6 +1611,9 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 1 ? 'Info' : '',
       Color(0xFF9C6D6D),
       ValueKey('dic_1'),
+      WidgetEntry("battery", {
+        "username": "",
+      }),
     ),
   ];
 
@@ -1588,10 +1655,10 @@ class _AddWidgetState extends State<AddWidget> {
   }
 
   @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
+  // void dispose() {
+  //   _focusNode.dispose();
+  //   super.dispose();
+  // }
 
   Widget build(BuildContext context) {
     return Stack(
@@ -1630,8 +1697,8 @@ class _AddWidgetState extends State<AddWidget> {
                                 category: widgetstoadd[i].categories,
                                 color: widgetstoadd[i].color,
                                 add: () {
-                                  entries.add(widgetstoadd[i]
-                                      .widget); //add a new widget;
+                                  entries2.add(widgetstoadd[i]
+                                      .widget2); //add a new widget;
 
                                   print('PRINT ${entries}');
                                   setState(() {
