@@ -85,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("aveagenumberbuilt");
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -307,6 +308,7 @@ class hilly extends StatefulWidget {
 class _hillyState extends State<hilly> {
   @override
   Widget build(BuildContext context) {
+    print("averagebackdropbuilt");
     return Container(
       width: double.infinity,
       height: double.infinity,

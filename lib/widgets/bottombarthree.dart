@@ -86,6 +86,7 @@ class _bottom3barState extends State<bottom3bar> {
 
   @override
   Widget build(BuildContext context) {
+    //print("bottom3barbuilt");
     return MouseRegion(
       onHover: anim,
       onExit: falseanim,

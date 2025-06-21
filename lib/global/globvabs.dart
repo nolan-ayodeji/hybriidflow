@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String hflowversion = "10.0";
+String hflowversion = "11.0";
 bool issolid = false;
 int activecount = 1;
 

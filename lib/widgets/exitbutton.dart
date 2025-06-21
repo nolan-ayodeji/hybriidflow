@@ -8,6 +8,7 @@ class exitbutton extends StatefulWidget {
 class _exitbuttonState extends State<exitbutton> {
   @override
   Widget build(BuildContext context) {
+    print("exitbuttonbuilt");
     return Container(
       width: 50,
       height: 50,

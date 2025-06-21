@@ -69,20 +69,11 @@ flutter:
   assets:
     - assets/fb64db18c630dbd6dbb41f44aabbf5f482a1292d.png
     - assets/hilly2-min.png
-    - assets/minum.png
-    - assets/minum3.png
-    - assets/minum4.png
-    - assets/minum5.png
-    - assets/minum6.png
-    - assets/minum7.png
-    - assets/minum8.png
+
     - assets/minum10.png
     - assets/gold.png
-    - assets/abstract-huawei-lights-neon-hd-wallpaper-preview.png
     - assets/grey.png
     - assets/lightgrey.png
-    - assets/wild.png
-    - assets/buttonblur.png
     - assets/hbflowof-min.png
   #   - images/a_dot_ham.jpeg
 

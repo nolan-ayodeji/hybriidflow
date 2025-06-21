@@ -7,8 +7,11 @@ import 'package:hybriidflow/widgets/infowidget.dart';
 import 'package:hybriidflow/widgets/wallpaper.dart';
 import 'package:mailto/mailto.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:hybriidflow/widgets/wallpaper.dart';
+
+import '../providers/appmodel.dart';
 class option extends StatefulWidget {
   final s;
   final stext;
@@ -149,7 +152,7 @@ class _multiState extends State<multi> {
 
   void small() {
     setState(() {
-      settingsize = 400;
+      settingsize.value = 400;
       first = true;
       second = false;
       third = false;
@@ -158,7 +161,7 @@ class _multiState extends State<multi> {
 
   void medium() {
     setState(() {
-      settingsize = 600;
+      settingsize.value = 600;
       first = false;
       second = true;
       third = false;
@@ -171,7 +174,7 @@ class _multiState extends State<multi> {
 
   void large() {
     setState(() {
-      settingsize = 800;
+      settingsize.value = 800;
       first = false;
       second = false;
       third = true;
@@ -364,25 +367,33 @@ class multi2 extends StatefulWidget {
 class _multi2State extends State<multi2> {
   void darkgrey() {
     setState(() {
-      widgetcolor = Color(0x7a555555);
+      final ref = Provider.of<AppModel>(context, listen: false);
+      ref.widgetcolor = Color(0x7a555555);
+      ref.updateColor(Color(0x7aad3131));
     });
   }
 
   void lightgrey() {
     setState(() {
-      widgetcolor = Color(0x7acdcdcd);
+      final ref = Provider.of<AppModel>(context, listen: false);
+      ref.widgetcolor = Color(0x7acdcdcd);
+      ref.updateColor(Color(0x7acdcdcd));
     });
   }
 
   void black() {
     setState(() {
-      widgetcolor = Color(0x7a000000);
+      final ref = Provider.of<AppModel>(context, listen: false);
+      ref.widgetcolor = Color(0x7a000000);
+      ref.updateColor(Color(0x7a000000));
     });
   }
 
   void coloron() {
     setState(() {
+      final ref = Provider.of<AppModel>(context, listen: false);
       choosecolor = true;
+
     });
   }
 
@@ -395,31 +406,43 @@ class _multi2State extends State<multi2> {
 
   void white() {
     setState(() {
-      widgetcolor = Color(0x8dffffff);
+      final ref = Provider.of<AppModel>(context, listen: false);
+      ref.widgetcolor = Color(0x8dffffff);
+      ref.updateColor(Color(0x7aad3131));
     });
   }
 
   void pink() {
     setState(() {
-      widgetcolor = Color(0x7aff66da);
+      final ref = Provider.of <AppModel>(context, listen: false);
+      ref.widgetcolor = Color(0x7aff66da);
+      ref.updateColor(Color(0x7aad3131));
     });
   }
 
   void red() {
     setState(() {
-      widgetcolor = Color(0x7aad3131);
+      final ref = Provider.of<AppModel>(context, listen: false);
+      ref.widgetcolor = Color(0x7aad3131);
+      ref.updateColor(Color(0x7aad3131));
     });
   }
 
   void blue() {
     setState(() {
-      widgetcolor = Color(0x7a4dd1e8);
+      final ref = Provider.of<AppModel>(context, listen: false);
+      ref.widgetcolor = Color(0x7a4dd1e8);
+      ref.updateColor(Color(0x7a4dd1e8));
+
     });
   }
 
   void green() {
     setState(() {
-      widgetcolor = Color(0x7a46c138);
+      final ref = Provider.of<AppModel>(context, listen: false);
+      ref.updateColor(Color(0x7a46c138));
+
+
     });
   }
 

@@ -8,67 +8,63 @@ import 'package:hybriidflow/pages/average.dart';
 import 'package:hybriidflow/pages/main.dart';
 import 'package:hybriidflow/pages/time.dart';
 import 'package:hybriidflow/pages/unknown.dart';
+import 'package:hybriidflow/providers/appmodel.dart';
 import 'package:hybriidflow/widgets/slots/livetime.dart';
 import 'package:page_transition/page_transition.dart';
 import 'pages/firstpage.dart';
 import 'dart:ui_web';
 import 'dart:ui' as ui;
+import 'package:provider/provider.dart';
 
 import 'pages/mainsimple.dart';
 // ignore: avoid_web_libraries_in_flutter
 
 void main() {
+  runApp(ChangeNotifierProvider(
 
- 
-
-
-  runApp(MyApp());
+      create: (_) => AppModel(),
+      child: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
+
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+
   Future<void> timercount() async {
     await Future.delayed(Duration(seconds: 1), () {
       setState(() {
         activecount++;
       });
-
     });
 
-    
-
-    void open () { Navigator.push(
-        context,
-        PageTransition(
-            type: PageTransitionType.fade, child: timepage()));}
+    void open() {
+      Navigator.push(context,
+          PageTransition(type: PageTransitionType.fade, child: timepage()));
+    }
 
     if (activecount >= 9)
       open();
-
     else
       timercount();
-
-
   }
 
-
-
   void initState() {
+     // debugPrintRebuildDirtyWidgets = true;
     super.initState();
-    setState(() {
-
-
-    });
+    setState(() {});
 
     //timercount();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("main page built");
+
+
     return Listener(
       //onPointerDown: (_) => print('down'), // best place to reset timer imo
       //onPointerMove: (_) => print('move'),
@@ -78,13 +74,17 @@ class _MyAppState extends State<MyApp> {
         title: 'HybriidFlow',
         debugShowCheckedModeBanner: false,
         scrollBehavior: MaterialScrollBehavior().copyWith(
-          dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch, PointerDeviceKind.stylus, PointerDeviceKind.unknown},
+          dragDevices: {
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.touch,
+            PointerDeviceKind.stylus,
+            PointerDeviceKind.unknown
+          },
         ),
         theme: ThemeData(
           primarySwatch: Colors.grey,
         ),
         initialRoute: mainpage.route,
-
         routes: {
           firstpage.route: (context) => firstpage(),
           mainpage.route: (context) => mainpage(),

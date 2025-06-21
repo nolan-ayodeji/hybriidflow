@@ -8,12 +8,17 @@ import 'dart:html';
 import 'package:hybriidflow/widgets/fullscreencentertext.dart';
 import 'package:hybriidflow/widgets/slots/livedate.dart';
 import 'package:hybriidflow/widgets/slots/livetime.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/appmodel.dart';
 
 // ignore: camel_case_types
 // ignore: undefined_prefixed_name
 String src = 'https://www.calculatorsoup.com/calculators/math/adding-fractions-calculator.php?src=link_direct';
-double settingsize = 400;
-Color widgetcolor = Color(0x7a555555);
+ValueNotifier<double> settingsize = ValueNotifier(400);
+
+
+
 bool border = true;
 
 class infowidget extends StatefulWidget {
@@ -130,57 +135,67 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
       child: Stack(
         children: [
           RepaintBoundary(
-            child: AnimatedContainer(
+            child: ValueListenableBuilder(
+              valueListenable: settingsize,
+              builder: (context, value, child) {
+                return Consumer<AppModel>(
 
-              duration: Duration(milliseconds: issolid == true ? 70 : 496),
-              curve: Curves.easeInOutExpo,
-              width: wann == true ? 50 : MediaQuery.of(context).size.width < 600 ? 400 : settingsize,
-              height: 700,
-              child: Stack(
-                children: [
-                  Container(
-                    width: settingsize,
-                    height: 800,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0x555555),
-                          spreadRadius: -12.0,
-                          blurRadius: 12.0,
+                  builder: (context, app, child) {
+                    return AnimatedContainer(
+
+                      duration: Duration(milliseconds: issolid == true ? 70 : 496),
+                      curve: Curves.easeInOutExpo,
+                      width: wann == true ? 50 : MediaQuery.of(context).size.width < 600 ? 400 : value,
+                      height: 700,
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: value,
+                            height: 800,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x555555),
+                                  spreadRadius: -12.0,
+                                  blurRadius: 12.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: widget.slot,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(),
+
+                          ),
+
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        color: app.widgetcolor,
+                        borderRadius: BorderRadius.circular(35),
+                        border: Border.all(
+                          color: border == true ? Colors.black : Colors.black12,
+                          width: border == true ? 1.35 : 0.00000001
                         ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: widget.slot,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(),
-
-                  ),
-
-                ],
-              ),
-              decoration: BoxDecoration(
-                color: widgetcolor,
-                borderRadius: BorderRadius.circular(35),
-                border: Border.all(
-                  color: border == true ? Colors.black : Colors.black12,
-                  width: border == true ? 1.35 : 0.00000001
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                    offset: Offset(0, 0), // changes position of shadow
-                  ),
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    spreadRadius: -12.0,
-                    blurRadius: 12.0,
-                  ),
-                ],
-              ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            spreadRadius: 3,
+                            blurRadius: 5,
+                            offset: Offset(0, 0), // changes position of shadow
+                          ),
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.5),
+                            spreadRadius: -12.0,
+                            blurRadius: 12.0,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                );
+              }
             ),
           ),
           Positioned(

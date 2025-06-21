@@ -72,6 +72,7 @@ class _qrState extends State<qr> {
 
   @override
   Widget build(BuildContext context) {
+    print("qr code built");
     return SingleChildScrollView(
       padding: const EdgeInsets.all(23),
       child: Column(

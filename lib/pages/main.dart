@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:hybriidflow/providers/appmodel.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hybriidflow/global/globvabs.dart';
@@ -93,8 +95,6 @@ class _mainpageState extends State<mainpage> {
     Color(0xff404040),
     Colors.grey,
   ];
-
-
 
   final _controller = ScrollController();
   final _cr = ScrollController();
@@ -257,7 +257,9 @@ class _mainpageState extends State<mainpage> {
       });
     });
     await Future.delayed(Duration(seconds: 1), () {
-      startupvis = false;
+      setState(() {
+        startupvis = false;
+      });
     });
   }
 
@@ -421,7 +423,7 @@ class _mainpageState extends State<mainpage> {
     if (on == true)
       setState(() {
         on = false;
-        opened = true;
+        opened = false;
 
         dyn();
         isanythingopen = false;
@@ -464,13 +466,14 @@ class _mainpageState extends State<mainpage> {
   }
 
   void gettime() {
-    setState(() {
-      now = DateTime.now();
-    });
-
-    Future.delayed(Duration(seconds: 1), () {
-      gettime();
-    });
+    // setState(() {
+    //   print("callinggs");
+    //   now = DateTime.now();
+    // });
+    //
+    // Future.delayed(Duration(seconds:1), () {
+    //   gettime();
+    // });
   }
 
   void love(crazy) {
@@ -525,13 +528,14 @@ class _mainpageState extends State<mainpage> {
     percentage = level;
 
     setState(() {});
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 10), () {
       getBatteryPerentage();
     });
   }
 
   void initState() {
     super.initState();
+    //
     gettime();
     dyn();
     startup();
@@ -542,6 +546,7 @@ class _mainpageState extends State<mainpage> {
 
   @override
   Widget build(BuildContext context) {
+    //print("mainpage2built");
     return RepaintBoundary(
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -581,15 +586,15 @@ class _mainpageState extends State<mainpage> {
                                   Map<String, dynamic> content =
                                       entries2[index].content;
 
-                                  return FittedBox(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: FittedBox(
                                       child: infowidget(
-                                       what: (){
-                                         setState(() {
-                                           entries2.removeAt(index);
-                                         });
-                                       },
+                                        what: () {
+                                          setState(() {
+                                            entries2.removeAt(index);
+                                          });
+                                        },
                                         slot: switch (widget) {
                                           "counter" => counter(
                                               widprovide: CounterProvider(),
@@ -597,24 +602,29 @@ class _mainpageState extends State<mainpage> {
                                               tapuno: () {
                                                 setState(() {
                                                   content["number"]++;
-
-
                                                 });
                                               },
                                               tapdos: () {
                                                 setState(() {
-
                                                   content["number"]--;
-
-
                                                 });
                                               },
-
-
                                             ),
-                                          "two" => counter(
-                                              widprovide: CounterProvider(),
-                                            ),
+                                          "dict" => dict(),
+                                          "qls" => quick(),
+                                          "ran" => randomnum(widprovide: CounterProvider2()),
+                                          "img" => imageviewer(),
+                                          "qr" => quick(),
+                                          "last" => Last(),
+                                          "td" => timeanddate(),
+                                          "t" => time(),
+                                          "world" => worldtime(),
+                                          "date" => date(),
+                                          "plat" => plat(),
+                                          "joke" => jokeapi(),
+                                          "mirror" => camera(),
+                                          "translate" => ggt(),
+                                          "battery" => bat(),
                                           _ => SizedBox(),
                                         },
                                         sshow: tempsetting,
@@ -632,11 +642,7 @@ class _mainpageState extends State<mainpage> {
                         height: 5,
                       ),
                       warning1(
-                        visible1: opened == false
-                            ? false
-                            : entries.isEmpty
-                                ? true
-                                : false,
+                        visible1: opened ? false : entries2.isEmpty ? true : false,
                         visible2: true,
                       ),
                       SizedBox(
@@ -656,18 +662,23 @@ class _mainpageState extends State<mainpage> {
                                   colorchange();
                                 },
                               )
-                            : bottom3bar(
-                                ftext: dockl == false
-                                    ? '${DateFormat('h:mm').format(now)} • ${Platform.operatingSystem} ${battery0 == true ? "• ${percentage}%" : ""}'
-                                    : '${DateFormat('h:mm').format(now)} • ${Platform.operatingSystem} • ${entries.length} ${battery0 == true ? "• ${percentage}%" : ""}',
-                                action: () {
-                                  addmenu();
-                                },
-                                saction: () {
-                                  settingmenu();
-                                  colorchange();
-                                },
-                              ),
+                            : Consumer<AppModel>(
+
+                              builder: (context, app, child) {
+                                return bottom3bar(
+                                    ftext: dockl == false
+                                        ? '${DateFormat('h:mm').format(app.now)} • ${Platform.operatingSystem} ${battery0 == true ? "• ${percentage}%" : ""}'
+                                        : '${DateFormat('h:mm').format(app.now)} • ${Platform.operatingSystem} • ${entries.length} ${battery0 == true ? "• ${percentage}%" : ""}',
+                                    action: () {
+                                      addmenu();
+                                    },
+                                    saction: () {
+                                      settingmenu();
+                                      colorchange();
+                                    },
+                                  );
+                              }
+                            ),
                         //onTap: entries.length < 1 ? add : delete,
                       ) //The Bottom bar
                     ],
@@ -686,10 +697,7 @@ class _mainpageState extends State<mainpage> {
                     color: Color(0xff808080),
                   ),
                 )),
-            StartAnim(
-              vis1: startupvis,
-              vis2: _visible,
-            ),
+
             Column(
               //WIDGET
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -785,6 +793,11 @@ class _mainpageState extends State<mainpage> {
                                             visible: random,
                                             ontap2: bigsetting,
                                             setting2: switchsort,
+                                            oncall: (){
+                                              setState(() {
+
+                                              });
+                                            },
                                           )),
                                     ],
                                   ),
@@ -1345,26 +1358,7 @@ final List<Key> keys = [
 
 final List<Widget> entries = [];
 List<WidgetEntry> entries2 = [
-  WidgetEntry("counter", {
-    "number": 1,
-    "size": 90,
-  }),
-  WidgetEntry("counter", {
-    "number": 2,
-    "size": 90,
-  }),
-  WidgetEntry("counter", {
-    "number": 3,
-    "size": 90,
-  }),
-  WidgetEntry("counter", {
-    "number": 3,
-    "size": 90,
-  }),
-  WidgetEntry("counter", {
-    "number": 3,
-    "size": 90,
-  }),
+
 ];
 
 class AddWidget extends StatefulWidget {
@@ -1375,6 +1369,8 @@ class AddWidget extends StatefulWidget {
   final setting2;
   final ontap;
   final ontap2;
+  final oncall;
+
 
   const AddWidget(
       {Key? key,
@@ -1383,7 +1379,7 @@ class AddWidget extends StatefulWidget {
       this.visible,
       this.ontap,
       this.ontap2,
-      this.setting2})
+      this.setting2, this.oncall})
       : super(key: key);
   @override
   _AddWidgetState createState() => _AddWidgetState();
@@ -1421,16 +1417,13 @@ class _AddWidgetState extends State<AddWidget> {
     WidgetSlotContainer(
       'Dictionary',
       dict(),
-
       false,
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('dic_1'),
       WidgetEntry("dict", {
         "def": "",
-
       }),
-
     ),
     WidgetSlotContainer(
       'Counter',
@@ -1469,7 +1462,6 @@ class _AddWidgetState extends State<AddWidget> {
       ValueKey('dic_1'),
       WidgetEntry("ran", {
         "number": 0,
-
       }),
     ),
     WidgetSlotContainer(
@@ -1518,7 +1510,6 @@ class _AddWidgetState extends State<AddWidget> {
       WidgetEntry("td", {
         "username": "",
       }),
-
     ),
     WidgetSlotContainer(
       'Time Widget',
@@ -1576,7 +1567,6 @@ class _AddWidgetState extends State<AddWidget> {
       WidgetEntry("joke", {
         "topjoke": "",
         "bottomjoke": "",
-
       }),
     ),
 
@@ -1590,7 +1580,6 @@ class _AddWidgetState extends State<AddWidget> {
       WidgetEntry("mirror", {
         "username": "",
       }),
-
     ),
 
     WidgetSlotContainer(
@@ -1697,8 +1686,11 @@ class _AddWidgetState extends State<AddWidget> {
                                 category: widgetstoadd[i].categories,
                                 color: widgetstoadd[i].color,
                                 add: () {
-                                  entries2.add(widgetstoadd[i]
-                                      .widget2); //add a new widget;
+                                  widget.oncall?.call();
+                                  setState(() {
+                                    entries2.add(widgetstoadd[i]
+                                        .widget2);
+                                  }); //add a new widget;
 
                                   print('PRINT ${entries}');
                                   setState(() {
