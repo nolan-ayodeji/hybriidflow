@@ -11,12 +11,8 @@ import 'package:provider/provider.dart';
 
 // Provider
 class CounterProvider extends ChangeNotifier {
-
-
   int _counterValue = 60;
   int _random = 60;
-
-
 
   int get value => _counterValue;
   int get ran => _counterValue;
@@ -31,26 +27,28 @@ class CounterProvider extends ChangeNotifier {
     _counterValue--;
     notifyListeners();
   }
-
 }
 
 class counter extends StatefulWidget {
-
   final CounterProvider widprovide;
   final num;
   final tapuno;
   final tapdos;
 
-
-  const counter({Key? key, required this.widprovide, this.num, this.tapuno, this.tapdos, }) : super(key: key);
+  const counter({
+    Key? key,
+    required this.widprovide,
+    this.num,
+    this.tapuno,
+    this.tapdos,
+  }) : super(key: key);
 
   @override
   _counterState createState() => _counterState();
 }
 
-class _counterState extends State<counter> with AutomaticKeepAliveClientMixin  {
+class _counterState extends State<counter> with AutomaticKeepAliveClientMixin {
   @override
-
   @override
   bool get wantKeepAlive => true;
 
@@ -58,8 +56,6 @@ class _counterState extends State<counter> with AutomaticKeepAliveClientMixin  {
   void initState() {
     super.initState();
     widget.widprovide._counterValue = 0;
-
-
   }
 
   void add() {
@@ -141,41 +137,103 @@ class _counterState extends State<counter> with AutomaticKeepAliveClientMixin  {
   @override
   @override
   Widget build(BuildContext context) {
-    return RawScrollbar(
-      thumbColor: Colors.black38,
-      radius: Radius.circular(16),
-      thickness: 7,
-      controller: _firstController,
-      thumbVisibility: true,
+    return ChangeNotifierProvider.value(
+      value: CounterProvider(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
 
+          MouseRegion(
+            onHover: anim2,
+            onExit: white2,
+            child: Container(
+              width: double.infinity,
+              height: 350,
+              child: Consumer<CounterProvider>(
+                builder: (context, counter, child) {
+                  return Center(
+                      child: Transform.scale(
+                        scale: 1.5,
+                        child: fstext(
+                          text: widget.num.toString(),
+                          text2: "Counter",
+                          color: Color(0xCBFFFFFF),
+                          color2: Color(0xCBFFFFFF),
+                          selectable: true,
+                        ),
+                      ));
+                },
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                width: 30,
+              ),
+              Expanded(
+                child: InkWell(
+                    onTap: widget.tapdos,
+                    child: MouseRegion(
+                      onHover: anim3,
+                      onExit: white3,
+                      child: AnimatedContainer(
+                        curve: Curves.easeInOutCirc,
+                        duration:
+                        Duration(milliseconds: issolid == true ? 0 : 260),
+                        height: cc3 == true ? 100 : 110,
+                        child: Icon(
+                          Icons.remove,
+                          color: Colors.black,
+                          size: 70,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xFFB6B6B6),
+                          borderRadius: BorderRadius.circular(
+                            cc3 == true ? 60 : 45,
+                          ),
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 2,
+                          ),
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: <Color>[
+                              Color(0xFFB6B6B6),
+                              Color(0xFF808080)
+                            ],
+                          ),
+                        ),
+                      ),
+                    )),
+              ),
 
-
-      child: SingleChildScrollView(
-        controller: _firstController,
-        child: ChangeNotifierProvider.value(
-          value: CounterProvider(),
-          child: Container(
-            width: 500,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                InkWell(
+              SizedBox(
+                width: 30,
+              ),
+              Expanded(
+                child: InkWell(
                   onTap: widget.tapuno,
                   child: MouseRegion(
                     onHover: anim,
                     onExit: white,
                     child: AnimatedContainer(
                       curve: Curves.easeInOutCirc,
-                      duration: Duration(milliseconds: issolid == true ? 0 : 260),
-                      width: cc == true ? 100 : 120,
+                      duration:
+                      Duration(milliseconds: issolid == true ? 0 : 260),
                       height: cc == true ? 100 : 110,
-                      child: Icon(Icons.add, color: Colors.black),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.black,
+                        size: 70,
+                      ),
                       decoration: BoxDecoration(
                         color: Color(0xFFB6B6B6),
-                        borderRadius: BorderRadius.circular(40),
+                        borderRadius: BorderRadius.circular(
+                          cc == true ? 60 : 45,
+                        ),
                         border: Border.all(
                           color: Colors.white,
                           width: 2,
@@ -189,105 +247,45 @@ class _counterState extends State<counter> with AutomaticKeepAliveClientMixin  {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                MouseRegion(
-                  onHover: anim2,
-                  onExit: white2,
-                  child: Container(
-                    width: 300,
-                    height: 300,
-                    child: Consumer<CounterProvider>(
-                      builder: (context, counter, child) { return fstext(
-                        text: widget.num.toString(),
-                        text2: "Counter",
-                        selectable: true,
-                      ); },
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFB6B6B6),
+              ),
 
-                      borderRadius: BorderRadius.circular(40),
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 2,
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: <Color>[
-                          Color(0xFF808080),
-                          Color(0xFFB6B6B6),
-                        ],
-                      ),
+              SizedBox(
+                width: 30,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          InkWell(
+            onTap: reset,
+            child: MouseRegion(
+                onHover: anim4,
+                onExit: white4,
+                child: AnimatedContainer(
+                  curve: Curves.easeInOutCirc,
+                  duration: Duration(milliseconds: issolid == true ? 0 : 260),
+                  width: cc4 == true ? 280 : 285,
+                  height: cc4 == true ? 50 : 65,
+                  child: Center(
+                      child: Text(
+                    'Reset',
+                    style: TextStyle(fontFamily: 'Schyler', fontSize: 30),
+                  )),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFB6B6B6),
+                    borderRadius: BorderRadius.circular(40),
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2,
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                InkWell(
-                    onTap: widget.tapdos,
-                    child: MouseRegion(
-                      onHover: anim3,
-                      onExit: white3,
-                      child: AnimatedContainer(
-                        curve: Curves.easeInOutCirc,
-                        duration: Duration(milliseconds: issolid == true ? 0 : 260),
-                        width: cc3 == true ? 100 : 120,
-                        height: cc3 == true ? 100 : 110,
-                        child: Icon(Icons.remove, color: Colors.black),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFB6B6B6),
-                          borderRadius: BorderRadius.circular(40),
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 2,
-                          ),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: <Color>[Color(0xFFB6B6B6), Color(0xFF808080)],
-                          ),
-                        ),
-                      ),
-                    )),
-                SizedBox(
-                  height: 20,
-                ),
-                InkWell(
-                  onTap: reset,
-                  child: MouseRegion(
-                      onHover: anim4,
-                      onExit: white4,
-                      child: AnimatedContainer(
-                        curve: Curves.easeInOutCirc,
-                        duration: Duration(milliseconds: issolid == true ? 0 : 260),
-                        width: cc4 == true ? 300 : 320,
-                        height: cc4 == true ? 30 : 40,
-                        child: Center(
-                            child: Text(
-                          'Reset',
-                          style: TextStyle(fontFamily: 'Schyler'),
-                        )),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFB6B6B6),
-                          borderRadius: BorderRadius.circular(40),
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 2,
-                          ),
-                        ),
-                      )),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
+                )),
           ),
-        ),
+          SizedBox(
+            height: 70,
+          ),
+        ],
       ),
     );
   }

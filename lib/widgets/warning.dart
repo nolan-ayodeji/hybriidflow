@@ -53,8 +53,8 @@ class _warning1State extends State<warning1> {
           textsize2: 13,
 
           text2: 'Press the + button to add a widget! • Flow $hflowversion',
-          color: Colors.white,
-          color2: Color(0xffdbe3ec),
+          color: Color(0xaee4eaef),
+          color2: Color(0xb0dbe3ec),
         ),
       ),
     );

@@ -139,8 +139,8 @@ class _topbarState extends State<topbar> {
             child: AnimatedContainer(
               width: MediaQuery.of(context).size.width / 1.009,
               height: cc == true ? 32 : 39,
-              duration: Duration(milliseconds: issolid == true ? 0 : 250),
-              curve: Curves.easeInOutCirc,
+              duration: Duration(milliseconds: issolid == true ? 0 : 320),
+              curve: Curves.easeInOutBack,
               child: Stack(
                 children: [
                   Row(
@@ -152,13 +152,14 @@ class _topbarState extends State<topbar> {
                             onTap: () {Navigator.of(context).pushNamed(timepage.route);},
                             child: Tooltip(
                               message: 'Start Screen Saver',
-                              height: 2.5,
+                              height: 1.5,
+
                               decoration: BoxDecoration(
                                 //colors
-                                color: Color(0xff7a7a7a),
+                                color: Color(0xDD383838),
                                 borderRadius: BorderRadius.circular(38),
                                 border: Border.all(
-                                  color: Colors.white,
+                                  color: Colors.white60,
                                   width: 1,
                                 ),
 
@@ -204,10 +205,10 @@ class _topbarState extends State<topbar> {
                               height: 2.5,
                               decoration: BoxDecoration(
                                 //colors
-                                color: Color(0xff7a7a7a),
+                                color: Color(0xDD383838),
                                 borderRadius: BorderRadius.circular(38),
                                 border: Border.all(
-                                  color: Colors.white,
+                                  color: Colors.white60,
                                   width: 1,
                                 ),
 
@@ -261,16 +262,55 @@ class _topbarState extends State<topbar> {
                             ],
                             fontFamily: 'Schyler'),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOutCirc,
+                          width: 90,
+                          height: 33,
+                          child: Center(
+                            child: Text(
+                              'FlowAI',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 10,
+                                  color: Colors.white,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(0.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Colors.black26,
+                                    ),
+                                  ],
+                                  fontFamily: 'Schyler'),
+                            ),
+                          ),
+
+                          decoration: BoxDecoration(
+                            color:  Color(0x32A2E784),
+                            borderRadius: BorderRadius.circular(30),
+                            border:Border.all(
+                              color: Color(0xe28cc993),
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                      ),
                       Row(
                         children: [
-                          Container(
-                            width: 100,
-                            height: 20,
-                            child: FittedBox(
-                              child: Image(image: AssetImage('assets/minum10.png')),
-                              fit: BoxFit.cover,
-                              alignment: Alignment.center,
+                          Opacity(
+                            child: Container(
+                              width: 100,
+                              height: 20,
+                              child: FittedBox(
+                                child: Image(image: AssetImage('assets/minum10.png')),
+                                fit: BoxFit.cover,
+                                alignment: Alignment.center,
+                              ),
+
                             ),
+                              opacity:0.55,
                           ),
                           SizedBox(
                             width: 35,

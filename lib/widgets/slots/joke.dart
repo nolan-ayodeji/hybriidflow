@@ -51,36 +51,18 @@ class _jokeapiState extends State<jokeapi> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 40,
-        ),
-        SizedBox(
-          height: 40,
-        ),
-        SelectableText(
-          begin,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontWeight: FontWeight.w900,
-              color: Color(0xffc7c7c7),
-              fontSize: 30,
-              shadows: <Shadow>[
-                Shadow(
-                  offset: Offset(0.0, 1.0),
-                  blurRadius: 3.0,
-                  color: Colors.black54,
-                ),
-              ],
-              fontFamily: 'Schyler'),
-        ),
-        SizedBox(
-          height: 25,
-        ),
-        Flexible(
-          child: SelectableText(
-            end,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 40,
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          SelectableText(
+            begin,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontWeight: FontWeight.w900,
@@ -95,47 +77,68 @@ class _jokeapiState extends State<jokeapi> {
                 ],
                 fontFamily: 'Schyler'),
           ),
-        ),
-        SizedBox(
-          height: 50,
-        ),
-        InkWell(
-          onTap: getdata,
-          child: Center(
-            child: MouseRegion(
-              onHover: anim,
-              onExit: white,
-              child: AnimatedContainer(
-                curve: Curves.easeInOutBack,
-                duration: Duration(milliseconds: issolid == true ? 0 : 250),
-                width: 300,
-                height: cc == true ? 50 : 60,
-
-                child: Row(
-                  children: [
-                    Flexible(
-                        child: Center(
-                            child: Text(
-                      'New Joke',
-                      style: TextStyle(fontFamily: 'Schyler'),
-                    ))),
+          SizedBox(
+            height: 25,
+          ),
+          Flexible(
+            child: SelectableText(
+              end,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  color: Color(0xffc7c7c7),
+                  fontSize: 30,
+                  shadows: <Shadow>[
+                    Shadow(
+                      offset: Offset(0.0, 1.0),
+                      blurRadius: 3.0,
+                      color: Colors.black54,
+                    ),
                   ],
-                ),
-                decoration: BoxDecoration(
-                  color: Color(0xFFB6B6B6),
-                  borderRadius: BorderRadius.circular(40),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2,
-                  ),
+                  fontFamily: 'Schyler'),
+            ),
+          ),
+          SizedBox(
+            height: 50,
+          ),
+          InkWell(
+            onTap: getdata,
+            child: Center(
+              child: MouseRegion(
+                onHover: anim,
+                onExit: white,
+                child: AnimatedContainer(
+                  curve: Curves.easeInOutBack,
+                  duration: Duration(milliseconds: issolid == true ? 0 : 250),
+                  width: 300,
+                  height: cc == true ? 50 : 60,
 
+                  child: Row(
+                    children: [
+                      Flexible(
+                          child: Center(
+                              child: Text(
+                        'New Joke',
+                        style: TextStyle(fontFamily: 'Schyler'),
+                      ))),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFB6B6B6),
+                    borderRadius: BorderRadius.circular(40),
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2,
+                    ),
+
+                  ),
                 ),
               ),
             ),
           ),
-        ),
 
-      ],
+        ],
+      ),
     );
   }
 }

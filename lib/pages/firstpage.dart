@@ -33,7 +33,7 @@ class _firstpageState extends State<firstpage> {
     await Future.delayed(Duration(milliseconds: 1), () {
       setState(() {
         _visible = !_visible;
-        print('SCOOP');
+
       });
     });
     await Future.delayed(Duration(seconds: 1), () {

@@ -45,9 +45,7 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
 
   Color top = Color(0xffff5952);
   Color top2 = Color(0xb9e7c029);
-  bool cc = true;
 
-  bool cc2 = true;
   bool shouldshow = true;
   bool showtext = true;
   bool wann = true;
@@ -83,6 +81,9 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
     });
   }
 
+  bool cc = true;
+
+  bool cc2 = true;
   void anim(PointerEvent details) {
     setState(() {
       cc = false;
@@ -162,11 +163,14 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
                               ],
                             ),
                           ),
-                          Container(
-                            child: widget.slot,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(),
-
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(35),
+                            child: Container(
+                              child: widget.slot,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(),
+                            
+                            ),
                           ),
 
                         ],
@@ -207,8 +211,9 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
                 MouseRegion(
                   onHover: anim,
                   onExit: falseanim,
+
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(38),
+                    borderRadius: BorderRadius.circular(35),
 
                     child: BackdropFilter(
                       filter: ui.ImageFilter.blur(
@@ -218,15 +223,17 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
                       child: InkWell(
                         child: AnimatedContainer(
                           duration: Duration(milliseconds: issolid == true ? 0 : 300),
+                          curve: Curves.easeInOutBack,
                           width: cc == true ? 35 : 48,
                           height: 35,
-                          curve: Curves.easeInOutBack,
+
                           child:
-                              Icon(Icons.highlight_remove, color: Color(0xffa30608)),
+                              Icon(Icons.highlight_remove, color: Color(
+                                  0xff000000)),
                           decoration: BoxDecoration(
                             //colors
                             color: Color(0xdaff0000),
-                            borderRadius: BorderRadius.circular(38),
+                            borderRadius: BorderRadius.circular(35),
                             border: Border.all(
                               color: Colors.black,
                               width: cc == true ? 0 : 2,
@@ -235,11 +242,11 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: <Color>[
-                                cc == true ?  Color(0x89ef6d67)
-                                    : Color(0xffff5952)
+                                cc == true ?  Color(0x4fff6c52)
+                                    : Color(0xffff6c52)
                                 ,
-                                cc == true ? Color(0x64ef6d67)
-                                    : Color(0xffff5952)
+                                cc == true ? Color(0x4fff6c52)
+                                    : Color(0xffff6c52)
                               ],
                             ),
                           ),
@@ -279,7 +286,7 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
                                 blurRadius: 12.0,
                               ),
                             ],
-                            borderRadius: BorderRadius.circular(30)),
+                            borderRadius: BorderRadius.circular(0)),
                       ),
                       onTap: widget.dupl,
                     ),

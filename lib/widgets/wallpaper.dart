@@ -35,7 +35,7 @@ class _AddWallpaperState extends State<AddWallpaper> {
                               InkWell(
                                 onTap: () {
                                   setState(() async {
-                                    wp = 'assets/hbflowof-min.png';
+                                    wp = 'assets/hbflowof-min.jpg';
                                     showwall = false;
                                     await new Future.delayed(const Duration(milliseconds: 50));
                                     Navigator.pop(context);
@@ -47,7 +47,7 @@ class _AddWallpaperState extends State<AddWallpaper> {
                                   height: 200,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
-                                      image: AssetImage('assets/hbflowof-min.png'),
+                                      image: AssetImage('assets/hbflowof-min.jpg'),
                                       fit: BoxFit.cover,
                                     ),
                                     color: Color(0xda191919),

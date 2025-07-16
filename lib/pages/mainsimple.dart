@@ -55,7 +55,7 @@ class _simplepageState extends State<simplepage> {
                               color: Color(0xD5343434),
                               width: 500,
                               height: 900,
-                              child: dict()),
+                              child: Container()),
                         ],
                       ),
                     ],

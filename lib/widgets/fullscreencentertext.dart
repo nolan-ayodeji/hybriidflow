@@ -84,7 +84,7 @@ class _fstextState extends State<fstext> {
                                 shadows: <Shadow>[
                                   Shadow(
                                     offset: Offset(0.0, 1.0),
-                                    blurRadius: 6.0,
+                                    blurRadius: 3.0,
                                     color: Colors.black54,
                                   ),
                                 ],

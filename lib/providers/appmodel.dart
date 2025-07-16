@@ -27,3 +27,41 @@ class AppModel extends ChangeNotifier {
 
 
 }
+
+
+
+class FMModel extends ChangeNotifier {
+
+  FMModel() {
+
+  }
+
+  void setView(String set){
+    view = set;
+    notifyListeners();
+    print("provcalled");
+  }
+
+  String view = "modern";
+
+
+
+}
+
+class QRModel extends ChangeNotifier {
+
+  QRModel() {
+
+  }
+
+  void rebuild(){
+    print("rebuilding");
+
+    notifyListeners();
+  }
+
+  String view = "modern";
+
+
+
+}

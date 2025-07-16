@@ -20,9 +20,13 @@ import 'pages/mainsimple.dart';
 // ignore: avoid_web_libraries_in_flutter
 
 void main() {
-  runApp(ChangeNotifierProvider(
+  runApp(MultiProvider(
 
-      create: (_) => AppModel(),
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppModel()),
+        ChangeNotifierProvider(create: (_) => FMModel()),
+        ChangeNotifierProvider(create: (_) => QRModel()),
+      ],
       child: MyApp()));
 }
 

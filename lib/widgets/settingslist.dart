@@ -164,16 +164,16 @@ class _SettingOptionsState extends State<SettingOptions> {
                           width: sizeforsized,
                         ),
 
-                        Visibility(
-                            child: option(
-                          ogtextl: 'Scrollable Widgets (If screen is too small)',
-                          stext: widget.o4text,
-                          textsize: 14,
-                          s: widget.option4,
-                        )),
-                        SizedBox(
-                          width: sizeforsized,
-                        ),
+                        // Visibility(
+                        //     child: option(
+                        //   ogtextl: 'Scrollable Widgets (If screen is too small)',
+                        //   stext: widget.o4text,
+                        //   textsize: 14,
+                        //   s: widget.option4,
+                        // )),
+                        // SizedBox(
+                        //   width: sizeforsized,
+                        // ),
                         Visibility(
                           visible: MediaQuery.of(context).size.width < 600
                               ? false

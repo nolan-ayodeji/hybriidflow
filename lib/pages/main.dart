@@ -55,6 +55,7 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import '../widgets/bottombarthree.dart';
+import '../widgets/slots/desmos.dart';
 
 bool gradientan = false;
 int widgetsort = 1;
@@ -67,14 +68,14 @@ bool bigsettings = false;
 bool settingson = false;
 bool on = false;
 bool showwall = false;
-String wp = 'assets/hbflowof-min.png';
+String wp = 'assets/hbflowof-min.jpg';
 
 class WidgetSlotContainer {
-  WidgetSlotContainer(this.name, this.widget, this.isgrey, this.categories,
-      this.color, this.key, this.widget2);
+  WidgetSlotContainer(this.name, this.isgrey, this.categories, this.color,
+      this.key, this.widget2);
 
   final String name;
-  final Widget widget;
+
   final WidgetEntry widget2;
   final bool isgrey;
   final String categories;
@@ -253,7 +254,7 @@ class _mainpageState extends State<mainpage> {
     await Future.delayed(Duration(milliseconds: 1), () {
       setState(() {
         _visible = !_visible;
-        print('SCOOP');
+
       });
     });
     await Future.delayed(Duration(seconds: 1), () {
@@ -589,45 +590,155 @@ class _mainpageState extends State<mainpage> {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: FittedBox(
-                                      child: infowidget(
-                                        what: () {
-                                          setState(() {
-                                            entries2.removeAt(index);
-                                          });
-                                        },
-                                        slot: switch (widget) {
-                                          "counter" => counter(
-                                              widprovide: CounterProvider(),
-                                              num: content["number"].toString(),
-                                              tapuno: () {
-                                                setState(() {
-                                                  content["number"]++;
-                                                });
-                                              },
-                                              tapdos: () {
-                                                setState(() {
-                                                  content["number"]--;
-                                                });
-                                              },
-                                            ),
-                                          "dict" => dict(),
-                                          "qls" => quick(),
-                                          "ran" => randomnum(widprovide: CounterProvider2()),
-                                          "img" => imageviewer(),
-                                          "qr" => quick(),
-                                          "last" => Last(),
-                                          "td" => timeanddate(),
-                                          "t" => time(),
-                                          "world" => worldtime(),
-                                          "date" => date(),
-                                          "plat" => plat(),
-                                          "joke" => jokeapi(),
-                                          "mirror" => camera(),
-                                          "translate" => ggt(),
-                                          "battery" => bat(),
-                                          _ => SizedBox(),
-                                        },
-                                        sshow: tempsetting,
+                                      child: Column(
+                                        children: [
+                                          infowidget(
+                                            what: () {
+                                              setState(() {
+                                                entries2.removeAt(index);
+                                              });
+                                            },
+                                            slot: switch (widget) {
+                                              "counter" => counter(
+                                                  widprovide: CounterProvider(),
+                                                  num: content["number"]
+                                                      .toString(),
+                                                  tapuno: () {
+                                                    setState(() {
+                                                      content["number"]++;
+                                                    });
+                                                  },
+                                                  tapdos: () {
+                                                    setState(() {
+                                                      content["number"]--;
+                                                    });
+                                                  },
+                                                ),
+                                              "dict" => dict(
+                                                  finaldef: "",
+                                                  visible: content["def"],
+                                                  taptwo: (String value) {
+                                                    setState(() {
+                                                      content["def"] = value;
+                                                      print("value is" +
+                                                          value.toString());
+                                                    });
+
+                                                    // your logic here
+                                                  },
+                                                ),
+                                              "qls" => quick(
+                                                  linkentries: content["links"],
+                                                ),
+
+                                              "ran" => randomnum(
+                                                  widprovide:
+                                                      CounterProvider2(),
+                                                  num: content["number"],
+                                                  min: content["min"],
+                                                  max: content["max"],
+                                                  tapone: () {
+                                                    setState(() {
+                                                      // content["number"]++;
+                                                      Random random =
+                                                          new Random();
+                                                      content["number"] = random
+                                                              .nextInt(content[
+                                                                      "max"] -
+                                                                  content[
+                                                                      "min"] +
+                                                                  1) +
+                                                          content["min"];
+                                                    });
+                                                  },
+                                                  taptwo: (String value) {
+                                                    print("Tapped with $value");
+                                                    content["max"] =
+                                                        int.parse(value);
+                                                    // your logic here
+                                                  },
+                                                  tapthree: (String value) {
+                                                    print("Tapped with $value");
+                                                    content["min"] =
+                                                        int.parse(value);
+                                                    // your logic here
+                                                  },
+                                                ),
+                                              "img" => imageviewer(),
+                                              "qr" => qr(
+                                                  taptwo: (String value) {
+                                                    setState(() {
+                                                      content["urlskii"] =
+                                                          value;
+                                                    });
+
+                                                    print(value);
+                                                  },
+                                                  tapthree: (String value) {
+                                                    setState(() {
+                                                      print("3 tapped");
+                                                      content["urlskii2"] =
+                                                          value;
+                                                    });
+
+                                                    print(value);
+                                                  },
+                                                  tapfour: (String value) {
+                                                    setState(() {
+                                                      content["quality"] =
+                                                          value;
+                                                    });
+
+                                                    print(value);
+                                                  },
+                                                  url: content["urlskii"],
+                                                  qual: content["quality"],
+                                                  col: content["color"],
+                                                  data: content["urlskii2"],
+                                                  tapfive: (String value) {
+
+
+                                                    setState(() {
+                                                      content["color"] =
+                                                          value;
+                                                    });
+
+
+
+                                                    print(entries2);
+                                                  },
+                                                ),
+                                              "last" => Last(
+                                                  hasuser: content["userin"],
+                                                  user: content["username"],
+                                                  taptwo: (String value) {
+                                                    setState(() {
+                                                      print(
+                                                          "Tapped with $value");
+                                                      content["username"] =
+                                                          value;
+                                                      print(content);
+                                                      content["userin"] = true;
+                                                    });
+
+                                                    // your logic here
+                                                  },
+                                                ),
+                                              "td" => timeanddate(),
+                                              "analog" => Analog(),
+                                              "t" => time(),
+                                              "world" => des(),
+                                              "date" => date(),
+                                              "plat" => plat(),
+                                              "joke" => jokeapi(),
+                                              "mirror" => camera(),
+                                              "translate" => ggt(),
+                                              "battery" => bat(),
+                                              _ => SizedBox(),
+                                            },
+                                            sshow: tempsetting,
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   );
@@ -642,12 +753,16 @@ class _mainpageState extends State<mainpage> {
                         height: 5,
                       ),
                       warning1(
-                        visible1: opened ? false : entries2.isEmpty ? true : false,
+                        visible1: opened
+                            ? false
+                            : entries2.isEmpty
+                                ? true
+                                : false,
                         visible2: true,
                       ),
                       SizedBox(
                         height: 5,
-                      ), //adds space from the text to distance it from bottom bar
+                      ),
                       GestureDetector(
                         child: bool_bar == true
                             ? bottombar(
@@ -663,22 +778,20 @@ class _mainpageState extends State<mainpage> {
                                 },
                               )
                             : Consumer<AppModel>(
-
-                              builder: (context, app, child) {
+                                builder: (context, app, child) {
                                 return bottom3bar(
-                                    ftext: dockl == false
-                                        ? '${DateFormat('h:mm').format(app.now)} • ${Platform.operatingSystem} ${battery0 == true ? "• ${percentage}%" : ""}'
-                                        : '${DateFormat('h:mm').format(app.now)} • ${Platform.operatingSystem} • ${entries.length} ${battery0 == true ? "• ${percentage}%" : ""}',
-                                    action: () {
-                                      addmenu();
-                                    },
-                                    saction: () {
-                                      settingmenu();
-                                      colorchange();
-                                    },
-                                  );
-                              }
-                            ),
+                                  ftext: dockl == false
+                                      ? '${DateFormat('h:mm').format(app.now)} • ${Platform.operatingSystem} ${battery0 == true ? "• ${percentage}%" : ""}'
+                                      : '${DateFormat('h:mm').format(app.now)} • ${Platform.operatingSystem} • ${entries.length} ${battery0 == true ? "• ${percentage}%" : ""}',
+                                  action: () {
+                                    addmenu();
+                                  },
+                                  saction: () {
+                                    settingmenu();
+                                    colorchange();
+                                  },
+                                );
+                              }),
                         //onTap: entries.length < 1 ? add : delete,
                       ) //The Bottom bar
                     ],
@@ -697,7 +810,6 @@ class _mainpageState extends State<mainpage> {
                     color: Color(0xff808080),
                   ),
                 )),
-
             Column(
               //WIDGET
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -747,8 +859,8 @@ class _mainpageState extends State<mainpage> {
                           borderRadius: BorderRadius.circular(30.0),
                           child: BackdropFilter(
                             filter: ui.ImageFilter.blur(
-                              sigmaX: 7.0,
-                              sigmaY: 7.0,
+                              sigmaX: 9.0,
+                              sigmaY: 9.0,
                             ),
                             child: AnimatedContainer(
                               width:
@@ -765,7 +877,7 @@ class _mainpageState extends State<mainpage> {
                               duration: Duration(
                                   milliseconds: issolid == true ? 0 : 300),
                               decoration: BoxDecoration(
-                                color: Color(0x89817979),
+                                color: Color(0x67A49C9C),
                                 borderRadius: BorderRadius.circular(30),
                                 border: Border.all(
                                   color: Color(0xD7000000),
@@ -793,10 +905,8 @@ class _mainpageState extends State<mainpage> {
                                             visible: random,
                                             ontap2: bigsetting,
                                             setting2: switchsort,
-                                            oncall: (){
-                                              setState(() {
-
-                                              });
+                                            oncall: () {
+                                              setState(() {});
                                             },
                                           )),
                                     ],
@@ -813,7 +923,7 @@ class _mainpageState extends State<mainpage> {
 
                 Container(
                   width: 50,
-                  height: 76,
+                  height: 60,
                 ) //thing used to add space to the bottom of the widget adder
               ],
             ),
@@ -888,8 +998,8 @@ class _mainpageState extends State<mainpage> {
                                                   BorderRadius.circular(30.0),
                                               child: BackdropFilter(
                                                 filter: ui.ImageFilter.blur(
-                                                  sigmaX: 7.0,
-                                                  sigmaY: 7.0,
+                                                  sigmaX: 9.0,
+                                                  sigmaY: 9.0,
                                                 ),
                                                 child: AnimatedContainer(
                                                   width: MediaQuery.of(context)
@@ -925,7 +1035,7 @@ class _mainpageState extends State<mainpage> {
                                                               ? 0
                                                               : 300),
                                                   decoration: BoxDecoration(
-                                                    color: Color(0x89817979),
+                                                    color: Color(0x67A49C9C),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             30),
@@ -1006,7 +1116,7 @@ class _mainpageState extends State<mainpage> {
                                                                 Row(
                                                                   children: [
                                                                     SizedBox(
-                                                                      width: 7,
+                                                                      width: 10,
                                                                     ),
                                                                     MouseRegion(
                                                                       onHover:
@@ -1024,32 +1134,27 @@ class _mainpageState extends State<mainpage> {
                                                                           onExit:
                                                                               white3,
                                                                           child:
-                                                                              AnimatedContainer(
-                                                                            width: cc3 == true
-                                                                                ? 35
-                                                                                : 60,
-                                                                            curve:
-                                                                                Curves.easeInOutBack,
-                                                                            duration:
-                                                                                Duration(milliseconds: issolid == true ? 0 : 300),
-                                                                            height:
-                                                                                35,
-                                                                            child:
-                                                                                Icon(
-                                                                              Icons.fullscreen,
-                                                                              color: Color(0xff033808),
+                                                                          AnimatedContainer(
+                                                                            width: cc3 == true ? 35 : 45,
+                                                                            curve: Curves.easeInOutBack,
+                                                                            duration: Duration(
+                                                                                milliseconds: issolid == true ? 0 : 300),
+                                                                            height: 35,
+                                                                            child: Icon(
+                                                                              Icons.fullscreen_sharp,
+                                                                              color: Colors.black,
                                                                             ),
                                                                             decoration: BoxDecoration(
-                                                                                color: cc3 == true ? Color(0xda06a316) : Color(0xff06a316),
-                                                                                boxShadow: [
-                                                                                  BoxShadow(
-                                                                                    color: Colors.black.withOpacity(0.5),
-                                                                                    spreadRadius: 1,
-                                                                                    blurRadius: 7,
-                                                                                    offset: Offset(0, 1), // changes position of shadow
-                                                                                  ),
-                                                                                ],
-                                                                                borderRadius: BorderRadius.circular(30)),
+                                                                              //colors
+                                                                              color: cc3 == true ?  Color(0x6cdeb689)
+                                                                                  : Color(0xddbd986d),
+                                                                              borderRadius: BorderRadius.circular(35),
+                                                                              border: Border.all(
+                                                                                color: Colors.black,
+                                                                                width: cc3 == true ? 1 :2 ,
+                                                                              ),
+
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
@@ -1079,7 +1184,7 @@ class _mainpageState extends State<mainpage> {
                 ),
                 Container(
                   width: 50,
-                  height: 76,
+                  height: 60,
                 ) //thing used to add space to the bottom of the settings adder
               ],
             ),
@@ -1093,6 +1198,99 @@ class _mainpageState extends State<mainpage> {
                 children: [Text('${MediaQuery.of(context).size.height}')],
               ),
             ),
+            Visibility(
+              visible: false,
+              child: Center(
+                child: BackdropFilter(
+                  filter: ui.ImageFilter.blur(
+                    sigmaX: 1.0,
+                    sigmaY: 1.0,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: BackdropFilter(
+                      filter: ui.ImageFilter.blur(
+                        sigmaX: 7.0,
+                        sigmaY: 7.0,
+                      ),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 1.05,
+                        width: MediaQuery.of(context).size.width / 1.05,
+                        child: Stack(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Color(0xda191919),
+                                        borderRadius: BorderRadius.circular(30),
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 1,
+                                        ),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                          colors: <Color>[
+                                            Colors.white60,
+                                            Color(0x6BFFFFFF)
+                                          ],
+                                        ),
+                                      ),
+                                      child: TextFormField(
+                                        onFieldSubmitted: (text) async {},
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 10,
+                                          fontFamily: 'Schyler',
+                                        ),
+                                        cursorColor: Colors.black,
+                                        decoration: InputDecoration(
+                                          hintText:
+                                              "Type in a link, ex. https://www.google.com/gmail/about/#)",
+                                          fillColor: Colors.black,
+                                          focusColor: Colors.black,
+                                          hoverColor: Colors.black,
+                                          border: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0x51FFFFFF),
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            color: Color(0xD7000000),
+                            width: 1,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x51000000),
+                              spreadRadius: 1,
+                              blurRadius: 6,
+                              offset:
+                                  Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -1343,7 +1541,10 @@ class _hillyState extends State<hilly> {
       width: double.infinity,
       height: double.infinity,
       child: OverflowBox(
-        child: Image(image: AssetImage(wp)),
+        child: Image(
+          image: AssetImage(wp),
+          fit: BoxFit.cover,
+        ),
         maxWidth: double.infinity,
         maxHeight: double.infinity,
       ),
@@ -1358,7 +1559,26 @@ final List<Key> keys = [
 
 final List<Widget> entries = [];
 List<WidgetEntry> entries2 = [
-
+  // WidgetEntry("counter", {
+  //   "number": 2,
+  //   "size": 90,
+  // }),
+  WidgetEntry("ran", {
+    "number": 0,
+    "max": 100,
+    "min": 50,
+  }),
+  WidgetEntry("qr", {
+    "urlskii":
+        "https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=hybriidflow&bgcolor=B9B9B9",
+    "urlskii2": "my name is pink and i RLL lIKE TO MEET YOU.",
+    "quality": "230x230",
+    "color": "B9B9B9"
+  }),
+  // WidgetEntry("last", {
+  //   "number": 0,
+  //   "max": 100,
+  // }),
 ];
 
 class AddWidget extends StatefulWidget {
@@ -1371,7 +1591,6 @@ class AddWidget extends StatefulWidget {
   final ontap2;
   final oncall;
 
-
   const AddWidget(
       {Key? key,
       this.controller,
@@ -1379,7 +1598,8 @@ class AddWidget extends StatefulWidget {
       this.visible,
       this.ontap,
       this.ontap2,
-      this.setting2, this.oncall})
+      this.setting2,
+      this.oncall})
       : super(key: key);
   @override
   _AddWidgetState createState() => _AddWidgetState();
@@ -1416,7 +1636,6 @@ class _AddWidgetState extends State<AddWidget> {
     // ),
     WidgetSlotContainer(
       'Dictionary',
-      dict(),
       false,
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
@@ -1427,22 +1646,17 @@ class _AddWidgetState extends State<AddWidget> {
     ),
     WidgetSlotContainer(
       'Counter',
-      counter(
-        key: ValueKey('counter_1'),
-        widprovide: CounterProvider(),
-      ),
       false,
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('counter_1'),
       WidgetEntry("counter", {
-        "number": 0,
+        "number": 2,
         "size": 90,
       }),
     ),
     WidgetSlotContainer(
       'QuickLinks',
-      quick(),
       false,
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
@@ -1453,20 +1667,18 @@ class _AddWidgetState extends State<AddWidget> {
     ),
     WidgetSlotContainer(
       'Random Number',
-      randomnum(
-        widprovide: CounterProvider2(),
-      ),
       false,
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('dic_1'),
       WidgetEntry("ran", {
         "number": 0,
+        "max": 100,
+        "min": 0,
       }),
     ),
     WidgetSlotContainer(
       'Image Viewer',
-      imageviewer(),
       true,
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
@@ -1477,32 +1689,44 @@ class _AddWidgetState extends State<AddWidget> {
     ),
     WidgetSlotContainer(
       'QR Code Creator',
-      qr(),
       false,
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('dic_1'),
       WidgetEntry("qr", {
-        "url": 0,
+        "urlskii":
+        "https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=hybriidflow&bgcolor=B9B9B9",
+        "urlskii2": "my name is pink and i RLL lIKE TO MEET YOU.",
+        "quality": "230x230",
+        "color": "B9B9B9"
       }),
     ),
     WidgetSlotContainer(
       'LastFM Scrobbler',
-      Last(),
       false,
       widgetsort == 1 ? 'Tool' : '',
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('dic_1'),
       WidgetEntry("last", {
-        "username": "",
+        "username": "hinac",
+        "userin": false,
       }),
     ),
 
     // WidgetSlotContainer('FImage Viewer', fimageviewer(), true),
 
+    // WidgetSlotContainer(
+    //   'Analog Clock',
+    //   false,
+    //   widgetsort == 1 ? 'Info' : '',
+    //   widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
+    //   ValueKey('dic_1'),
+    //   WidgetEntry("analog", {
+    //     "username": "",
+    //   }),
+    // ),
     WidgetSlotContainer(
       'Time and Date',
-      timeanddate(),
       false,
       widgetsort == 1 ? 'Info' : '',
       widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
@@ -1512,8 +1736,7 @@ class _AddWidgetState extends State<AddWidget> {
       }),
     ),
     WidgetSlotContainer(
-      'Time Widget',
-      time(),
+      'Time',
       false,
       widgetsort == 1 ? 'Info' : '',
       widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
@@ -1524,7 +1747,6 @@ class _AddWidgetState extends State<AddWidget> {
     ),
     WidgetSlotContainer(
       'World Clock',
-      worldtime(),
       false,
       widgetsort == 1 ? 'Info' : '',
       widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
@@ -1535,8 +1757,7 @@ class _AddWidgetState extends State<AddWidget> {
     ),
 
     WidgetSlotContainer(
-      'Date Widget',
-      date(),
+      'Date',
       false,
       widgetsort == 1 ? 'Info' : '',
       widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
@@ -1546,8 +1767,7 @@ class _AddWidgetState extends State<AddWidget> {
       }),
     ),
     WidgetSlotContainer(
-      'Platform Widget',
-      plat(),
+      'Platform',
       false,
       widgetsort == 1 ? 'Info' : '',
       widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
@@ -1559,7 +1779,6 @@ class _AddWidgetState extends State<AddWidget> {
 
     WidgetSlotContainer(
       'Random Joke',
-      jokeapi(),
       false,
       widgetsort == 1 ? 'Fun' : '',
       widgetsort == 2 ? Color(0xFF654362) : Color(0x697E7E7E),
@@ -1572,7 +1791,6 @@ class _AddWidgetState extends State<AddWidget> {
 
     WidgetSlotContainer(
       'Mirror (Beta)',
-      camera(),
       false,
       widgetsort == 1 ? 'Tool' : '',
       Color(0xFF9C6D6D),
@@ -1584,7 +1802,6 @@ class _AddWidgetState extends State<AddWidget> {
 
     WidgetSlotContainer(
       'Google Translate (BETA)',
-      ggt(),
       false,
       widgetsort == 1 ? 'Tool' : '',
       Color(0xFF9C6D6D),
@@ -1595,7 +1812,6 @@ class _AddWidgetState extends State<AddWidget> {
     ),
     WidgetSlotContainer(
       'Battery (BETA)',
-      bat(),
       false,
       widgetsort == 1 ? 'Info' : '',
       Color(0xFF9C6D6D),
@@ -1688,8 +1904,9 @@ class _AddWidgetState extends State<AddWidget> {
                                 add: () {
                                   widget.oncall?.call();
                                   setState(() {
-                                    entries2.add(widgetstoadd[i]
-                                        .widget2);
+                                    entries2.add(widgetstoadd[i].widget2);
+
+
                                   }); //add a new widget;
 
                                   print('PRINT ${entries}');
@@ -1722,8 +1939,6 @@ class _AddWidgetState extends State<AddWidget> {
                                     child: option(
                                   text: "yayo",
                                   add: () {
-                                    entries.add(widgetstoadd[i].widget);
-
                                     print('PRINT ${entries}');
                                     setState(() {
                                       on = false;
@@ -1861,34 +2076,26 @@ class _AddWidgetState extends State<AddWidget> {
                           onHover: anim3,
                           onExit: white3,
                           child: AnimatedContainer(
-                            width: cc3 == true ? 35 : 60,
+                            width: cc3 == true ? 35 : 45,
                             curve: Curves.easeInOutBack,
                             duration: Duration(
                                 milliseconds: issolid == true ? 0 : 300),
                             height: 35,
                             child: Icon(
-                              Icons.fullscreen,
-                              color: Color(0xff033808),
+                              Icons.fullscreen_sharp,
+                              color: Colors.black,
                             ),
                             decoration: BoxDecoration(
-                                color: cc3 == true
-                                    ? Color(0xda06a316)
-                                    : Color(0xff06a316),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 7,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
-                                  ),
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.5),
-                                    spreadRadius: -12.0,
-                                    blurRadius: 12.0,
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.circular(30)),
+                              //colors
+                              color: cc3 == true ?  Color(0x6cdeb689)
+        : Color(0xddbd986d),
+                              borderRadius: BorderRadius.circular(35),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: cc3 == true ? 1 :2 ,
+                              ),
+
+                            ),
                           ),
                         ),
                       ),

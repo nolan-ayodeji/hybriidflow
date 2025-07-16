@@ -12,6 +12,10 @@ final List<String> entries = <String>[
 ];
 
 class quick extends StatefulWidget {
+
+  final linkentries;
+
+  const quick({super.key, this.linkentries});
   @override
   _quickState createState() => _quickState();
 }
@@ -19,23 +23,24 @@ class quick extends StatefulWidget {
 class _quickState extends State<quick> {
 
 
+
+
   void add(fix) {
     setState(() {
-      entries.add(fix);
+      widget.linkentries.add(fix);
 
     });
-    print(entries.length);
+
   }
 
   void remove(what) {
     setState(() {
-      entries.removeAt(what);
+      widget.linkentries.removeAt(what);
     });
-    print(entries.length);
   }
   void removelast() {
     setState(() {
-      entries.removeLast();
+      widget.linkentries.removeLast();
       currenterror = "QuickLinks: URL INVALID";
     });
     Future.delayed(Duration(seconds: 3), () {
@@ -49,13 +54,15 @@ class _quickState extends State<quick> {
 
   @override
   Widget build(BuildContext context) {
+    print("wsg miley");
+    print(widget.linkentries);
     return Stack(
       children: [
     ListView.builder(
         key: UniqueKey(),shrinkWrap: true,
         padding: const EdgeInsets.all(8),
         physics: NeverScrollableScrollPhysics(),
-        itemCount: entries.length,
+        itemCount: widget.linkentries.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             key: UniqueKey(),
@@ -65,8 +72,8 @@ class _quickState extends State<quick> {
               ),
               InkWell(
                 onTap: () async {
-                  await canLaunch(entries[index])
-                      ? await launch(entries[index])
+                  await canLaunch(widget.linkentries[index])
+                      ? await launch(widget.linkentries[index])
                       : remove(index);
                 },
                 child: Container(
@@ -87,7 +94,7 @@ class _quickState extends State<quick> {
                   child: Center(
                       child: FittedBox(
                           child: Text(
-                    entries[index],
+                            widget.linkentries[index],
                     style: TextStyle(
                         fontWeight: FontWeight.w900,
                         shadows: <Shadow>[
@@ -110,51 +117,54 @@ class _quickState extends State<quick> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Color(0xda191919),
-              borderRadius: BorderRadius.circular(30),
-              border: Border.all(
-                color: Colors.white,
-                width: 2,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xda191919),
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(
+                  color: Colors.white,
+                  width: 2,
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: <Color>[Colors.white60, Color(0xDCFFFFFF)],
+                ),
               ),
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: <Color>[Colors.white60, Color(0xDCFFFFFF)],
-              ),
-            ),
 
-            child: TextFormField(
-              onFieldSubmitted: (text) async {
-                add(text);
-                await canLaunch(text)
-                    ? print('object')
-                    : removelast() ;
+              child: TextFormField(
+                onFieldSubmitted: (text) async {
+                  add(text);
+                  await canLaunch(text)
+                      ? print('object')
+                      : removelast() ;
 
 
-              },
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 10,
-                fontFamily: 'Schyler',
-                shadows: <Shadow>[
-                  Shadow(
-                    offset: Offset(0.0, 3.0),
-                    blurRadius: 3.0,
-                    color: Colors.black54,
-                  ),
-                ],
-              ),
-              cursorColor: Colors.black,
-              decoration: InputDecoration(
-                hintText:
-                    "Type in a link, ex. https://www.google.com/gmail/about/#)",
-                fillColor: Colors.black,
-                focusColor: Colors.black,
-                hoverColor: Colors.black,
-                border: InputBorder.none,
+                },
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 10,
+                  fontFamily: 'Schyler',
+                  shadows: <Shadow>[
+                    Shadow(
+                      offset: Offset(0.0, 3.0),
+                      blurRadius: 3.0,
+                      color: Colors.black54,
+                    ),
+                  ],
+                ),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  hintText:
+                      "Type in a link, ex. https://www.google.com/gmail/about/#)",
+                  fillColor: Colors.black,
+                  focusColor: Colors.black,
+                  hoverColor: Colors.black,
+                  border: InputBorder.none,
+                ),
               ),
             ),
           ),

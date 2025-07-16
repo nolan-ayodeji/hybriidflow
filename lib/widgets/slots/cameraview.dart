@@ -44,6 +44,7 @@ class _cameraState extends State<camera> {
   @override
   void dispose() {
     controller?.dispose();
+    print("camera disposed");
     super.dispose();
   }
 
@@ -55,30 +56,36 @@ class _cameraState extends State<camera> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Stack(children: [
-              Text(
-                'Camera Access not accepted yet',
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 40,
-                  color: Color(0xffc7c7c7),
-                  fontFamily: 'Schyler',
-                  shadows: <Shadow>[
-                    Shadow(
-                      offset: Offset(0.0, 3.0),
-                      blurRadius: 3.0,
-                      color: Colors.black26,
-                    ),
-                  ],
-                ),
-              ),
-              CameraPreview(controller)
+              if (!controller.value.isInitialized)
+                Text(
+                  'Camera Access not accepted yet',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 40,
+                    color: Color(0xffc7c7c7),
+                    fontFamily: 'Schyler',
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(0.0, 3.0),
+                        blurRadius: 3.0,
+                        color: Colors.black26,
+                      ),
+                    ],
+                  ),
+                )
+              else
+                CameraPreview(controller),
+
             ]),
             Center(
               child: InkWell(
-                onTap: (){entries.add(imageviewer());
-                setState(() {
-                  image = 'https://res.cloudinary.com/ireaderinokun/image/upload/v1632401120737/caniuse-embed/all/stream.png';
-                });},
+                onTap: () {
+                  entries.add(imageviewer());
+                  setState(() {
+                    image =
+                        'https://res.cloudinary.com/ireaderinokun/image/upload/v1632401120737/caniuse-embed/all/stream.png';
+                  });
+                },
                 child: Text(
                   'Camera Not Working? Press here to see supported browsers',
                   style: TextStyle(
@@ -98,7 +105,6 @@ class _cameraState extends State<camera> {
                 ),
               ),
             ),
-
           ],
         ),
       ),

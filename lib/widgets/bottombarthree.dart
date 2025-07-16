@@ -111,9 +111,9 @@ class _bottom3barState extends State<bottom3bar> {
                               ? 45
                               : 54,
                           duration:
-                          Duration(milliseconds: issolid == true ? 0 : 250
+                          Duration(milliseconds: issolid == true ? 0 : 420
                           ),
-                          curve: Curves.easeInOutCirc,
+                          curve: Curves.easeInOutBack,
                           child: Stack(
                             children: [
                               Center(
@@ -170,9 +170,8 @@ class _bottom3barState extends State<bottom3bar> {
                                                 bottomRight: Radius.circular(0),
 
                                               ),
-                                              color: cc3 == true ?  Color(
-                                                  0x10000000) : Color(
-                                                  0x10000000)
+                                              color: Color(
+                                                  0x1B000000)
                                               ,
 
 
@@ -218,10 +217,8 @@ class _bottom3barState extends State<bottom3bar> {
                                                   bottomRight:Radius.circular(20),
 
                                                 ),
-                                                color: cc3 == true ? Color(
-                                                    0x10000000) : Color(
-                                                    0x10000000)
-                                                ,
+                                                color: Color(
+                                                    0x1B000000),
 
 
 
@@ -236,19 +233,19 @@ class _bottom3barState extends State<bottom3bar> {
                             ],
                           ),
                           decoration: BoxDecoration(
-                            color: Color(0x6FADADAD),
+                            color: Color(0x59BBBABA),
                             borderRadius:  BorderRadius.circular(30),
                             border: Border.all(
-                              color: Color(0xBE505050),
+                              color: Color(0x61BDBABA),
                               width: 1,
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Color(0x51000000),
+                                color: Color(0x5C000000),
                                 spreadRadius: 1,
-                                blurRadius: 6,
+                                blurRadius: 4,
                                 offset:
-                                Offset(0, 2), // changes position of shadow
+                                Offset(0, 1), // changes position of shadow
                               ),
                             ],
                           ),

@@ -7,7 +7,10 @@ import 'package:http/http.dart' as http;
 import 'package:hybriidflow/pages/main.dart';
 
 class dict extends StatefulWidget {
-  const dict({key}) : super(key: key);
+  final String finaldef;
+  final String visible;
+  final taptwo;
+  const dict({key, required this.finaldef, this.taptwo, required this.visible}) : super(key: key);
   @override
   _dictState createState() => _dictState();
 }
@@ -21,13 +24,14 @@ class _dictState extends State<dict> {
   void getdata() async {
 
     Response response = await get(Uri.parse(
-        'https://api.dictionaryapi.dev/api/v2/entries/en_US/$definiton'));
+        'https://api.dictionaryapi.dev/api/v2/entries/en_US/' + definiton));
     List data = jsonDecode(response.body);
     List<dynamic> meanings = data[0]['meanings'];
 
     String definitions = '';
     for (var i = 0; i < meanings.length; i++) {
       List<dynamic> defs = meanings[i]['definitions'];
+      definitions +=  '\n' +meanings[i]['partOfSpeech' ] + "s" + '\n';
       for (var j = 0; j < defs.length; j++) {
         String definition = defs[j]['definition'];
         definitions += (j + 1).toString() + '. ' + definition + '\n';
@@ -35,7 +39,11 @@ class _dictState extends State<dict> {
     }
 
     setState(() {
+
       g = definitions;
+      widget.taptwo(g);
+
+
     });
   }
   late List data;
@@ -100,8 +108,8 @@ class _dictState extends State<dict> {
                       child: Padding(
                         padding: const EdgeInsets.all(14.0),
                         child: Center(
-                          child: Text(
-                            g,
+                          child: SelectableText(
+                            widget.visible,
 
                             style: TextStyle(
                                 fontWeight: FontWeight.w900,
@@ -131,7 +139,7 @@ class _dictState extends State<dict> {
           Container(
             decoration: BoxDecoration(
               color: Color(0xda191919),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(40),
               border: Border.all(
                 color: Colors.white,
                 width: 2,
@@ -142,45 +150,44 @@ class _dictState extends State<dict> {
                 colors: <Color>[Colors.white60, Color(0xDCFFFFFF)],
               ),
             ),
-            child: TextFormField(
-              textAlign: TextAlign.center,
-              maxLength: 45,
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 10,
-                fontFamily: 'Schyler',
-                shadows: <Shadow>[
-                  Shadow(
-                    offset: Offset(0.0, 1.0),
-                    blurRadius: 3.0,
-                    color: Colors.black54,
-                  ),
-                ],
-              ),
-              scrollPhysics: NeverScrollableScrollPhysics(),
-              cursorColor: Colors.black,
-              onFieldSubmitted: (text) {
-                setState(() {
-                  definiton = text;
-                  getdata();
-                });
-              },
-              decoration: new InputDecoration(
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                  hintText:
-                      'Type word here + press enter to search up definition',
-                  hintStyle: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontSize: 10,
-                    fontFamily: 'Schyler',
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                textAlign: TextAlign.center,
+                maxLength: 45,
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 20,
+                  fontFamily: 'Schyler',
 
-                  )),
+                ),
+                scrollPhysics: NeverScrollableScrollPhysics(),
+                cursorColor: Colors.black,
+                onFieldSubmitted: (text) {
+                  setState(() {
+                    print("g is" + g);
+                    definiton = text;
+                    getdata();
+
+                  });
+                },
+                decoration: new InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                    hintText:
+                        'Type word here + press enter to search up definition',
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 12,
+                      fontFamily: 'Schyler',
+
+                    )),
+              ),
             ),
           ),
           SizedBox(

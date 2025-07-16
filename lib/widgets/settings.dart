@@ -369,7 +369,7 @@ class _multi2State extends State<multi2> {
     setState(() {
       final ref = Provider.of<AppModel>(context, listen: false);
       ref.widgetcolor = Color(0x7a555555);
-      ref.updateColor(Color(0x7aad3131));
+      ref.updateColor(Color(0x7a555555));
     });
   }
 
@@ -952,7 +952,7 @@ class sendfeedback extends StatelessWidget {
         height: 50,
         child: Center(
           child: Text(
-            'Send Feedback to Hybriidflow',
+            'Contact @hybriidbox.apps',
             style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 15,

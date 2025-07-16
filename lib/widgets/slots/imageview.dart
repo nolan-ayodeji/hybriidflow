@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hybriidflow/pages/main.dart';
-String image = 'https://static.vecteezy.com/system/resources/previews/001/308/900/non_2x/happy-family-with-son-vector.jpg';
+String image = 'https://picsum.photos/300';
 
 class imageviewer extends StatefulWidget {
   @override
@@ -32,12 +32,16 @@ class _imageviewerState extends State<imageviewer> {
 
                     decoration: BoxDecoration(
                       color: Color(0x82A2A2A),
-                      borderRadius: BorderRadius.circular(30),
+
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ),
 
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(image),
+
+                      child: Image.network(image,  fit: BoxFit.cover,),
                     )
                   ),
                 ),

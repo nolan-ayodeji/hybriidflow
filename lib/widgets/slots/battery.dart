@@ -54,7 +54,7 @@ class _batState extends State<bat> {
         Container(
           child: fstext(
             text: '$percentage%',
-            text2: percentage < 20 ? "Battery Low" : "" ,
+            text2: percentage < 20 ? "Battery Low" : "Battery" ,
             color: percentage > 20 ? Colors.greenAccent : Colors.redAccent,
             color2: Color(0xffc7c7c7),
             textsize: 90,
