@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "236726991923",
+    "project_id": "hybriidflow-96404",
+    "storage_bucket": "hybriidflow-96404.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236726991923:android:7a93500b8bee250cfff746",
+        "android_client_info": {
+          "package_name": "com.example.hybriidflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB47Djrtc5xsIywwmLnV-990a4RohltLJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
