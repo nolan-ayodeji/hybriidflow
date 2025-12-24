@@ -44,7 +44,7 @@ class _cameraState extends State<camera> {
   @override
   void dispose() {
     controller?.dispose();
-    print("camera disposed");
+    //blank print("camera disposed");
     super.dispose();
   }
 
@@ -66,7 +66,7 @@ class _cameraState extends State<camera> {
                     fontFamily: 'Schyler',
                     shadows: <Shadow>[
                       Shadow(
-                        offset: Offset(0.0, 3.0),
+                        offset: Offset(0.0, 1.0),
                         blurRadius: 3.0,
                         color: Colors.black26,
                       ),
@@ -96,7 +96,7 @@ class _cameraState extends State<camera> {
                     fontFamily: 'Schyler',
                     shadows: <Shadow>[
                       Shadow(
-                        offset: Offset(0.0, 3.0),
+                        offset: Offset(0.0, 1.0),
                         blurRadius: 3.0,
                         color: Colors.black26,
                       ),

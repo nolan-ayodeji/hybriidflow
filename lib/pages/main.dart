@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +58,7 @@ import 'dart:ui' as ui;
 
 import '../widgets/bottombarthree.dart';
 import '../widgets/slots/desmos.dart';
+import '../widgets/slots/intmap.dart';
 
 bool gradientan = false;
 int widgetsort = 1;
@@ -68,6 +71,46 @@ bool bigsettings = false;
 bool settingson = false;
 bool on = false;
 bool showwall = false;
+
+String registerEmail = "";
+String registerUser = "";
+String registerPassword = "";
+bool regerror = false;
+String signEmail = "";
+String signUser = "";
+String signPassword = "";
+
+Future<UserCredential?> registerWithEmailPassword(
+    String email, String password, String disName) async {
+  print(email);
+  UserCredential flowuser =
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    email: email,
+    password: password,
+  );
+
+  User? user = flowuser.user;
+  user?.updateProfile(displayName: disName);
+
+  return flowuser;
+}
+
+Future<UserCredential?> loginwemailandpassword(
+  String email,
+  String password,
+) async {
+  print(email);
+  UserCredential flowuser =
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: email,
+    password: password,
+  );
+
+
+
+  return flowuser;
+}
+
 String wp = 'assets/hbflowof-min.jpg';
 
 class WidgetSlotContainer {
@@ -124,7 +167,7 @@ class _mainpageState extends State<mainpage> {
   bool anywidgets = true;
   bool cc3 = true;
 
-  bool random = true;
+  bool random = false;
 
   bool tempsetting = false;
 
@@ -132,17 +175,40 @@ class _mainpageState extends State<mainpage> {
   bool smoothergraphics = false;
 
   void switchsort() {
-    print('starting');
+    //blank print('starting');
     if (widgetsort == 1)
       setState(() {
         widgetsort = 2;
-        print(widgetsort);
+        //blank print(widgetsort);
       });
     else
       setState(() {
         widgetsort = 1;
       });
   }
+
+  int randomNumber2 = 0;
+  // void pickrandomwidget() {
+  //   print(
+  //     "pcking"
+  //   );
+  //   setState(() {
+  //     Random random = new Random();
+  //     randomNumber2 = random.nextInt(widgetstoadd.length);
+  //     print(randomNumber2);
+  //   });
+  //   if (widgetstoadd[randomNumber2].name == "Mirror (Beta)")
+  //     pickrandomwidget(); //Used to Avoid Camera Widget
+  //
+  //   else {
+  //     print("adding");
+  //     print((widgetstoadd[randomNumber2].name));
+  //
+  //     entries2.add(widgetstoadd[randomNumber2].widget2);
+  //     opened = false;
+  //   }
+  //
+  // }
 
   void dyn() {
     if (entries.length == 1)
@@ -163,6 +229,17 @@ class _mainpageState extends State<mainpage> {
     });
   }
 
+  void printEntries(List<WidgetEntry> entries) {
+    for (var entry in entries) {
+      print('Type: ${entry.type}');
+      print('Content:');
+      entry.content.forEach((key, value) {
+        print('  $key: $value');
+      });
+      print(''); // Blank line between entries
+    }
+  }
+
   void anim3(PointerEvent details) {
     setState(() {
       cc3 = false;
@@ -170,15 +247,16 @@ class _mainpageState extends State<mainpage> {
   }
 
   void ifcontain() {
-    print(entries);
-    print(entries.contains(jokeapi()));
+    //blank print(entries);
+    //blank print(entries.contains(jokeapi()));
     if (entries.any((item) => item is Last == true)) {
-      print('CHILE');
+      //blank print('CHILE');
       entries.removeLast();
     }
   }
 
   bool wann = true;
+
   void wanim() {
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
@@ -223,7 +301,7 @@ class _mainpageState extends State<mainpage> {
   }
 
   Future<void> ofenonight() async {
-    print(await battery.batteryLevel);
+    //blank print(await battery.batteryLevel);
   }
 
   void changegraphics() {
@@ -254,7 +332,6 @@ class _mainpageState extends State<mainpage> {
     await Future.delayed(Duration(milliseconds: 1), () {
       setState(() {
         _visible = !_visible;
-
       });
     });
     await Future.delayed(Duration(seconds: 1), () {
@@ -269,13 +346,13 @@ class _mainpageState extends State<mainpage> {
       setState(() {
         issolid = false;
         solid = 'On';
-        print('border');
+        //blank print('border');
       });
     else
       setState(() {
         issolid = true;
         solid = 'Off';
-        print('border');
+        //blank print('border');
       });
   }
 
@@ -287,13 +364,13 @@ class _mainpageState extends State<mainpage> {
       setState(() {
         bool_bar = false;
         dstyle = 'New';
-        print('border');
+        //blank print('border');
       });
     else
       setState(() {
         bool_bar = true;
         dstyle = 'Classic';
-        print('border');
+        //blank print('border');
       });
   }
 
@@ -302,13 +379,13 @@ class _mainpageState extends State<mainpage> {
       setState(() {
         dockl = false;
         solid2 = 'Off';
-        print('border');
+        //blank print('border');
       });
     else
       setState(() {
         dockl = true;
         solid2 = 'On';
-        print('border');
+        //blank print('border');
       });
   }
 
@@ -317,31 +394,31 @@ class _mainpageState extends State<mainpage> {
       setState(() {
         showwarning = false;
         warning = 'Off';
-        print('border');
+        //blank print('border');
       });
     else
       setState(() {
         showwarning = true;
         warning = 'On';
-        print('border');
+        //blank print('border');
       });
   }
 
-  String israndom = 'On';
+  String israndom = 'Off';
   void randomshow() {
     if (random == true)
       setState(() {
         random = false;
         israndom = 'Off';
 
-        print('border');
+        //blank print('border');
       });
     else
       setState(() {
         random = true;
         israndom = 'On';
 
-        print('border');
+        //blank print('border');
       });
   }
 
@@ -353,14 +430,14 @@ class _mainpageState extends State<mainpage> {
         border = false;
         isborder = 'Off';
 
-        print('border');
+        //blank print('border');
       });
     else
       setState(() {
         border = true;
         isborder = 'On';
 
-        print('border');
+        //blank print('border');
       });
   }
 
@@ -371,14 +448,14 @@ class _mainpageState extends State<mainpage> {
         battery0 = false;
         isbattery = 'Off';
 
-        print('battery');
+        //blank print('battery');
       });
     else
       setState(() {
         battery0 = true;
         isbattery = 'On';
 
-        print('battery');
+        //blank print('battery');
       });
   }
 
@@ -387,7 +464,7 @@ class _mainpageState extends State<mainpage> {
       setState(() {
         shouldscroll = false;
         scrollable = 'Off';
-        print('TURNEDOFF');
+        //blank print('TURNEDOFF');
       });
     else
       setState(() {
@@ -405,6 +482,22 @@ class _mainpageState extends State<mainpage> {
       setState(() {
         gradtotext = 'Off';
       });
+  }
+
+  bool logerror = false;
+  void temp() {
+    //blank print("rebuilding");
+
+    print("logtrue");
+    setState(() {
+      logerror = true;
+    });
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        logerror = false;
+      });
+      print("logfalse;");
+    });
   }
 
   void changeganim() {
@@ -425,10 +518,11 @@ class _mainpageState extends State<mainpage> {
       setState(() {
         on = false;
         opened = false;
+        printEntries(entries2);
 
         dyn();
         isanythingopen = false;
-        print(smoothergraphics);
+        //blank print(smoothergraphics);
       });
     else
       setState(() {
@@ -438,7 +532,7 @@ class _mainpageState extends State<mainpage> {
         opened = true;
 
         isanythingopen = true;
-        print(smoothergraphics);
+        //blank print(smoothergraphics);
         dyn;
       });
   }
@@ -449,6 +543,7 @@ class _mainpageState extends State<mainpage> {
         settingson = false;
         dyn();
         isanythingopen = false;
+        opened = false;
       });
     else
       setState(() {
@@ -457,6 +552,7 @@ class _mainpageState extends State<mainpage> {
         dyn;
         anywidgets = false;
         isanythingopen = true;
+        opened = true;
       });
   }
 
@@ -468,7 +564,7 @@ class _mainpageState extends State<mainpage> {
 
   void gettime() {
     // setState(() {
-    //   print("callinggs");
+    //   //blank print("callinggs");
     //   now = DateTime.now();
     // });
     //
@@ -478,7 +574,7 @@ class _mainpageState extends State<mainpage> {
   }
 
   void love(crazy) {
-    print(crazy);
+    //blank print(crazy);
   }
 
   void add() {
@@ -486,7 +582,7 @@ class _mainpageState extends State<mainpage> {
       entries.add(imageviewer());
     });
     dyn();
-    print(dynamic_s);
+    //blank print(dynamic_s);
   }
 
   void delete() {
@@ -494,7 +590,7 @@ class _mainpageState extends State<mainpage> {
       entries.removeLast();
     });
     dyn();
-    print(dynamic_s);
+    //blank print(dynamic_s);
   }
 
   void remove(at) {
@@ -534,6 +630,20 @@ class _mainpageState extends State<mainpage> {
     });
   }
 
+  bool cc7 = true;
+
+  void anim7(PointerEvent details) {
+    setState(() {
+      cc7 = false;
+    });
+  }
+
+  void falseanim7(PointerEvent details) {
+    setState(() {
+      cc7 = true;
+    });
+  }
+
   void initState() {
     super.initState();
     //
@@ -567,7 +677,16 @@ class _mainpageState extends State<mainpage> {
                 Center(
                   child: Column(
                     children: [
-                      topbar(), //The Top Bar
+                      topbar(
+                        action2: () {
+                          setState(() {});
+                        },
+                      ),
+                      Consumer<AppModel>(builder: (context, value, child) {
+                        return Container(
+                          height: value.size,
+                        );
+                      }), //The Top Bar
                       Expanded(
                         child: Stack(
                           children: [
@@ -630,7 +749,6 @@ class _mainpageState extends State<mainpage> {
                                               "qls" => quick(
                                                   linkentries: content["links"],
                                                 ),
-
                                               "ran" => randomnum(
                                                   widprovide:
                                                       CounterProvider2(),
@@ -696,14 +814,9 @@ class _mainpageState extends State<mainpage> {
                                                   col: content["color"],
                                                   data: content["urlskii2"],
                                                   tapfive: (String value) {
-
-
                                                     setState(() {
-                                                      content["color"] =
-                                                          value;
+                                                      content["color"] = value;
                                                     });
-
-
 
                                                     print(entries2);
                                                   },
@@ -733,6 +846,7 @@ class _mainpageState extends State<mainpage> {
                                               "joke" => jokeapi(),
                                               "mirror" => camera(),
                                               "translate" => ggt(),
+                                              "wrldmap" => WorldMap(),
                                               "battery" => bat(),
                                               _ => SizedBox(),
                                             },
@@ -747,7 +861,13 @@ class _mainpageState extends State<mainpage> {
                             ),
                           ],
                         ),
-                      ), //The main part of this whole webapp: The widgets
+                      ),
+
+                      Consumer<AppModel>(builder: (context, value, child) {
+                        return Container(
+                          height: value.size,
+                        );
+                      }), //The main part of this whole webapp: The widgets
 
                       SizedBox(
                         height: 5,
@@ -758,7 +878,7 @@ class _mainpageState extends State<mainpage> {
                             : entries2.isEmpty
                                 ? true
                                 : false,
-                        visible2: true,
+                        visible2: showwarning,
                       ),
                       SizedBox(
                         height: 5,
@@ -908,6 +1028,11 @@ class _mainpageState extends State<mainpage> {
                                             oncall: () {
                                               setState(() {});
                                             },
+                                            rantap: () {
+                                              setState(() {
+                                                //pickrandomwidget();
+                                              });
+                                            },
                                           )),
                                     ],
                                   ),
@@ -952,233 +1077,233 @@ class _mainpageState extends State<mainpage> {
                                 }
                               }
                             },
-                            child: Stack(
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      "Settings",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.white,
-                                          fontSize: 25,
-                                          shadows: <Shadow>[
-                                            Shadow(
-                                              offset: Offset(0.0, 1.0),
-                                              blurRadius: 3.0,
-                                              color: Colors.black54,
-                                            ),
-                                          ],
-                                          fontFamily: 'Schyler'),
-                                    ),
-                                    Text(
-                                      "Scroll down or press the expand button for more",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.white,
-                                          fontSize: 10,
-                                          shadows: <Shadow>[
-                                            Shadow(
-                                              offset: Offset(0.0, 1.0),
-                                              blurRadius: 3.0,
-                                              color: Colors.black54,
-                                            ),
-                                          ],
-                                          fontFamily: 'Schyler'),
-                                    ),
-                                    SizedBox(
-                                      height: 2,
-                                    ),
-                                    Center(
-                                      child: Stack(
-                                        children: [
-                                          Center(
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(30.0),
-                                              child: BackdropFilter(
-                                                filter: ui.ImageFilter.blur(
-                                                  sigmaX: 9.0,
-                                                  sigmaY: 9.0,
-                                                ),
-                                                child: AnimatedContainer(
-                                                  width: MediaQuery.of(context)
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Settings",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.white,
+                                        fontSize: 25,
+                                        shadows: <Shadow>[
+                                          Shadow(
+                                            offset: Offset(0.0, 1.0),
+                                            blurRadius: 3.0,
+                                            color: Colors.black54,
+                                          ),
+                                        ],
+                                        fontFamily: 'Schyler'),
+                                  ),
+                                  Text(
+                                    "Scroll down or press the expand button for more",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        shadows: <Shadow>[
+                                          Shadow(
+                                            offset: Offset(0.0, 1.0),
+                                            blurRadius: 3.0,
+                                            color: Colors.black54,
+                                          ),
+                                        ],
+                                        fontFamily: 'Schyler'),
+                                  ),
+                                  SizedBox(
+                                    height: 2,
+                                  ),
+                                  Center(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      child: BackdropFilter(
+                                        filter: ui.ImageFilter.blur(
+                                          sigmaX: 9.0,
+                                          sigmaY: 9.0,
+                                        ),
+                                        child: AnimatedContainer(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.1,
+                                          height: MediaQuery.of(context)
+                                                      .size
+                                                      .height >
+                                                  490
+                                              ? bigsettings == false
+                                                  ? 320
+                                                  : MediaQuery.of(context)
                                                           .size
-                                                          .width /
-                                                      1.1,
-                                                  height: MediaQuery.of(context)
-                                                              .size
-                                                              .height >
-                                                          490
-                                                      ? bigsettings == false
-                                                          ? 320
-                                                          : MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height /
-                                                              1.3
-                                                      : bigsettings == false
-                                                          ? MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height /
-                                                              2
-                                                          : MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height /
-                                                              1.4,
-                                                  curve: Curves.easeInOutCirc,
-                                                  duration: Duration(
-                                                      milliseconds:
-                                                          issolid == true
-                                                              ? 0
-                                                              : 300),
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0x67A49C9C),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                    border: Border.all(
-                                                      color: Color(0xD7000000),
-                                                      width: 1,
-                                                    ),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color:
-                                                            Color(0x51000000),
-                                                        spreadRadius: 1,
-                                                        blurRadius: 6,
-                                                        offset: Offset(0,
-                                                            2), // changes position of shadow
-                                                      ),
-                                                    ],
+                                                          .height /
+                                                      1.3
+                                              : bigsettings == false
+                                                  ? MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      2
+                                                  : MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      1.4,
+                                          curve: Curves.easeInOutCirc,
+                                          duration: Duration(
+                                              milliseconds:
+                                                  issolid == true ? 0 : 300),
+                                          decoration: BoxDecoration(
+                                            color: Color(0x67A49C9C),
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            border: Border.all(
+                                              color: Color(0xD7000000),
+                                              width: 1,
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Color(0x51000000),
+                                                spreadRadius: 1,
+                                                blurRadius: 6,
+                                                offset: Offset(0,
+                                                    2), // changes position of shadow
+                                              ),
+                                            ],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(30.0),
+                                            child: Center(
+                                              child: Stack(
+                                                children: [
+                                                  SettingOptions(
+                                                    option1: () {
+                                                      changegraphics();
+                                                    },
+                                                    option2: () {
+                                                      changeganim();
+                                                      changeanimtoonoff();
+                                                    },
+                                                    option3: () {
+                                                      changesolid();
+                                                    },
+                                                    option4: () {
+                                                      changescroll();
+                                                    },
+                                                    option5: () {
+                                                      dockshow();
+                                                    },
+                                                    option6: () {
+                                                      warningshow();
+                                                    },
+                                                    option7: () {
+                                                      randomshow();
+                                                    },
+                                                    option8: () {
+                                                      bordershow();
+                                                    },
+                                                    option50: () {
+                                                      dockstyle();
+                                                    },
+                                                    option0: () {
+                                                      battery_();
+                                                    },
+                                                    o1text: graphictf,
+                                                    o2text: gradtotext,
+                                                    o3text: solid,
+                                                    o4text: scrollable,
+                                                    o5text: solid2,
+                                                    o6text: warning,
+                                                    o7text: israndom,
+                                                    o8text: isborder,
+                                                    o0text: isbattery,
+                                                    o50text: dstyle,
                                                   ),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30.0),
-                                                    child: Stack(
-                                                      children: [
-                                                        SettingOptions(
-                                                          option1: () {
-                                                            changegraphics();
-                                                          },
-                                                          option2: () {
-                                                            changeganim();
-                                                            changeanimtoonoff();
-                                                          },
-                                                          option3: () {
-                                                            changesolid();
-                                                          },
-                                                          option4: () {
-                                                            changescroll();
-                                                          },
-                                                          option5: () {
-                                                            dockshow();
-                                                          },
-                                                          option6: () {
-                                                            warningshow();
-                                                          },
-                                                          option7: () {
-                                                            randomshow();
-                                                          },
-                                                          option8: () {
-                                                            bordershow();
-                                                          },
-                                                          option50: () {
-                                                            dockstyle();
-                                                          },
-                                                          option0: () {
-                                                            battery_();
-                                                          },
-                                                          o1text: graphictf,
-                                                          o2text: gradtotext,
-                                                          o3text: solid,
-                                                          o4text: scrollable,
-                                                          o5text: solid2,
-                                                          o6text: warning,
-                                                          o7text: israndom,
-                                                          o8text: isborder,
-                                                          o0text: isbattery,
-                                                          o50text: dstyle,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Column(
-                                                              children: [
-                                                                SizedBox(
-                                                                  height: 6,
-                                                                ),
-                                                                Row(
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width: 10,
-                                                                    ),
-                                                                    MouseRegion(
-                                                                      onHover:
-                                                                          anim3,
-                                                                      onExit:
-                                                                          white3,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Column(
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 6,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              MouseRegion(
+                                                                onHover: anim3,
+                                                                onExit: white3,
+                                                                child: InkWell(
+                                                                  onTap:
+                                                                      bigsetting,
+                                                                  child:
+                                                                      MouseRegion(
+                                                                    onHover:
+                                                                        anim3,
+                                                                    onExit:
+                                                                        white3,
+                                                                    child:
+                                                                        AnimatedContainer(
+                                                                      width: cc3 ==
+                                                                              true
+                                                                          ? 35
+                                                                          : 45,
+                                                                      curve: Curves
+                                                                          .easeInOutBack,
+                                                                      duration: Duration(
+                                                                          milliseconds: issolid == true
+                                                                              ? 0
+                                                                              : 300),
+                                                                      height:
+                                                                          35,
                                                                       child:
-                                                                          InkWell(
-                                                                        onTap:
-                                                                            bigsetting,
-                                                                        child:
-                                                                            MouseRegion(
-                                                                          onHover:
-                                                                              anim3,
-                                                                          onExit:
-                                                                              white3,
-                                                                          child:
-                                                                          AnimatedContainer(
-                                                                            width: cc3 == true ? 35 : 45,
-                                                                            curve: Curves.easeInOutBack,
-                                                                            duration: Duration(
-                                                                                milliseconds: issolid == true ? 0 : 300),
-                                                                            height: 35,
-                                                                            child: Icon(
-                                                                              Icons.fullscreen_sharp,
-                                                                              color: Colors.black,
-                                                                            ),
-                                                                            decoration: BoxDecoration(
-                                                                              //colors
-                                                                              color: cc3 == true ?  Color(0x6cdeb689)
-                                                                                  : Color(0xddbd986d),
-                                                                              borderRadius: BorderRadius.circular(35),
-                                                                              border: Border.all(
-                                                                                color: Colors.black,
-                                                                                width: cc3 == true ? 1 :2 ,
-                                                                              ),
-
-                                                                            ),
-                                                                          ),
+                                                                          Icon(
+                                                                        Icons
+                                                                            .fullscreen_sharp,
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        //colors
+                                                                        color: cc3 ==
+                                                                                true
+                                                                            ? Color(0x6cdeb689)
+                                                                            : Color(0xddbd986d),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(35),
+                                                                        border:
+                                                                            Border.all(
+                                                                          color:
+                                                                              Colors.black,
+                                                                          width: cc3 == true
+                                                                              ? 1
+                                                                              : 2,
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ],
+                                                                  ),
                                                                 ),
-                                                              ],
-                                                            ),
-                                                            SizedBox(),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(),
+                                                    ],
+                                                  )
+                                                ],
                                               ),
                                             ),
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ));
                       }),
                 ),
@@ -1290,7 +1415,1312 @@ class _mainpageState extends State<mainpage> {
                   ),
                 ),
               ),
-            )
+            ),
+            Consumer<AppModel>(builder: (context, value, child) {
+              return StreamBuilder(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  return Visibility(
+                    visible: value.logVis,
+                    child: Stack(
+                      children: [
+                        ModalBarrier(
+                          dismissible: false,
+                        ),
+                        Center(
+                          child: BackdropFilter(
+                            filter: ui.ImageFilter.blur(
+                              sigmaX: 1.0,
+                              sigmaY: 1.0,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: BackdropFilter(
+                                filter: ui.ImageFilter.blur(
+                                  sigmaX: 7.5,
+                                  sigmaY: 7.5,
+                                ),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height / 1.05,
+                                  width: MediaQuery.of(context).size.width / 1.05,
+                                  child: Stack(
+                                    children: [
+
+                                      Visibility(
+                                          visible: snapshot.data?.displayName == null ? true : false,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Expanded(
+                                              child: Center(
+                                                child: FittedBox(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.center,
+                                                    mainAxisSize: MainAxisSize.max,
+                                                    children: [
+                                                      Visibility(
+                                                        visible: false,
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                              width: 300,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color:
+                                                                    Color(0xda191919),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(35),
+                                                                border: Border.all(
+                                                                  color: Colors.white,
+                                                                  width: 2,
+                                                                ),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  begin: Alignment
+                                                                      .bottomCenter,
+                                                                  end: Alignment
+                                                                      .topCenter,
+                                                                  colors: <Color>[
+                                                                    Colors.white60,
+                                                                    Color(0x6BFFFFFF)
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(6.0),
+                                                                child: TextFormField(
+                                                                  onFieldSubmitted:
+                                                                      (text) async {},
+                                                                  textAlign: TextAlign
+                                                                      .center,
+                                                                  style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w900,
+                                                                    fontSize: 20,
+                                                                    fontFamily:
+                                                                        'Schyler',
+                                                                  ),
+                                                                  cursorColor:
+                                                                      Colors.black,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    hintText: "Email",
+                                                                    fillColor:
+                                                                        Colors.black,
+                                                                    focusColor:
+                                                                        Colors.black,
+                                                                    hoverColor:
+                                                                        Colors.black,
+                                                                    border:
+                                                                        InputBorder
+                                                                            .none,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Container(
+                                                              width: 300,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color:
+                                                                    Color(0xda191919),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(35),
+                                                                border: Border.all(
+                                                                  color: Colors.white,
+                                                                  width: 2,
+                                                                ),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  begin: Alignment
+                                                                      .bottomCenter,
+                                                                  end: Alignment
+                                                                      .topCenter,
+                                                                  colors: <Color>[
+                                                                    Colors.white60,
+                                                                    Color(0x6BFFFFFF)
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(6.0),
+                                                                child: TextFormField(
+                                                                  onFieldSubmitted:
+                                                                      (text) async {},
+                                                                  textAlign: TextAlign
+                                                                      .center,
+                                                                  obscureText: true,
+                                                                  style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w900,
+                                                                    fontSize: 20,
+                                                                    fontFamily:
+                                                                        'Schyler',
+                                                                  ),
+                                                                  cursorColor:
+                                                                      Colors.black,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    hintText:
+                                                                        "Password",
+                                                                    fillColor:
+                                                                        Colors.black,
+                                                                    focusColor:
+                                                                        Colors.black,
+                                                                    hoverColor:
+                                                                        Colors.black,
+                                                                    border:
+                                                                        InputBorder
+                                                                            .none,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Container(
+                                                              width: 100,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color:
+                                                                    Color(0xda191919),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(35),
+                                                                border: Border.all(
+                                                                  color: Colors.white,
+                                                                  width: 2,
+                                                                ),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  begin: Alignment
+                                                                      .bottomCenter,
+                                                                  end: Alignment
+                                                                      .topCenter,
+                                                                  colors: <Color>[
+                                                                    Colors.white60,
+                                                                    Color(0x6BFFFFFF)
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(6.0),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "Log In",
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w900,
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize: 20,
+                                                                        shadows: <Shadow>[
+                                                                          Shadow(
+                                                                            offset: Offset(
+                                                                                0.0,
+                                                                                1.0),
+                                                                            blurRadius:
+                                                                                3.0,
+                                                                            color: Colors
+                                                                                .black54,
+                                                                          ),
+                                                                        ],
+                                                                        fontFamily:
+                                                                            'Schyler'),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "hybriidflow",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w900,
+                                                            color: logerror != true
+                                                                ? Colors.white60
+                                                                : Color(0xffff8080),
+                                                            fontSize: 60,
+                                                            shadows: <Shadow>[
+                                                              Shadow(
+                                                                offset:
+                                                                    Offset(0.0, 1.0),
+                                                                blurRadius: 3.0,
+                                                                color: Colors.black12,
+                                                              ),
+                                                            ],
+                                                            fontFamily: 'Typo'),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 15,
+                                                      ),
+                                                      Visibility(
+                                                        visible: true,
+                                                        child: Stack(
+                                                          children: [
+                                                            Column(
+                                                              children: [
+                                                                Container(
+                                                                  width: 300,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Color(
+                                                                        0xda191919),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                35),
+                                                                    border:
+                                                                        Border.all(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      width: 2,
+                                                                    ),
+                                                                    gradient:
+                                                                        LinearGradient(
+                                                                      begin: Alignment
+                                                                          .bottomCenter,
+                                                                      end: Alignment
+                                                                          .topCenter,
+                                                                      colors: <Color>[
+                                                                        Colors
+                                                                            .white60,
+                                                                        Color(
+                                                                            0x6BFFFFFF)
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  child: Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(6.0),
+                                                                    child:
+                                                                        TextFormField(
+                                                                      onChanged:
+                                                                          (text) async {
+                                                                        registerEmail =
+                                                                            text;
+                                                                      },
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w900,
+                                                                        fontSize: 20,
+                                                                        fontFamily:
+                                                                            'Schyler',
+                                                                      ),
+                                                                      cursorColor:
+                                                                          Colors
+                                                                              .black,
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        hintText:
+                                                                            "Choose Email",
+                                                                        fillColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        focusColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        hoverColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        border:
+                                                                            InputBorder
+                                                                                .none,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Container(
+                                                                  width: 300,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Color(
+                                                                        0xda191919),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                35),
+                                                                    border:
+                                                                        Border.all(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      width: 2,
+                                                                    ),
+                                                                    gradient:
+                                                                        LinearGradient(
+                                                                      begin: Alignment
+                                                                          .bottomCenter,
+                                                                      end: Alignment
+                                                                          .topCenter,
+                                                                      colors: <Color>[
+                                                                        Colors
+                                                                            .white60,
+                                                                        Color(
+                                                                            0x6BFFFFFF)
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  child: Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(6.0),
+                                                                    child:
+                                                                        TextFormField(
+                                                                      onChanged:
+                                                                          (text) async {
+                                                                        registerPassword =
+                                                                            text;
+                                                                      },
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      obscureText:
+                                                                          true,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w900,
+                                                                        fontSize: 20,
+                                                                        fontFamily:
+                                                                            'Schyler',
+                                                                      ),
+                                                                      cursorColor:
+                                                                          Colors
+                                                                              .black,
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        hintText:
+                                                                            "Set Password",
+                                                                        fillColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        focusColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        hoverColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        border:
+                                                                            InputBorder
+                                                                                .none,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Container(
+                                                                  width: 300,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Color(
+                                                                        0xda191919),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                35),
+                                                                    border:
+                                                                        Border.all(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      width: 2,
+                                                                    ),
+                                                                    gradient:
+                                                                        LinearGradient(
+                                                                      begin: Alignment
+                                                                          .bottomCenter,
+                                                                      end: Alignment
+                                                                          .topCenter,
+                                                                      colors: <Color>[
+                                                                        Colors
+                                                                            .white60,
+                                                                        Color(
+                                                                            0x6BFFFFFF)
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  child: Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(6.0),
+                                                                    child:
+                                                                        TextFormField(
+                                                                      onChanged:
+                                                                          (text) async {
+                                                                        registerUser =
+                                                                            text;
+                                                                      },
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w900,
+                                                                        fontSize: 20,
+                                                                        fontFamily:
+                                                                            'Schyler',
+                                                                      ),
+                                                                      cursorColor:
+                                                                          Colors
+                                                                              .black,
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        hintText:
+                                                                            "Set Display Name",
+                                                                        fillColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        focusColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        hoverColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        border:
+                                                                            InputBorder
+                                                                                .none,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Text(
+                                                                  "- Password Must be 6 Characters \n- A verification code will be sent to this email to verify your account.",
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w900,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize: 10,
+                                                                      shadows: <Shadow>[
+                                                                        Shadow(
+                                                                          offset:
+                                                                              Offset(
+                                                                                  1.0,
+                                                                                  1.0),
+                                                                          blurRadius:
+                                                                              3.0,
+                                                                          color: Colors
+                                                                              .black12,
+                                                                        ),
+                                                                      ],
+                                                                      fontFamily:
+                                                                          'Schyler'),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                InkWell(
+                                                                  onTap: () async {
+                                                                    try {
+                                                                      UserCredential?
+                                                                          regist =
+                                                                          await registerWithEmailPassword(
+                                                                              registerEmail,
+                                                                              registerPassword,
+                                                                              registerUser);
+                                                                      if (regist !=
+                                                                          null) {
+                                                                        print(
+                                                                            "succesess");
+                                                                      } else {
+                                                                        print(
+                                                                            "errorski");
+                                                                      }
+                                                                    } catch (e) {
+                                                                      print(e);
+                                                                      temp();
+                                                                    }
+                                                                  },
+                                                                  child: Container(
+                                                                    width: 100,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: Color(
+                                                                          0xda191919),
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                                  35),
+                                                                      border:
+                                                                          Border.all(
+                                                                        color: Color(
+                                                                            0xFFA4DC6D),
+                                                                        width: 2.4,
+                                                                      ),
+                                                                      gradient:
+                                                                          LinearGradient(
+                                                                        begin: Alignment
+                                                                            .bottomCenter,
+                                                                        end: Alignment
+                                                                            .topCenter,
+                                                                        colors: <Color>[
+                                                                          Colors
+                                                                              .black26,
+                                                                          Color(
+                                                                              0x6BFFFFFF)
+                                                                        ],
+                                                                      ),
+                                                                      boxShadow: [
+                                                                        BoxShadow(
+                                                                          color: Color(
+                                                                              0x1D494949),
+                                                                          spreadRadius:
+                                                                              1,
+                                                                          blurRadius:
+                                                                              4,
+                                                                          offset: Offset(
+                                                                              0,
+                                                                              1), // changes position of shadow
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding:
+                                                                          const EdgeInsets
+                                                                              .all(
+                                                                              6.0),
+                                                                      child: Center(
+                                                                        child: Text(
+                                                                          "Sign Up",
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.w900,
+                                                                              color: Colors.white,
+                                                                              fontSize: 20,
+                                                                              shadows: <Shadow>[
+                                                                                Shadow(
+                                                                                  offset:
+                                                                                      Offset(0.0, 1.0),
+                                                                                  blurRadius:
+                                                                                      3.0,
+                                                                                  color:
+                                                                                      Colors.black54,
+                                                                                ),
+                                                                              ],
+                                                                              fontFamily: 'Schyler'),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Visibility(
+                                                        visible: false,
+                                                        child: Stack(
+                                                          children: [
+                                                            Column(
+                                                              children: [
+                                                                Container(
+                                                                  width: 300,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Color(
+                                                                        0xda191919),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                35),
+                                                                    border:
+                                                                        Border.all(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      width: 2,
+                                                                    ),
+                                                                    gradient:
+                                                                        LinearGradient(
+                                                                      begin: Alignment
+                                                                          .bottomCenter,
+                                                                      end: Alignment
+                                                                          .topCenter,
+                                                                      colors: <Color>[
+                                                                        Colors
+                                                                            .white60,
+                                                                        Color(
+                                                                            0x6BFFFFFF)
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  child: Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(6.0),
+                                                                    child:
+                                                                        TextFormField(
+                                                                      onChanged:
+                                                                          (text) async {
+                                                                        signEmail =
+                                                                            text;
+                                                                      },
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w900,
+                                                                        fontSize: 20,
+                                                                        fontFamily:
+                                                                            'Schyler',
+                                                                      ),
+                                                                      cursorColor:
+                                                                          Colors
+                                                                              .black,
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        hintText:
+                                                                            "Enter Email",
+                                                                        fillColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        focusColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        hoverColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        border:
+                                                                            InputBorder
+                                                                                .none,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                Container(
+                                                                  width: 300,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Color(
+                                                                        0xda191919),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                35),
+                                                                    border:
+                                                                        Border.all(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      width: 2,
+                                                                    ),
+                                                                    gradient:
+                                                                        LinearGradient(
+                                                                      begin: Alignment
+                                                                          .bottomCenter,
+                                                                      end: Alignment
+                                                                          .topCenter,
+                                                                      colors: <Color>[
+                                                                        Colors
+                                                                            .white60,
+                                                                        Color(
+                                                                            0x6BFFFFFF)
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  child: Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(6.0),
+                                                                    child:
+                                                                        TextFormField(
+                                                                      onChanged:
+                                                                          (text) async {
+                                                                        signPassword =
+                                                                            text;
+                                                                      },
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      obscureText:
+                                                                          true,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w900,
+                                                                        fontSize: 20,
+                                                                        fontFamily:
+                                                                            'Schyler',
+                                                                      ),
+                                                                      cursorColor:
+                                                                          Colors
+                                                                              .black,
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        hintText:
+                                                                            "Enter Password",
+                                                                        fillColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        focusColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        hoverColor:
+                                                                            Colors
+                                                                                .black,
+                                                                        border:
+                                                                            InputBorder
+                                                                                .none,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                InkWell(
+                                                                  onTap: () async {
+                                                                    try {
+                                                                      UserCredential?
+                                                                          regist =
+                                                                          await loginwemailandpassword(
+                                                                              signEmail,
+                                                                              signPassword,
+                                                                              );
+                                                                      if (regist !=
+                                                                          null) {
+                                                                        print(
+                                                                            "succesess");
+                                                                      } else {
+                                                                        print(
+                                                                            "errorski");
+                                                                      }
+                                                                    } catch (e) {
+                                                                      print(e);
+                                                                      temp();
+                                                                    }
+                                                                  },
+                                                                  child: Container(
+                                                                    width: 100,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: Color(
+                                                                          0xda191919),
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                                  35),
+                                                                      border:
+                                                                          Border.all(
+                                                                        color: Color(
+                                                                            0xFFA4DC6D),
+                                                                        width: 2.4,
+                                                                      ),
+                                                                      gradient:
+                                                                          LinearGradient(
+                                                                        begin: Alignment
+                                                                            .bottomCenter,
+                                                                        end: Alignment
+                                                                            .topCenter,
+                                                                        colors: <Color>[
+                                                                          Colors
+                                                                              .black26,
+                                                                          Color(
+                                                                              0x6BFFFFFF)
+                                                                        ],
+                                                                      ),
+                                                                      boxShadow: [
+                                                                        BoxShadow(
+                                                                          color: Color(
+                                                                              0x1D494949),
+                                                                          spreadRadius:
+                                                                              1,
+                                                                          blurRadius:
+                                                                              4,
+                                                                          offset: Offset(
+                                                                              0,
+                                                                              1), // changes position of shadow
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    child: Padding(
+                                                                      padding:
+                                                                          const EdgeInsets
+                                                                              .all(
+                                                                              6.0),
+                                                                      child: Center(
+                                                                        child: Text(
+                                                                          "Log In",
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.w900,
+                                                                              color: Colors.white,
+                                                                              fontSize: 20,
+                                                                              shadows: <Shadow>[
+                                                                                Shadow(
+                                                                                  offset:
+                                                                                      Offset(0.0, 1.0),
+                                                                                  blurRadius:
+                                                                                      3.0,
+                                                                                  color:
+                                                                                      Colors.black54,
+                                                                                ),
+                                                                              ],
+                                                                              fontFamily: 'Schyler'),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 40,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 0,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                width: 100,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Color(
+                                                                      0xda191919),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              35),
+                                                                  border: Border.all(
+                                                                    color:
+                                                                        Colors.white,
+                                                                    width: 2,
+                                                                  ),
+                                                                  gradient:
+                                                                      LinearGradient(
+                                                                    begin: Alignment
+                                                                        .bottomCenter,
+                                                                    end: Alignment
+                                                                        .topCenter,
+                                                                    colors: <Color>[
+                                                                      Colors.white60,
+                                                                      Color(
+                                                                          0x6BFFFFFF)
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(6.0),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "Register",
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight.w900,
+                                                                          color: Colors.white,
+                                                                          fontSize: 20,
+                                                                          shadows: <Shadow>[
+                                                                            Shadow(
+                                                                              offset: Offset(
+                                                                                  0.0,
+                                                                                  1.0),
+                                                                              blurRadius:
+                                                                                  3.0,
+                                                                              color: Colors
+                                                                                  .black54,
+                                                                            ),
+                                                                          ],
+                                                                          fontFamily: 'Schyler'),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Text(
+                                                                "Or",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w900,
+                                                                    color:
+                                                                        Colors.white,
+                                                                    fontSize: 20,
+                                                                    shadows: <Shadow>[
+                                                                      Shadow(
+                                                                        offset:
+                                                                            Offset(
+                                                                                0.0,
+                                                                                1.0),
+                                                                        blurRadius:
+                                                                            3.0,
+                                                                        color: Colors
+                                                                            .black54,
+                                                                      ),
+                                                                    ],
+                                                                    fontFamily:
+                                                                        'Schyler'),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Container(
+                                                                width: 100,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Color(
+                                                                      0xda191919),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              35),
+                                                                  border: Border.all(
+                                                                    color:
+                                                                        Colors.white,
+                                                                    width: 2,
+                                                                  ),
+                                                                  gradient:
+                                                                      LinearGradient(
+                                                                    begin: Alignment
+                                                                        .bottomCenter,
+                                                                    end: Alignment
+                                                                        .topCenter,
+                                                                    colors: <Color>[
+                                                                      Colors.white60,
+                                                                      Color(
+                                                                          0x6BFFFFFF)
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(6.0),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "Log In",
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight.w900,
+                                                                          color: Colors.white,
+                                                                          fontSize: 20,
+                                                                          shadows: <Shadow>[
+                                                                            Shadow(
+                                                                              offset: Offset(
+                                                                                  0.0,
+                                                                                  1.0),
+                                                                              blurRadius:
+                                                                                  3.0,
+                                                                              color: Colors
+                                                                                  .black54,
+                                                                            ),
+                                                                          ],
+                                                                          fontFamily: 'Schyler'),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                height: 60,
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xda191919),
+                                                  borderRadius:
+                                                      BorderRadius.circular(35),
+                                                  border: Border.all(
+                                                    color: Colors.white,
+                                                    width: 2,
+                                                  ),
+                                                  gradient: LinearGradient(
+                                                    begin: Alignment.bottomCenter,
+                                                    end: Alignment.topCenter,
+                                                    colors: <Color>[
+                                                      Colors.white60,
+                                                      Color(0x6BFFFFFF)
+                                                    ],
+                                                  ),
+                                                ),
+                                                child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(6.0),
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                              color:
+                                                                  Color(0xD8FFFFFF),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(35),
+                                                              border: Border.all(
+                                                                color: Colors.white,
+                                                                width: 2,
+                                                              ),
+                                                            ),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(6.0),
+                                                              child: Center(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Sign In With Google",
+                                                                      style: TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight
+                                                                                  .w900,
+                                                                          color: Colors
+                                                                              .black,
+                                                                          fontSize:
+                                                                              20,
+                                                                          fontFamily:
+                                                                              'Schyler'),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 30,
+                                                                      height: 30,
+                                                                      child:
+                                                                          FittedBox(
+                                                                        child: Image(
+                                                                            image: AssetImage(
+                                                                                'assets/googleicon.png')),
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                        alignment:
+                                                                            Alignment
+                                                                                .center,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Expanded(
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                              color:
+                                                                  Color(0xda191919),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(35),
+                                                              border: Border.all(
+                                                                color: Colors.white,
+                                                                width: 2,
+                                                              ),
+                                                              gradient:
+                                                                  LinearGradient(
+                                                                begin: Alignment
+                                                                    .bottomCenter,
+                                                                end: Alignment
+                                                                    .topCenter,
+                                                                colors: <Color>[
+                                                                  Colors.white60,
+                                                                  Color(0x6BFFFFFF)
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(2.0),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "Register/Log In with FlowAccount",
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w900,
+                                                                      color: Colors
+                                                                          .black54,
+                                                                      shadows: <Shadow>[
+                                                                        Shadow(
+                                                                          offset:
+                                                                              Offset(
+                                                                                  0.0,
+                                                                                  1.0),
+                                                                          blurRadius:
+                                                                              3.0,
+                                                                          color: Colors
+                                                                              .black12,
+                                                                        ),
+                                                                      ],
+                                                                      fontFamily:
+                                                                          'Schyler'),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            MouseRegion(
+                                              onHover: anim7,
+                                              onExit: falseanim7,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(35),
+                                                child: BackdropFilter(
+                                                  filter: ui.ImageFilter.blur(
+                                                    sigmaX: 2.0,
+                                                    sigmaY: 2.0,
+                                                  ),
+                                                  child: InkWell(child:
+                                                      Consumer<AppModel>(builder:
+                                                          (context, value, child) {
+                                                    return AnimatedContainer(
+                                                      duration: Duration(
+                                                          milliseconds:
+                                                              issolid == true
+                                                                  ? 0
+                                                                  : 300),
+                                                      curve: Curves.easeInOutBack,
+                                                      width: cc7 == true ? 35 : 48,
+                                                      height: 35,
+                                                      child: Icon(
+                                                          Icons.highlight_remove,
+                                                          color: Color(0xff000000)),
+                                                      decoration: BoxDecoration(
+                                                        //colors
+                                                        color: Color(0xdaff0000),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                35),
+                                                        border: Border.all(
+                                                          color: Colors.black,
+                                                          width:
+                                                              cc7 == true ? 0 : 2,
+                                                        ),
+                                                        gradient: LinearGradient(
+                                                          begin:
+                                                              Alignment.topCenter,
+                                                          end: Alignment
+                                                              .bottomCenter,
+                                                          colors: <Color>[
+                                                            cc7 == true
+                                                                ? Color(0x4fff6c52)
+                                                                : Color(0xffff6c52),
+                                                            cc7 == true
+                                                                ? Color(0x4fff6c52)
+                                                                : Color(0xffff6c52)
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }), onTap: () {
+                                                    setState(() {
+                                                      value.setlog();
+                                                    });
+                                                  }),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color(0x3AA9A9A9),
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                      color: Color(0xC5282828),
+                                      width: 1.4,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color(0x51000000),
+                                        spreadRadius: 1,
+                                        blurRadius: 6,
+                                        offset: Offset(
+                                            0, 2), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              );
+            })
           ],
         ),
       ),
@@ -1563,18 +2993,18 @@ List<WidgetEntry> entries2 = [
   //   "number": 2,
   //   "size": 90,
   // }),
-  WidgetEntry("ran", {
-    "number": 0,
-    "max": 100,
-    "min": 50,
-  }),
-  WidgetEntry("qr", {
-    "urlskii":
-        "https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=hybriidflow&bgcolor=B9B9B9",
-    "urlskii2": "my name is pink and i RLL lIKE TO MEET YOU.",
-    "quality": "230x230",
-    "color": "B9B9B9"
-  }),
+  // WidgetEntry("ran", {
+  //   "number": 0,
+  //   "max": 100,
+  //   "min": 50,
+  // }),
+  // WidgetEntry("qr", {
+  //   "urlskii":
+  //       "https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=hybriidflow&bgcolor=B9B9B9",
+  //   "urlskii2": "https://hybriidbox.app/spotify/",
+  //   "quality": "230x230",
+  //   "color": "B9B9B9"
+  // }),
   // WidgetEntry("last", {
   //   "number": 0,
   //   "max": 100,
@@ -1590,6 +3020,7 @@ class AddWidget extends StatefulWidget {
   final ontap;
   final ontap2;
   final oncall;
+  final rantap;
 
   const AddWidget(
       {Key? key,
@@ -1599,32 +3030,14 @@ class AddWidget extends StatefulWidget {
       this.ontap,
       this.ontap2,
       this.setting2,
-      this.oncall})
+      this.oncall,
+      this.rantap})
       : super(key: key);
   @override
   _AddWidgetState createState() => _AddWidgetState();
 }
 
 class _AddWidgetState extends State<AddWidget> {
-  final ScrollController _firstController = ScrollController();
-  bool cc3 = true;
-
-  void white3(PointerEvent details) {
-    setState(() {
-      cc3 = true;
-    });
-  }
-
-  void anim3(PointerEvent details) {
-    setState(() {
-      cc3 = false;
-    });
-  }
-
-  void addimage() {
-    entries.add(imageviewer());
-  }
-
   List<WidgetSlotContainer> widgetstoadd = [
     // WidgetSlotContainer(
     //   'ChatGPT',
@@ -1662,7 +3075,7 @@ class _AddWidgetState extends State<AddWidget> {
       widgetsort == 2 ? Color(0xFF496543) : Color(0x697E7E7E),
       ValueKey('quick_!'),
       WidgetEntry("qls", {
-        "links": ["https://www.youtube.com/"]
+        "links": ["https://www.youtube.com/", "https://hybriidbox.app/spotify/"]
       }),
     ),
     WidgetSlotContainer(
@@ -1695,8 +3108,8 @@ class _AddWidgetState extends State<AddWidget> {
       ValueKey('dic_1'),
       WidgetEntry("qr", {
         "urlskii":
-        "https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=hybriidflow&bgcolor=B9B9B9",
-        "urlskii2": "my name is pink and i RLL lIKE TO MEET YOU.",
+            "https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=hybriidflow&bgcolor=B9B9B9",
+        "urlskii2": "https://hybriidbox.app/spotify/",
         "quality": "230x230",
         "color": "B9B9B9"
       }),
@@ -1715,16 +3128,26 @@ class _AddWidgetState extends State<AddWidget> {
 
     // WidgetSlotContainer('FImage Viewer', fimageviewer(), true),
 
-    // WidgetSlotContainer(
-    //   'Analog Clock',
-    //   false,
-    //   widgetsort == 1 ? 'Info' : '',
-    //   widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
-    //   ValueKey('dic_1'),
-    //   WidgetEntry("analog", {
-    //     "username": "",
-    //   }),
-    // ),
+    WidgetSlotContainer(
+      'Analog Clock',
+      false,
+      widgetsort == 1 ? 'Info' : '',
+      widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+      WidgetEntry("analog", {
+        "username": "",
+      }),
+    ),
+    WidgetSlotContainer(
+      'World Map',
+      false,
+      widgetsort == 1 ? 'Info' : '',
+      widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
+      ValueKey('dic_1'),
+      WidgetEntry("wrldmap", {
+        "username": "",
+      }),
+    ),
     WidgetSlotContainer(
       'Time and Date',
       false,
@@ -1745,16 +3168,16 @@ class _AddWidgetState extends State<AddWidget> {
         "username": "",
       }),
     ),
-    WidgetSlotContainer(
-      'World Clock',
-      false,
-      widgetsort == 1 ? 'Info' : '',
-      widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
-      ValueKey('dic_1'),
-      WidgetEntry("world", {
-        "username": "",
-      }),
-    ),
+    // WidgetSlotContainer(
+    //   'World Clock',
+    //   false,
+    //   widgetsort == 1 ? 'Info' : '',
+    //   widgetsort == 2 ? Color(0xFF436465) : Color(0x697E7E7E),
+    //   ValueKey('dic_1'),
+    //   WidgetEntry("world", {
+    //     "username": "",
+    //   }),
+    // ),
 
     WidgetSlotContainer(
       'Date',
@@ -1801,7 +3224,7 @@ class _AddWidgetState extends State<AddWidget> {
     ),
 
     WidgetSlotContainer(
-      'Google Translate (BETA)',
+      'Translator (BETA)',
       false,
       widgetsort == 1 ? 'Tool' : '',
       Color(0xFF9C6D6D),
@@ -1821,6 +3244,24 @@ class _AddWidgetState extends State<AddWidget> {
       }),
     ),
   ];
+  final ScrollController _firstController = ScrollController();
+  bool cc3 = true;
+
+  void white3(PointerEvent details) {
+    setState(() {
+      cc3 = true;
+    });
+  }
+
+  void anim3(PointerEvent details) {
+    setState(() {
+      cc3 = false;
+    });
+  }
+
+  void addimage() {
+    entries.add(imageviewer());
+  }
 
   final List<String> categories = <String>[
     'Tools',
@@ -1905,8 +3346,9 @@ class _AddWidgetState extends State<AddWidget> {
                                   widget.oncall?.call();
                                   setState(() {
                                     entries2.add(widgetstoadd[i].widget2);
-
-
+                                    opened = false;
+                                    print(jsonEncode(
+                                        widgetstoadd[i].widget2.toJson()));
                                   }); //add a new widget;
 
                                   print('PRINT ${entries}');
@@ -1920,6 +3362,53 @@ class _AddWidgetState extends State<AddWidget> {
                             ],
                           ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Visibility(
+                      visible: widget.visible,
+                      child: InkWell(
+                        onTap: widget.rantap,
+                        child: Container(
+                          width: 200,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            //colors
+                            color: Color(0xda191919),
+                            borderRadius: BorderRadius.circular(38),
+                            border: Border.all(
+                              color: Color(0x90D5BD9E),
+                              width: 2,
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: <Color>[
+                                Color(0x991E1E1E),
+                                Color(0x90D5BD9E),
+                              ],
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Random Widget",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(0.0, 1.0),
+                                      blurRadius: 3.0,
+                                      color: Colors.black54,
+                                    ),
+                                  ],
+                                  fontFamily: 'Schyler'),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: 25,
@@ -2087,14 +3576,14 @@ class _AddWidgetState extends State<AddWidget> {
                             ),
                             decoration: BoxDecoration(
                               //colors
-                              color: cc3 == true ?  Color(0x6cdeb689)
-        : Color(0xddbd986d),
+                              color: cc3 == true
+                                  ? Color(0x6cdeb689)
+                                  : Color(0xddbd986d),
                               borderRadius: BorderRadius.circular(35),
                               border: Border.all(
                                 color: Colors.black,
-                                width: cc3 == true ? 1 :2 ,
+                                width: cc3 == true ? 1 : 2,
                               ),
-
                             ),
                           ),
                         ),

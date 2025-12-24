@@ -90,18 +90,18 @@ class _LastState extends State<Last> {
   }
   void getdata() async {
     user = widget.user;
-    // print("GETTING DATA FOR " + user);
+    // //blank print("GETTING DATA FOR " + user);
 
     
     Response response = await get(Uri.parse(
         'https://ws.audioscrobbler.com/2.0/?method=user.getRecentTracks&user=$user&limit=1&api_key=$thekey&format=json'));
     Map data = jsonDecode(response.body);
-    //print(data);
+    ////blank print(data);
 
-    //print(song);
+    ////blank print(song);
 
     if (!data.containsKey('recenttracks')){
-      print("did not find key");
+      //blank print("did not find key");
       setState(() {
         image = 'https://hbflow.github.io/hbflowimages/wfm1.png';
         Audio = "Waiting for music...";
@@ -110,24 +110,24 @@ class _LastState extends State<Last> {
         isplaying = false;
       });
     } else if ( data['recenttracks']["track"].isNotEmpty && data['recenttracks']["track"][0].containsKey('@attr') ) {
-      print('Found Song');
+      //blank print('Found Song');
 
       String attr =
           data['recenttracks']["track"][0]["@attr"]["nowplaying"].toString();
       String audio =
           data['recenttracks']["track"][0]["artist"]['#text'].toString();
 
-      //print(audio);
+      ////blank print(audio);
 
       String name =
           data['recenttracks']["track"][0]["album"]['#text'].toString();
 
-      //print(name);
+      ////blank print(name);
 
       String song = data['recenttracks']["track"][0]["name"].toString();
       String img =
           data['recenttracks']["track"][0]["image"][3]["#text"].toString();
-      //print(img);
+      ////blank print(img);
       setState(() {
         Audio = "• " +audio;
         Artist = name;
@@ -152,15 +152,15 @@ class _LastState extends State<Last> {
         isplaying = false;
       });
 
-    // print(attr);
+    // //blank print(attr);
   }
 
   Future<void> repeat() async {
-    print("running repeat");
+    //blank print("running repeat");
     await Future.delayed(Duration(milliseconds: 500), () {
       getdata();
     });
-    print(image);
+    //blank print(image);
 
     if (mounted == true){
       repeat();
@@ -173,7 +173,7 @@ class _LastState extends State<Last> {
 
   @override
   void initState() {
-    print("widget being rebullt");
+    //blank print("widget being rebullt");
 
     super.initState();
 
@@ -313,7 +313,7 @@ class _LastState extends State<Last> {
                                                       color: Color(0xffffffff),
                                                       shadows: <Shadow>[
                                                         Shadow(//dun
-                                                          offset: Offset(0.0, 3.0),
+                                                          offset: Offset(0.0, 1.0),
                                                           blurRadius: 5.0,
                                                           color: Colors.black54,
                                                         ),
@@ -411,7 +411,7 @@ class _LastState extends State<Last> {
                                                       color: Color(0xffffffff),
                                                       shadows: <Shadow>[
                                                         Shadow(//dun
-                                                          offset: Offset(0.0, 3.0),
+                                                          offset: Offset(0.0, 1.0),
                                                           blurRadius: 5.0,
                                                           color: Colors.black54,
                                                         ),
@@ -628,7 +628,7 @@ class _LastState extends State<Last> {
                         ),
                         SizedBox(width: 10,),
                         Tooltip(
-                          message: 'Minimalistic View',
+                          message: 'OG View',
                           height: 2.5,
                           decoration: BoxDecoration(
                             //colors
@@ -645,7 +645,7 @@ class _LastState extends State<Last> {
                               color: Colors.white,
                               shadows: <Shadow>[
                                 Shadow(
-                                  offset: Offset(0.0, 3.0),
+                                  offset: Offset(0.0, 1.0),
                                   blurRadius: 3.0,
                                   color: Colors.black54,
                                 ),
@@ -720,7 +720,7 @@ class _LastState extends State<Last> {
                               color: Colors.white,
                               shadows: <Shadow>[
                                 Shadow(
-                                  offset: Offset(0.0, 3.0),
+                                  offset: Offset(0.0, 1.0),
                                   blurRadius: 3.0,
                                   color: Colors.black54,
                                 ),
@@ -795,7 +795,7 @@ class _LastState extends State<Last> {
                               color: Colors.white,
                               shadows: <Shadow>[
                                 Shadow(
-                                  offset: Offset(0.0, 3.0),
+                                  offset: Offset(0.0, 1.0),
                                   blurRadius: 3.0,
                                   color: Colors.black54,
                                 ),

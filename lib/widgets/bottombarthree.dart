@@ -75,18 +75,18 @@ class _bottom3barState extends State<bottom3bar> {
     if (shouldshowmusic == true)
       setState(() {
         shouldshowmusic = false;
-        print('made false');
+        //blank print('made false');
       });
     else
       setState(() {
         shouldshowmusic = true;
-        print('made true');
+        //blank print('made true');
       });
   }
 
   @override
   Widget build(BuildContext context) {
-    //print("bottom3barbuilt");
+    ////blank print("bottom3barbuilt");
     return MouseRegion(
       onHover: anim,
       onExit: falseanim,
@@ -113,7 +113,7 @@ class _bottom3barState extends State<bottom3bar> {
                           duration:
                           Duration(milliseconds: issolid == true ? 0 : 420
                           ),
-                          curve: Curves.easeInOutBack,
+                          curve: Curves.easeOutBack,
                           child: Stack(
                             children: [
                               Center(

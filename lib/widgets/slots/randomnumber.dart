@@ -19,7 +19,7 @@ class CounterProvider2 extends ChangeNotifier {
   void increment() {
     _counterValue--;
     notifyListeners();
-    print(_counterValue);
+    //blank print(_counterValue);
   }
 
   void decrement() {
@@ -85,7 +85,7 @@ class _randomnumState extends State<randomnum> {
     setState(() {
       Random random = new Random();
       widget.widprovide._random = random.nextInt(maximum) + minimum;
-      print(widget.widprovide._random);
+      //blank print(widget.widprovide._random);
     });
   }
 
@@ -189,7 +189,7 @@ class _randomnumState extends State<randomnum> {
                       fontFamily: 'Schyler',
                       shadows: <Shadow>[
                         Shadow(
-                          offset: Offset(0.0, 3.0),
+                          offset: Offset(0.0, 1.0),
                           blurRadius: 3.0,
                           color: Colors.black26,
                         ),
@@ -216,6 +216,21 @@ class _randomnumState extends State<randomnum> {
         ),
         SizedBox(
           height: 20,
+        ),
+        Text(
+          'Set Values Below',
+          style: TextStyle(
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+              shadows: <Shadow>[
+                Shadow(
+                  offset: Offset(0.0, 1.0),
+                  blurRadius: 3.0,
+                  color: Colors.black54,
+                ),
+              ],
+              fontSize: 15,
+              fontFamily: 'Schyler'),
         ),
         SizedBox(
           height: 20,
@@ -258,7 +273,7 @@ class _randomnumState extends State<randomnum> {
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     onChanged: (text) async {
-                      print(int.parse(text).toString());
+                      //blank print(int.parse(text).toString());
                       widget.tapthree(text);
                     },
                   ),
@@ -309,7 +324,7 @@ class _randomnumState extends State<randomnum> {
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     onChanged: (text) async {
-                      print(int.parse(text).toString());
+                      //blank print(int.parse(text).toString());
                       widget.taptwo(text);
                     },
                   ),

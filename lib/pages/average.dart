@@ -44,14 +44,14 @@ class _MyHomePageState extends State<MyHomePage> {
     fNum = 0;
     for (var i = 0; i < nums.length; i++) {
       fNum = fNum + nums[i];
-      print(fNum);
+      //blank print(fNum);
     }
-    print("fnum is" + fNum.toString());
+    //blank print("fnum is" + fNum.toString());
 
     setState(() {
       average = fNum / nums.length;
     });
-    print("average is" + average.toString());
+    //blank print("average is" + average.toString());
     average = double.parse(average.toStringAsFixed(2));
   }
 
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("aveagenumberbuilt");
+    //blank print("aveagenumberbuilt");
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -308,7 +308,7 @@ class hilly extends StatefulWidget {
 class _hillyState extends State<hilly> {
   @override
   Widget build(BuildContext context) {
-    print("averagebackdropbuilt");
+    //blank print("averagebackdropbuilt");
     return Container(
       width: double.infinity,
       height: double.infinity,

@@ -15,7 +15,7 @@ class _fimageviewerState extends State<fimageviewer> {
   Future<void> pickimage() async {
     var sd = await FilePicker.platform.pickFiles();
     PlatformFile sdf = sd!.files.single;
-    print('WDW ${sdf}');
+    //blank print('WDW ${sdf}');
 
   }
   @override

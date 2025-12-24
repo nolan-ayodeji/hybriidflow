@@ -52,6 +52,7 @@ dependencies:
   flutter_analog_clock: ^1.0.3
   analog_clock: ^0.1.0
   screenshot: ^3.0.0
+  flutter_map: ^8.2.1
 
 
 
@@ -79,6 +80,7 @@ flutter:
     - assets/gold.png
     - assets/grey.png
     - assets/lightgrey.png
+    - assets/googleicon.png
     - assets/hbflowof-min.png
     - assets/hbflowof-min.jpg
   #   - images/a_dot_ham.jpeg
@@ -101,6 +103,9 @@ flutter:
     - family: Uberlin
       fonts:
         - asset: assets/MusticaPro-SemiBold.otf
+    - family: Typo
+      fonts:
+        - asset: assets/TypoHoop_Bold.otf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italicUberlin.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf

@@ -63,11 +63,11 @@ class _bottombarState extends State<bottombar> {
     if (shouldshowmusic == true)
       setState(() {
         shouldshowmusic = false;
-        print('made false');
+        //blank print('made false');
       });
     else setState(() {
       shouldshowmusic = true;
-      print('made true');
+      //blank print('made true');
     });
   }
 
@@ -153,7 +153,7 @@ class _bottombarState extends State<bottombar> {
                                   fontFamily: 'Schyler',
                                   shadows: <Shadow>[
                                     Shadow(
-                                      offset: Offset(0.0, 3.0),
+                                      offset: Offset(0.0, 1.0),
                                       blurRadius: 3.0,
                                       color: Colors.black54,
                                     ),

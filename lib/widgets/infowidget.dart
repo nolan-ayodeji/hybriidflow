@@ -80,10 +80,11 @@ class _infowidgetState extends State<infowidget> with AutomaticKeepAliveClientMi
       top = Color(0xffdeffc4);
     });
   }
+  bool cc2 = true;
 
   bool cc = true;
 
-  bool cc2 = true;
+
   void anim(PointerEvent details) {
     setState(() {
       cc = false;
@@ -356,7 +357,7 @@ class _errorState extends State<error> {
                     fontWeight: FontWeight.w900,
                     shadows: <Shadow>[
                       Shadow(
-                        offset: Offset(0.0, 3.0),
+                        offset: Offset(0.0, 1.0),
                         blurRadius: 3.0,
                         color: Colors.black26,
                       ),
@@ -387,7 +388,7 @@ class _errorState extends State<error> {
                 fontFamily: 'Schyler',
                 shadows: <Shadow>[
                   Shadow(
-                    offset: Offset(0.0, 3.0),
+                    offset: Offset(0.0, 1.0),
                     blurRadius: 3.0,
                     color: Colors.black54,
                   ),

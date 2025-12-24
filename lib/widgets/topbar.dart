@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hybriidflow/global/globvabs.dart';
 import 'package:hybriidflow/pages/main.dart';
@@ -9,9 +11,11 @@ import 'package:hybriidflow/widgets/warning.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:mailto/mailto.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:hybriidflow/providers/appmodel.dart';
 
 String currenterror = "";
 
@@ -20,8 +24,9 @@ class topbar extends StatefulWidget {
   final action;
   final saction;
   final widgetexist;
+  final action2;
 
-  const topbar({key, this.ftext, this.action, this.saction, this.widgetexist})
+  const topbar({key, this.ftext, this.action, this.saction, this.widgetexist, this.action2})
       : super(key: key);
   @override
   _topbarState createState() => _topbarState();
@@ -36,7 +41,21 @@ class _topbarState extends State<topbar> {
   bool cc2 = true;
   bool ver1 = false;
   bool ver2 = false;
+  bool ver3 = false;
   bool rounded = true;
+
+  bool cc4 = false;
+
+  void setcc4(PointerEvent details) {
+    setState(() {
+      cc4 = true;
+    });
+  }
+  void unsetcc4(PointerEvent details) {
+    setState(() {
+      cc4 = false;
+    });
+  }
 
   void changever(PointerEvent details) {
     setState(() {
@@ -49,6 +68,19 @@ class _topbarState extends State<topbar> {
     setState(() {
       ver1 = false;
       rounded = true;
+    });
+  }
+
+
+  void changever3(PointerEvent details) {
+    setState(() {
+      ver3 = true;
+    });
+  }
+
+  void unver3(PointerEvent details) {
+    setState(() {
+      ver3 = false;
     });
   }
 
@@ -99,6 +131,7 @@ class _topbarState extends State<topbar> {
       top = Color(0xffdeffc4);
     });
   }
+  User? user = FirebaseAuth.instance.currentUser;
 
   DateTime now = DateTime.now();
   void gettime() {
@@ -137,10 +170,10 @@ class _topbarState extends State<topbar> {
             borderRadius:  BorderRadius.circular(30.0),
 
             child: AnimatedContainer(
-              width: MediaQuery.of(context).size.width / 1.009,
+              width: MediaQuery.of(context).size.width / 1.013.clamp(0.0, double.infinity),
               height: cc == true ? 32 : 39,
               duration: Duration(milliseconds: issolid == true ? 0 : 320),
-              curve: Curves.easeInOutBack,
+              curve: Curves.easeOutBack,
               child: Stack(
                 children: [
                   Row(
@@ -169,7 +202,7 @@ class _topbarState extends State<topbar> {
                                   color: Colors.white,
                                   shadows: <Shadow>[
                                     Shadow(
-                                      offset: Offset(0.0, 3.0),
+                                      offset: Offset(0.0, 1.0),
                                       blurRadius: 3.0,
                                       color: Colors.black54,
                                     ),
@@ -199,6 +232,11 @@ class _topbarState extends State<topbar> {
                           InkWell(
                             onTap: () {
                               opened = false;
+                              setState(() {
+                                //entries2.clear();
+                                widget.action2();
+
+                              });
                             },
                             child: Tooltip(
                               message: 'Remove All Widgets',
@@ -215,10 +253,10 @@ class _topbarState extends State<topbar> {
                               ),
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w300,
-                                  color: Colors.white,
+                                  color: Colors.redAccent,
                                   shadows: <Shadow>[
                                     Shadow(
-                                      offset: Offset(0.0, 3.0),
+                                      offset: Offset(0.0, 1.0),
                                       blurRadius: 3.0,
                                       color: Colors.black54,
                                     ),
@@ -245,58 +283,225 @@ class _topbarState extends State<topbar> {
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      Text(
-                        '${DateFormat('yMMMMd').format(now)}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            color: Colors.black45,
-                            fontSize: 13,
-                            shadows: <Shadow>[
-                              Shadow(
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 3.0,
-                                color: Colors.black12,
+                          InkWell(
+                            onTap: () {
+                              opened = false;
+                              setState(() {
+                                //entries2.clear();
+                                widget.action2();
+
+                              });
+                            },
+                            child: Tooltip(
+                              message: 'Save Widgets',
+                              height: 2.5,
+                              decoration: BoxDecoration(
+                                //colors
+                                color: Color(0xDD383838),
+                                borderRadius: BorderRadius.circular(38),
+                                border: Border.all(
+                                  color: Colors.white60,
+                                  width: 1,
+                                ),
+
                               ),
-                            ],
-                            fontFamily: 'Schyler'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.easeInOutCirc,
-                          width: 90,
-                          height: 33,
-                          child: Center(
-                            child: Text(
-                              'FlowAI',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 10,
+                              textStyle: TextStyle(
+                                  fontWeight: FontWeight.w300,
                                   color: Colors.white,
                                   shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(0.0, 1.0),
                                       blurRadius: 3.0,
-                                      color: Colors.black26,
+                                      color: Colors.black54,
                                     ),
                                   ],
                                   fontFamily: 'Schyler'),
+                              child: MouseRegion(
+                                onEnter: changever3,
+                                onExit: unver3,
+                                child: AnimatedContainer(
+                                    width: 35,
+                                    height: cc == true ? 39 : 44,
+                                    duration: Duration(
+                                        milliseconds: issolid == true ? 0 : 100),
+                                    decoration: BoxDecoration(
+                                      color: ver3 == true
+                                          ? Color(0x3C505050)
+                                          : Color(0x0),
+                                    ),
+                                    child: Icon(
+                                      Icons.save,
+                                      color: Color(0x838FD568),
+                                      size: 20,
+                                    )),
+                              ),
                             ),
                           ),
+                        ],
+                      ),
+                      Tooltip(
+                        message: 'View Account Info',
+                        height: 1.2,
 
-                          decoration: BoxDecoration(
-                            color:  Color(0x32A2E784),
-                            borderRadius: BorderRadius.circular(30),
-                            border:Border.all(
-                              color: Color(0xe28cc993),
-                              width: 1,
-                            ),
+                        decoration: BoxDecoration(
+                          //colors
+                          color: Color(0xDD383838),
+                          borderRadius: BorderRadius.circular(38),
+                          border: Border.all(
+                            color: Colors.white60,
+                            width: 1,
+                          ),
+
+                        ),
+                        textStyle: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white,
+                            shadows: <Shadow>[
+                              Shadow(
+                                offset: Offset(0.0, 1.0),
+                                blurRadius: 3.0,
+                                color: Colors.black54,
+                              ),
+                            ],
+                            fontFamily: 'Schyler'),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Consumer<AppModel>(
+                              builder: (context, value, child) {
+                              return MouseRegion(
+                                onHover: setcc4,
+                                onExit: unsetcc4,
+
+                                child: InkWell(
+                                  onTap: (){
+
+                                    setState(() {
+                                      value.setlog();
+                                    });
+
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: Duration(milliseconds: 350),
+                                    curve: Curves.easeInOutBack,
+                                    width: cc4 != true ? 95 : 100,
+                                    height: 33,
+                                    decoration: BoxDecoration(
+                                      //colors
+                                      color: Color(0xda191919),
+                                      borderRadius: BorderRadius.circular(38),
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 1,
+                                      ),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: <Color>[
+                                          Color(0xBE626162),
+                                          Color(0x991E1E1E),
+
+                                        ],
+                                      ),
+                                    ),
+                                    child: StreamBuilder(
+                                      stream: FirebaseAuth.instance.authStateChanges(),
+                                      builder: (context, snapshot) {
+
+
+                                        return Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                        
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Icon(
+                                                  Icons.account_circle,
+                                                  color: Colors.white,
+                                                  size: 10,
+                                                ),
+
+                                                Text(
+                                                  snapshot.data?.displayName != null ? "${snapshot.data?.displayName}" : "Log In",
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.w900,
+                                                      fontSize: 10,
+                                                      color: Colors.white,
+                                                      shadows: <Shadow>[
+                                                        Shadow(
+                                                          offset: Offset(0.0, 1.0),
+                                                          blurRadius: 3.0,
+                                                          color: Colors.black26,
+                                                        ),
+                                                      ],
+                                                      fontFamily: 'Schyler'),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    ),
+
+
+                                  ),
+                                ),
+                              );
+                            }
                           ),
                         ),
                       ),
+                      // Text(
+                      //   '${DateFormat('yMMMMd').format(now)}',
+                      //   style: TextStyle(
+                      //       fontWeight: FontWeight.w900,
+                      //       color: Colors.black45,
+                      //       fontSize: 13,
+                      //       shadows: <Shadow>[
+                      //         Shadow(
+                      //           offset: Offset(0.0, 1.0),
+                      //           blurRadius: 3.0,
+                      //           color: Colors.black12,
+                      //         ),
+                      //       ],
+                      //       fontFamily: 'Schyler'),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(4.0),
+                      //   child: AnimatedContainer(
+                      //     duration: Duration(milliseconds: 300),
+                      //     curve: Curves.easeInOutCirc,
+                      //     width: 90,
+                      //     height: 33,
+                      //     child: Center(
+                      //       child: Text(
+                      //         'FlowAI',
+                      //         style: TextStyle(
+                      //             fontWeight: FontWeight.w900,
+                      //             fontSize: 10,
+                      //             color: Colors.white,
+                      //             shadows: <Shadow>[
+                      //               Shadow(
+                      //                 offset: Offset(0.0, 1.0),
+                      //                 blurRadius: 3.0,
+                      //                 color: Colors.black26,
+                      //               ),
+                      //             ],
+                      //             fontFamily: 'Schyler'),
+                      //       ),
+                      //     ),
+                      //
+                      //     decoration: BoxDecoration(
+                      //       color:  Color(0x32A2E784),
+                      //       borderRadius: BorderRadius.circular(30),
+                      //       border:Border.all(
+                      //         color: Color(0xe28cc993),
+                      //         width: 1,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Row(
                         children: [
                           Opacity(
@@ -335,7 +540,7 @@ class _topbarState extends State<topbar> {
                                   fontSize: 14,
                                   shadows: <Shadow>[
                                     Shadow(
-                                      offset: Offset(0.0, 3.0),
+                                      offset: Offset(0.0, 1.0),
                                       blurRadius: 3.0,
                                       color: Colors.black54,
                                     ),

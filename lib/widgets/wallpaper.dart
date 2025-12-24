@@ -66,7 +66,7 @@ class _AddWallpaperState extends State<AddWallpaper> {
                                     color: Colors.white,
                                     shadows: <Shadow>[
                                       Shadow(
-                                        offset: Offset(0.0, 3.0),
+                                        offset: Offset(0.0, 1.0),
                                         blurRadius: 3.0,
                                         color: Colors.black54,
                                       ),
@@ -115,7 +115,7 @@ class _AddWallpaperState extends State<AddWallpaper> {
                                     color: Colors.white,
                                     shadows: <Shadow>[
                                       Shadow(
-                                        offset: Offset(0.0, 3.0),
+                                        offset: Offset(0.0, 1.0),
                                         blurRadius: 3.0,
                                         color: Colors.black54,
                                       ),
@@ -163,7 +163,7 @@ class _AddWallpaperState extends State<AddWallpaper> {
                                     color: Colors.white,
                                     shadows: <Shadow>[
                                       Shadow(
-                                        offset: Offset(0.0, 3.0),
+                                        offset: Offset(0.0, 1.0),
                                         blurRadius: 3.0,
                                         color: Colors.black54,
                                       ),
@@ -195,7 +195,7 @@ class _AddWallpaperState extends State<AddWallpaper> {
                                               color: Colors.white,
                                               shadows: <Shadow>[
                                                 Shadow(
-                                                  offset: Offset(0.0, 3.0),
+                                                  offset: Offset(0.0, 1.0),
                                                   blurRadius: 3.0,
                                                   color: Colors.black54,
                                                 ),
@@ -275,7 +275,7 @@ class _AddWallpaperState extends State<AddWallpaper> {
                                     color: Colors.white,
                                     shadows: <Shadow>[
                                       Shadow(
-                                        offset: Offset(0.0, 3.0),
+                                        offset: Offset(0.0, 1.0),
                                         blurRadius: 3.0,
                                         color: Colors.black54,
                                       ),

@@ -51,7 +51,7 @@ class _qrState extends State<qr> {
     qrcolor = widget.col;
     imgToShow =
         "https://api.qrserver.com/v1/create-qr-code/?size=${widget.qual}&data=$data&bgcolor=$qrcolor";
-    print("imgToShow: " + imgToShow);
+    //blank print("imgToShow: " + imgToShow);
   }
 
   Color backcolor = Color(0xFFB9B9B9);
@@ -62,7 +62,7 @@ class _qrState extends State<qr> {
   final fieldText = TextEditingController();
 
   void seturl() {
-    print("seturl running");
+    //blank print("seturl running");
     String sdata = widget.data;
     String squal = widget.qual;
     // setState(() {
@@ -90,7 +90,7 @@ class _qrState extends State<qr> {
       seturl();
     });
 
-    print("tapping tow");
+    //blank print("tapping tow");
   }
 
   void lowquality() {
@@ -197,7 +197,7 @@ class _qrState extends State<qr> {
     imageSetters();
     imgToShow =
     "https://api.qrserver.com/v1/create-qr-code/?size=$quality&data=$data&bgcolor=$qrcolor";
-    print("running imagetoshow");
+    //blank print("running imagetoshow");
 
     super.initState();
 
@@ -214,7 +214,7 @@ class _qrState extends State<qr> {
     final qrModel = Provider.of<QRModel>(context);
     final url = "https://api.qrserver.com/v1/create-qr-code/"
         "?size=${widget.qual}&data=${widget.data}&bgcolor=${widget.col}";
-    print("builtyy");
+
     return Consumer<QRModel>(
 
       builder: (context, value, child) {
@@ -287,7 +287,7 @@ class _qrState extends State<qr> {
                                 fontFamily: 'Schyler',
                                 shadows: <Shadow>[
                                   Shadow(
-                                    offset: Offset(0.0, 3.0),
+                                    offset: Offset(0.0, 1.0),
                                     blurRadius: 3.0,
                                     color: Colors.black26,
                                   ),
@@ -318,7 +318,7 @@ class _qrState extends State<qr> {
                               fontFamily: 'Schyler',
                               shadows: <Shadow>[
                                 Shadow(
-                                  offset: Offset(0.0, 3.0),
+                                  offset: Offset(0.0, 1.0),
                                   blurRadius: 3.0,
                                   color: Colors.black54,
                                 ),
@@ -395,7 +395,7 @@ class _qrState extends State<qr> {
                                   fontFamily: 'Schyler',
                                   shadows: <Shadow>[
                                     Shadow(
-                                      offset: Offset(0.0, 3.0),
+                                      offset: Offset(0.0, 0.0),
                                       blurRadius: 3.0,
                                       color: Colors.black26,
                                     ),
@@ -431,9 +431,9 @@ class _qrState extends State<qr> {
                                               fontFamily: 'Schyler',
                                               shadows: <Shadow>[
                                                 Shadow(
-                                                  offset: Offset(0.0, 3.0),
+                                                  offset: Offset(0.0, 1.0),
                                                   blurRadius: 3.0,
-                                                  color: Colors.black26,
+                                                  color: Colors.black38,
                                                 ),
                                               ],
                                             ),
@@ -482,9 +482,9 @@ class _qrState extends State<qr> {
                                               fontFamily: 'Schyler',
                                               shadows: <Shadow>[
                                                 Shadow(
-                                                  offset: Offset(0.0, 3.0),
+                                                  offset: Offset(0.0, 1.0),
                                                   blurRadius: 3.0,
-                                                  color: Colors.black26,
+                                                  color: Colors.black38,
                                                 ),
                                               ],
                                             ),
@@ -561,7 +561,7 @@ class _qrState extends State<qr> {
                                   fontFamily: 'Schyler',
                                   shadows: <Shadow>[
                                     Shadow(
-                                      offset: Offset(0.0, 3.0),
+                                      offset: Offset(0.0, 1.0),
                                       blurRadius: 3.0,
                                       color: Colors.black26,
                                     ),
@@ -596,9 +596,9 @@ class _qrState extends State<qr> {
                                               fontFamily: 'Schyler',
                                               shadows: <Shadow>[
                                                 Shadow(
-                                                  offset: Offset(0.0, 3.0),
+                                                  offset: Offset(0.0, 1.0),
                                                   blurRadius: 3.0,
-                                                  color: Colors.black26,
+                                                  color: Colors.black38,
                                                 ),
                                               ],
                                             ),
@@ -633,7 +633,7 @@ class _qrState extends State<qr> {
                                     onHover: setcc3,
                                     onExit: unsetcc3,
                                     child: InkWell(
-                                      onTap: lowquality,
+                                      onTap: grey,
                                       child: AnimatedContainer(
                                         curve: Curves.easeInOutCirc,
                                         duration:
@@ -649,7 +649,7 @@ class _qrState extends State<qr> {
                                             fontFamily: 'Schyler',
                                             shadows: <Shadow>[
                                               Shadow(
-                                                offset: Offset(0.0, 3.0),
+                                                offset: Offset(0.0, 1.0),
                                                 blurRadius: 3.0,
                                                 color: Colors.black26,
                                               ),

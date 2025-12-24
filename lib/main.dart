@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:ui' as html;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,19 +14,70 @@ import 'package:hybriidflow/widgets/slots/livetime.dart';
 import 'package:page_transition/page_transition.dart';
 import 'pages/firstpage.dart';
 import 'dart:ui_web';
-import 'dart:ui' as ui;
+
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:html' as html;
+
+
 
 import 'pages/mainsimple.dart';
 // ignore: avoid_web_libraries_in_flutter
 
-void main() {
+
+
+
+
+Future<UserCredential> signInWithGoogle() async {
+  // Create a new provider
+  GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+  googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+  googleProvider.setCustomParameters({
+    'login_hint': 'user@example.com'
+  });
+
+  // Once signed in, return the UserCredential
+  return await FirebaseAuth.instance.signInWithPopup(googleProvider);
+
+  // Or use signInWithRedirect
+  // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
+}
+
+Future<void> main() async {
+  GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+  googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+  googleProvider.setCustomParameters({
+    'login_hint': 'user@example.com'
+  });
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // await FirebaseAuth.instance.signInAnonymously();
+  // if (FirebaseAuth.instance.currentUser == null) {
+  //   await signInWithGoogle();
+  // }
+
+
+  print('Firebase initialized successfully');
+
+
+
+
   runApp(MultiProvider(
 
       providers: [
         ChangeNotifierProvider(create: (_) => AppModel()),
         ChangeNotifierProvider(create: (_) => FMModel()),
         ChangeNotifierProvider(create: (_) => QRModel()),
+
       ],
       child: MyApp()));
 }
@@ -66,13 +118,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    print("main page built");
+    //blank print("main page built");
 
 
     return Listener(
-      //onPointerDown: (_) => print('down'), // best place to reset timer imo
-      //onPointerMove: (_) => print('move'),
-      //onPointerUp: (_) => print('up'),
+      //onPointerDown: (_) => //blank print('down'), // best place to reset timer imo
+      //onPointerMove: (_) => //blank print('move'),
+      //onPointerUp: (_) => //blank print('up'),
 
       child: MaterialApp(
         title: 'HybriidFlow',

@@ -19,7 +19,7 @@ class _dwidgetState extends State<dwidget> {
   void getdata() async {
 
 
-    print(fs);
+    //blank print(fs);
     String datetime = fs['name']!;
     setState(() {
       yocrunch = datetime;

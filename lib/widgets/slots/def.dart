@@ -59,7 +59,7 @@ class _dictState extends State<dict> {
       data = json.decode(response.body);
     });
 
-    print(data[1]["title"]);
+    //blank print(data[1]["title"]);
 
     return "Success!";
   }
@@ -165,7 +165,7 @@ class _dictState extends State<dict> {
                 cursorColor: Colors.black,
                 onFieldSubmitted: (text) {
                   setState(() {
-                    print("g is" + g);
+                    //blank print("g is" + g);
                     definiton = text;
                     getdata();
 

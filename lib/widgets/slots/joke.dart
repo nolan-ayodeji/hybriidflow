@@ -21,8 +21,8 @@ class _jokeapiState extends State<jokeapi> {
         Uri.parse('https://v2.jokeapi.dev/joke/Any?safe-mode&type=twopart'));
     var tay = json.decode(response.body);
 
-    print(tay['setup']);
-    print(tay['delivery']);
+    //blank print(tay['setup']);
+    //blank print(tay['delivery']);
     setState(() {
       begin = tay['setup'];
       end = tay['delivery'];

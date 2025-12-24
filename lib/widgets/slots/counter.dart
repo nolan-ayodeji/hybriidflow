@@ -20,7 +20,7 @@ class CounterProvider extends ChangeNotifier {
   void increment() {
     _counterValue--;
     notifyListeners();
-    print(_counterValue);
+    //blank print(_counterValue);
   }
 
   void decrement() {
@@ -62,21 +62,21 @@ class _counterState extends State<counter> with AutomaticKeepAliveClientMixin {
     setState(() {
       widget.widprovide._counterValue++;
     });
-    print(widget.widprovide._counterValue);
+    //blank print(widget.widprovide._counterValue);
   }
 
   void subtract() {
     setState(() {
       widget.widprovide._counterValue--;
     });
-    print(widget.widprovide._counterValue);
+    //blank print(widget.widprovide._counterValue);
   }
 
   void reset() {
     setState(() {
       widget.widprovide._counterValue = 0;
     });
-    print(count);
+    //blank print(count);
   }
 
   bool cc = true;

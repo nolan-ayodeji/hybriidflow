@@ -17,7 +17,7 @@ class _unknownpageState extends State<unknownpage> {
   String hybriidtext = "Wrong Link?";
 
   Future<void> playy() async {
-    print('2nd working');
+    //blank print('2nd working');
 
     await Future.delayed(const Duration(seconds: 5), () {
       setState(() {

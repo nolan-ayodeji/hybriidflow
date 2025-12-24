@@ -79,142 +79,29 @@ class _SettingOptionsState extends State<SettingOptions> {
               }
             }
           },
-          child: Scrollbar(
-            thumbVisibility: true,
-            controller: _cr,
-            child: ListView(
+          child: Center(
+            child: Scrollbar(
+              thumbVisibility: true,
               controller: _cr,
-              children: <Widget>[
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      width: sizeforsized,
-                    ),
-
-                    Container(
-                      width: MediaQuery.of(context).size.width / 1.2,
-                      height: 30,
-                      child: FittedBox(
-                          child: Text(
-                        'Desktop Settings',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xffe5e5e5),
-                            shadows: <Shadow>[
-                              Shadow(
-                                offset: Offset(0.0, 1.0),
-                                blurRadius: 3.0,
-                                color: Colors.black26,
-                              ),
-                            ],
-                            fontFamily: 'Schyler'),
-                      )),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Wrap(
-                      runSpacing: 15.0,
-                      alignment: WrapAlignment.center,
+              child: SingleChildScrollView(
+                child: Column(
+                             
+                  children: <Widget>[
+                    Column(
                       children: [
-                        option(
-                          s: widget.option1,
-                          stext: widget.o1text,
-                          textsize: 21,
-                          ogtextl: 'Backdrop Brightness',
+                        SizedBox(
+                          height: 10,
                         ),
                         SizedBox(
                           width: sizeforsized,
                         ),
-                        option(
-                          s: widget.option3,
-                          stext: widget.o3text,
-                          textsize: 20,
-                          ogtextl: 'Smooth Graphics',
-                        ),
-                        SizedBox(
-                          width: sizeforsized,
-                        ),
-                        changewall(),
-                        SizedBox(
-                          width: sizeforsized,
-                        ),
+                
                         Container(
                           width: MediaQuery.of(context).size.width / 1.2,
                           height: 30,
                           child: FittedBox(
                               child: Text(
-                            'Widget Settings',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xffe5e5e5),
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(0.0, 1.0),
-                                    blurRadius: 3.0,
-                                    color: Colors.black26,
-                                  ),
-                                ],
-                                fontFamily: 'Schyler'),
-                          )),
-                        ),SizedBox(
-                          width: sizeforsized,
-                        ),
-
-                        // Visibility(
-                        //     child: option(
-                        //   ogtextl: 'Scrollable Widgets (If screen is too small)',
-                        //   stext: widget.o4text,
-                        //   textsize: 14,
-                        //   s: widget.option4,
-                        // )),
-                        // SizedBox(
-                        //   width: sizeforsized,
-                        // ),
-                        Visibility(
-                          visible: MediaQuery.of(context).size.width < 600
-                              ? false
-                              : true,
-                          child: multi(
-                            s: widget.option3,
-                            stext: widget.o3text,
-                            textsize: 20,
-                            ogtextl: 'Widget Size',
-                          ),
-                        ),
-                        SizedBox(
-                          width: sizeforsized,
-                        ),
-                        InkWell(
-                          child: multi2(
-                            s: widget.option3,
-                            stext: widget.o3text,
-                            textsize: 20,
-                            ogtextl: 'Widget Color',
-                          ),
-                        ),
-                        SizedBox(
-                          width: sizeforsized,
-                        ),
-                        Visibility(
-                            child: option(
-                          ogtextl: 'Widget Border',
-                          stext: widget.o8text,
-                          textsize: 19,
-                          s: widget.option8,
-                        )),
-                        SizedBox(
-                          width: sizeforsized,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: 30,
-                          child: FittedBox(
-                              child: Text(
-                            'Dock Settings',
+                            'Desktop Settings',
                             style: TextStyle(
                                 fontWeight: FontWeight.w900,
                                 color: Color(0xffe5e5e5),
@@ -228,39 +115,41 @@ class _SettingOptionsState extends State<SettingOptions> {
                                 fontFamily: 'Schyler'),
                           )),
                         ),
-                        option(
-                          ogtextl: 'Dock Style',
-                          s: widget.option50,
-                          stext: widget.o50text,
-                          textsize: 20,
-                        ),
                         SizedBox(
-                          width: sizeforsized,
+                          height: 10,
                         ),
-                        option(
-                          ogtextl: 'Show Widget Count',
-                          s: widget.option5,
-                          stext: widget.o5text,
-                          textsize: 20,
-                        ),
-                        SizedBox(
-                          width: sizeforsized,
-                        ),
-                        option(
-                          ogtextl: 'Show Battery Percentage (Beta)',
-                          s: widget.option0,
-                          stext: widget.o0text,
-                          textsize: 15,
-                        ),
-                        SizedBox(
-                          width: sizeforsized,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: 30,
-                          child: FittedBox(
-                              child: Text(
-                                'Other Settings',
+                        Wrap(
+                          runSpacing: 15.0,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            option(
+                              s: widget.option1,
+                              stext: widget.o1text,
+                              textsize: 17,
+                              ogtextl: 'Backdrop Brightness',
+                            ),
+                            SizedBox(
+                              width: sizeforsized,
+                            ),
+                            option(
+                              s: widget.option3,
+                              stext: widget.o3text,
+                              textsize: 14,
+                              ogtextl: 'Smooth Graphics',
+                            ),
+                            SizedBox(
+                              width: sizeforsized,
+                            ),
+                            changewall(),
+                            SizedBox(
+                              width: sizeforsized,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              height: 30,
+                              child: FittedBox(
+                                  child: Text(
+                                'Widget Settings',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w900,
                                     color: Color(0xffe5e5e5),
@@ -273,54 +162,169 @@ class _SettingOptionsState extends State<SettingOptions> {
                                     ],
                                     fontFamily: 'Schyler'),
                               )),
-                        ),
-                        option(
-                          ogtextl: 'Show "No Widgets" Text',
-                          s: widget.option6,
-                          stext: widget.o6text,
-                          textsize: 15,
-                        ),
-                        SizedBox(
-                          width: sizeforsized,
-                        ),
-                        option(
-                          ogtextl: 'Show Random Widget Button',
-                          s: widget.option7,
-                          stext: widget.o7text,
-                          textsize: 15,
-                        ),
-
-                        SizedBox(
-                          height: 150,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: 30,
-                          child: FittedBox(
-                              child: Text(
-                            'Hybriidflow Help',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xffe5e5e5),
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(0.0, 1.0),
-                                    blurRadius: 3.0,
-                                    color: Colors.black26,
-                                  ),
-                                ],
-                                fontFamily: 'Schyler'),
-                          )),
-                        ),
-                        sendfeedback(),
-                        SizedBox(
-                          height: 90,
+                            ),SizedBox(
+                              width: sizeforsized,
+                            ),
+                
+                            // Visibility(
+                            //     child: option(
+                            //   ogtextl: 'Scrollable Widgets (If screen is too small)',
+                            //   stext: widget.o4text,
+                            //   textsize: 14,
+                            //   s: widget.option4,
+                            // )),
+                            // SizedBox(
+                            //   width: sizeforsized,
+                            // ),
+                            Visibility(
+                              visible: MediaQuery.of(context).size.width < 600
+                                  ? false
+                                  : true,
+                              child: multi(
+                                s: widget.option3,
+                                stext: widget.o3text,
+                                textsize: 20,
+                                ogtextl: 'Widget Size',
+                              ),
+                            ),
+                            SizedBox(
+                              width: sizeforsized,
+                            ),
+                            InkWell(
+                              child: multi2(
+                                s: widget.option3,
+                                stext: widget.o3text,
+                                textsize: 20,
+                                ogtextl: 'Widget Color',
+                              ),
+                            ),
+                            SizedBox(
+                              width: sizeforsized,
+                            ),
+                            Visibility(
+                                child: option(
+                              ogtextl: 'Widget Border',
+                              stext: widget.o8text,
+                              textsize: 19,
+                              s: widget.option8,
+                            )),
+                            SizedBox(
+                              width: sizeforsized,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              height: 30,
+                              child: FittedBox(
+                                  child: Text(
+                                'Dock Settings',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xffe5e5e5),
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(0.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Colors.black26,
+                                      ),
+                                    ],
+                                    fontFamily: 'Schyler'),
+                              )),
+                            ),
+                            option(
+                              ogtextl: 'Dock Style',
+                              s: widget.option50,
+                              stext: widget.o50text,
+                              textsize: 20,
+                            ),
+                            SizedBox(
+                              width: sizeforsized,
+                            ),
+                            option(
+                              ogtextl: 'Show Widget Count',
+                              s: widget.option5,
+                              stext: widget.o5text,
+                              textsize: 20,
+                            ),
+                            SizedBox(
+                              width: sizeforsized,
+                            ),
+                            option(
+                              ogtextl: 'Show Battery Percentage (Beta)',
+                              s: widget.option0,
+                              stext: widget.o0text,
+                              textsize: 15,
+                            ),
+                            SizedBox(
+                              width: sizeforsized,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              height: 30,
+                              child: FittedBox(
+                                  child: Text(
+                                    'Other Settings',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        color: Color(0xffe5e5e5),
+                                        shadows: <Shadow>[
+                                          Shadow(
+                                            offset: Offset(0.0, 1.0),
+                                            blurRadius: 3.0,
+                                            color: Colors.black26,
+                                          ),
+                                        ],
+                                        fontFamily: 'Schyler'),
+                                  )),
+                            ),
+                            option(
+                              ogtextl: 'Show Welcome Text',
+                              s: widget.option6,
+                              stext: widget.o6text,
+                              textsize: 15,
+                            ),
+                            SizedBox(
+                              width: sizeforsized,
+                            ),
+                            option(
+                              ogtextl: 'Show Random Widget Button',
+                              s: widget.option7,
+                              stext: widget.o7text,
+                              textsize: 15,
+                            ),
+                
+                            SizedBox(
+                              height: 150,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              height: 30,
+                              child: FittedBox(
+                                  child: Text(
+                                'hybriidFlow Help',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: Color(0xffe5e5e5),
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(0.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Colors.black26,
+                                      ),
+                                    ],
+                                    fontFamily: 'Schyler'),
+                              )),
+                            ),
+                            sendfeedback(),
+                            SizedBox(
+                              height: 90,
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

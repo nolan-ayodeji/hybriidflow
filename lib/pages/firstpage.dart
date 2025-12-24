@@ -20,7 +20,7 @@ class _firstpageState extends State<firstpage> {
   bool startupvis = true;
 
   Future<void> playy() async {
-    print('2nd working');
+     print('2nd working');
 
     Future.delayed(const Duration(seconds: 5), () {
       setState(() {
@@ -49,7 +49,7 @@ class _firstpageState extends State<firstpage> {
 
   @override
   Widget build(BuildContext context) {
-    print("first page");
+     //blank print("first page");
     return GestureDetector(
       onTap: () {
         // Navigate to the overview page using a named route.

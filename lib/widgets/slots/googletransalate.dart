@@ -31,10 +31,10 @@ class _ggtState extends State<ggt> {
   Future<void> trans() async {
     var translation =
         await translator.translate(whattostransalate, from: from, to: to);
-    print(translation);
+    //blank print(translation);
     setState(() {
       ofcil = translation.text;
-      print('HEY ${whattostransalate}');
+      //blank print('HEY ${whattostransalate}');
     });
   }
 

@@ -30,13 +30,13 @@ class _fstextState extends State<fstext> {
   double opacityLevel = 0;
 
   Future<void> playy() async {
-    print('c');
+    //blank print('c');
 
     Future.delayed(const Duration(milliseconds: 1300), () {
       setState(() => opacityLevel = opacityLevel == 0 ? 1.0 : 0.0);
     });
 
-    print(opacityLevel);
+    //blank print(opacityLevel);
   }
 
   void initState() {

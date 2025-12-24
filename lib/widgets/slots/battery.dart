@@ -24,14 +24,14 @@ class _batState extends State<bat> {
 
   // method created to display battery percent
   void getBatteryPerentage() async {
-    print('GOT BATTERY and it is $percentage');
+    //blank print('GOT BATTERY and it is $percentage');
     final level = await battery.batteryLevel;
     percentage = level;
 
     setState(() {});
     Future.delayed(Duration(seconds: 5), () {
       getBatteryPerentage();
-      print('GOT BATTERY and it is $percentage');
+      //blank print('GOT BATTERY and it is $percentage');
     });
   }
 
